@@ -1,0 +1,118 @@
+.menu {
+  width: inherit;
+  color: $color-text-primary;
+  @include font($size: 1rem, $height: 1.5, $letter: 0.1px);
+}
+
+.tab__item {
+  padding-right: 10px;
+  padding-bottom: 42px;
+}
+
+.tab-menu__list {
+  padding-left: 24px;
+}
+
+.tab-menu-collapsible {
+  display: none;
+}
+
+.tab-menu__item {
+  padding-top: 16px;
+  word-wrap: break-word;
+}
+.tab-menu__button {
+  padding-right: 37px;
+
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @include media-mobile {
+    padding-right: 24px;
+  }
+}
+
+.tab-menu__button[aria-expanded='true'] {
+  @extend %linear-gradient-link-active;
+}
+
+.tab-menu__link + .tab__arrow .arrow__svg {
+  fill: $color-text-primary;
+  // тут должен быть актив при нажатии на меню
+}
+
+.tab-menu__button[aria-expanded='true'] + .link-title-border {
+  @extend %linear-gradient-border;
+}
+
+.tab-menu__title {
+  padding-right: 37px;
+
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  cursor: pointer;
+
+  @include media-mobile {
+    padding-right: 8px;
+  }
+}
+
+.tab-menu__title[aria-expanded='false'] .arrow {
+  transform: rotate(180deg);
+}
+
+.tab-menu__link {
+  padding-right: 6px;
+  transition: all 0.3s;
+}
+
+.tab-menu__link:hover {
+  color: $color-menu-link-hover;
+}
+
+.tab-menu__link-active {
+  color: unset;
+  // @include font($size: 1.125rem, $height: 156%, $weight: 700, $letter: 0.1px);
+  font-weight: 700;
+  @extend %linear-gradient-link-active;
+  margin-left: -4px;
+}
+
+.tab-menu__link-title-active {
+  @extend %linear-gradient-link-active;
+}
+
+.tab-menu__button[aria-expanded='false'].arrow {
+  transform: rotate(180deg);
+}
+
+.tab-menu__link + .tab-menu__button .arrow__svg {
+  fill: $color-text-primary;
+  // тут должен быть актив при нажатии на меню
+}
+
+.link-title-border {
+  margin-top: 8px;
+  width: 255px;
+  height: 2px;
+}
+
+.tab__item:has(.tab-menu__link-title-active) .link-title-border {
+  @extend %linear-gradient-border;
+}
+
+// .tab-menu__link-title-active ~ .link-title-border {
+//   @extend %linear-gradient-border;
+// }
+
+.tab-item-quantity {
+  color: $color-tab-item-quantity;
+  font-size: 0.875rem;
+  line-height: 1.71;
+}

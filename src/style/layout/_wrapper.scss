@@ -1,0 +1,16 @@
+.wrapper {
+  max-width: $content-width;
+  margin: 0 auto;
+  padding-left: 165px;
+  padding-right: 165px;
+
+  @include media-laptop {
+    padding-left: calc(16px + (165 - 16) * ((100vw - 320px) / (1440 - 320)));
+    padding-right: calc(16px + (165 - 16) * ((100vw - 320px) / (1440 - 320)));
+  }
+
+  @include media-tablet {
+    padding-left: calc(8px + (65 - 8) * ((100vw - 320px) / (768 - 320)));
+    padding-right: calc(8px + (65 - 8) * ((100vw - 320px) / (768 - 320)));
+  }
+}

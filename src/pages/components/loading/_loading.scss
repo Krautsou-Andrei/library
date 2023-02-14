@@ -1,0 +1,35 @@
+.loading {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: $color-loading-background;
+
+  z-index: 5;
+}
+
+.loading__circle {
+  width: 68px;
+  height: 68px;
+
+  border: 6px solid $color-loading-spiner;
+  border-top: 6px solid $color-loading-border;
+  border-radius: 50%;
+
+  animation: spiner 1.2s linear infinite;
+}
+
+@keyframes spiner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
