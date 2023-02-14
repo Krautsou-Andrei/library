@@ -1,0 +1,44 @@
+.main {
+}
+
+.main__wrapper {
+  padding-top: 47px;
+  @include media-tablet {
+    padding-top: 30px;
+  }
+  @include media-mobile {
+    padding-top: 11px;
+  }
+}
+
+.main__menu {
+  flex: 25.7%;
+  @include media-tablet {
+    // display: none;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+    white-space: nowrap;
+    clip-path: inset(100%);
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+  }
+}
+
+.main__content {
+  flex: 74.3%;
+}
+
+.main__contented {
+  padding-top: 32px;
+  padding-bottom: 62px;
+  @include media-tablet {
+    padding-top: 24px;
+  }
+  @include media-mobile {
+    padding-top: 19px;
+  }
+}

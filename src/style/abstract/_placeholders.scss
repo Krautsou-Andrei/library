@@ -1,0 +1,48 @@
+%linear-gradient-button {
+  background: $color-text-primary;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+%transition {
+  transition: all 0.3s;
+}
+
+%linear-gradient-button-active {
+  background: linear-gradient(233.73deg, $color-button-primary -16.08%, $color-button-secondary 327.37%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+%linear-gradient-link-active {
+  background: linear-gradient(231.58deg, #f83600 -53.35%, #f9d423 297.76%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+%linear-gradient-border {
+  background: linear-gradient(231.58deg, $color-button-primary -53.35%, $color-button-secondary 297.76%);
+}
+
+%linear-gradient-input-cursor {
+  caret-color: linear-gradient(231.58deg, $color-button-primary -53.35%, $color-button-secondary 297.76%);
+}
+
+%linear-gradient-button-background {
+  background: linear-gradient(231.58deg, #f83600 -53.35%, #f9d423 297.76%);
+}
+
+%linear-gradient-button-background-active {
+  background: linear-gradient(233.73deg, $color-button-primary -16.08%, $color-button-secondary 327.37%);
+}
+
+%box-shadow-button-navigation {
+  box-shadow: 0px 2px 4px rgba(191, 196, 201, 0.2), 0px 3px 4px rgba(191, 196, 201, 0.18),
+    0px 1px 5px rgba(191, 196, 201, 0.24);
+}

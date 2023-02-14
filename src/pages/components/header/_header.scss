@@ -1,0 +1,71 @@
+.header {
+  padding-top: 32px;
+  padding-bottom: 15px;
+  @include media-tablet {
+    padding-bottom: 24px;
+  }
+}
+.header__wrapper {
+}
+
+.header-wrapper {
+  align-items: center;
+  @include media-tablet {
+    column-gap: 24px;
+  }
+}
+.header__logo {
+  flex: 25.7%;
+  @include media-tablet {
+    display: none;
+  }
+}
+.logo {
+  width: 100%;
+}
+.logo__svg {
+  display: inline-block;
+  background-image: url('../../image/ico/cleverland.svg');
+  background-size: 100%;
+  width: 165px;
+  height: 40px;
+}
+
+.header__burger {
+  display: none;
+  width: 32px;
+  height: 32px;
+  @include media-tablet {
+    display: block;
+  }
+}
+
+.header-content-container {
+  flex: 74.3%;
+  align-items: center;
+}
+.header__text {
+}
+.header__title {
+}
+.title--xxl {
+}
+.header-account-container {
+  align-items: center;
+  column-gap: 16px;
+  @include media-tablet {
+    display: none;
+  }
+}
+.account__content {
+  @include font($size: 0.875rem, $height: 1.2857);
+}
+.acconut__image {
+}
+.image {
+}
+.image__account {
+  width: 58px;
+  height: 58px;
+  border-radius: 150px;
+}

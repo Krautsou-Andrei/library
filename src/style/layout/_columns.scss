@@ -1,0 +1,35 @@
+.layout-2-column {
+  @include columns;
+}
+.header-wrapper {
+}
+
+.layout-4-column {
+  display: grid;
+  justify-items: center;
+  grid-template-columns: repeat(auto-fill, 190px);
+  row-gap: 24px;
+  column-gap: 21px;
+  @include media-tablet {
+    row-gap: 32px;
+    column-gap: 34px;
+  }
+  @include media-mobile {
+    row-gap: 16px;
+    grid-template-columns: repeat(auto-fill, 288px);
+  }
+}
+
+.book-list .layout-4-column {
+  display: grid;
+  justify-items: center;
+  grid-template-columns: 1fr;
+  row-gap: 16px;
+  column-gap: 0px;
+  @include media-tablet {
+    column-gap: 34px;
+  }
+  @include media-mobile {
+    grid-template-columns: 1fr;
+  }
+}
