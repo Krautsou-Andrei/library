@@ -1,5 +1,8 @@
+import Lottie from 'lottie-react';
+import loader from './loader.json';
+
 export const Loading = () => (
   <div className='loading' data-test-id='loader'>
-    <div className='loading__circle' />
+    <Lottie animationData={loader} loop={true} />
   </div>
 );

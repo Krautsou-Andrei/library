@@ -1,18 +1,29 @@
 $content-width: 1440px;
+// $content-width-laptop: 1439px;
+$tablet-width: 768px;
+$midle-tablet-width: 650px;
+$mobile-width: 320px;
+
+$color-body-background: #ffffff;
 
 $color-text-primary: #363636;
 $color-text-secondary: #727272;
+$color-text-heighlight: #ff5253;
 $color-button-primary: #f83600;
 $color-button-secondary: #f9d423;
-$color-menu-link-hover: #ff5253;
 
+$color-no-rating-text-book: #a7a7a7;
+$color-no-rating-text-book-page: #363636;
+$color-empty-category-text: #a7a7a7;
+
+$color-menu-link-hover: #ff5253;
 $color-menu-burger-border: #bfc4c9;
 
 $color-tab-item-quantity: #a7a7a7;
 $color-navigation-text: #a7a7a7;
 $color-navigation-background: white;
 
-$color-input-search-cursor: #ff5253;
+$color-input-search-cursor: rgb(248, 54, 0);
 $color-input-search-focus-border: #ff5253;
 
 $color-svg-active: white;
@@ -35,7 +46,11 @@ $color-book-page-table-text-even: #363636;
 $color-book-page-text-description: #363636;
 
 $color-slider-pagination-bullet-active: #363636;
-$color_slider-pagination-bullet: #bfc4c9;
+$color-slider-pagination-bullet: #bfc4c9;
+$color-slider-thumbs-border-active: #ff5253;
+$color-slider-thumbs-border: #a7a7a7;
+$color-slider-thumbs-background-primary: #ffffff;
+$color-slider-thumbs-background-secondary: rgba(255, 255, 255, 0);
 
 $color-border-footer: #bfc4c9;
 
@@ -53,7 +68,3 @@ $color-button-filter-active: drop-shadow(0px 3px 4px rgba(222, 125, 11, 0.2))
   drop-shadow(0px 1px 10px rgba(249, 89, 8, 0.2));
 $box-shadow-book: 0px 2px 4px rgba(191, 196, 201, 0.2), 0px 3px 4px rgba(191, 196, 201, 0.18),
   0px 1px 5px rgba(191, 196, 201, 0.24);
-
-$content-width: 1439px;
-$tablet-width: 768px;
-$mobile-width: 320px;

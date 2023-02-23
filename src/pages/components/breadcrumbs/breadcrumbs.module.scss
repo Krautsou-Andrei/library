@@ -1,12 +1,15 @@
+@use '../../../style/abstract/constants' as constants;
+@use '../../../style/abstract/mixin' as mixin;
+
 .breadcrumbs__wrapper {
   margin-top: 27px;
-  background: $color-breadcrumbs-background;
+  background: constants.$color-breadcrumbs-background;
 
-  @include media-laptop {
+  @include mixin.media-laptop {
     margin-top: 22px;
   }
 
-  @include media-mobile {
+  @include mixin.media-mobile {
     margin-top: 8px;
   }
 }
@@ -15,15 +18,15 @@
   padding-top: 23px;
   padding-bottom: 23px;
 
-  @include media-tablet {
+  @include mixin.media-tablet {
     padding-top: 20px;
     padding-bottom: 20px;
   }
 }
 
 .breadcrumbs__list {
-  @include font($size: 0.875rem, $height: 129%, $weight: 400, $letter: 0.1px);
-  color: $color-breadcrumbs-text;
+  @include mixin.font($size: 0.875rem, $height: 129%, $weight: 400, $letter: 0.1px);
+  color: constants.$color-breadcrumbs-text;
 }
 
 .breadcrumbs__item {

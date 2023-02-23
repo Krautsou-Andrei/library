@@ -2,8 +2,8 @@ import { Rating } from '../../rating';
 import { ReviewUser } from './review-user';
 import { dateTranslator } from '../../../../utils/date-translator';
 
-export const BookReview = ({ props }) => {
-  const { id, rating, text, createdAt, user } = props;
+export const BookReview = ({ comment }) => {
+  const { id, rating, text, createdAt, user } = comment;
 
   return (
     <div className='review__content'>

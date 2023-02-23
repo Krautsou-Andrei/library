@@ -1,0 +1,5 @@
+@use '../../../style/abstract/constants' as constants;
+
+.heighlight {
+  color: constants.$color-text-heighlight;
+}

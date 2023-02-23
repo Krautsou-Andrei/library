@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import placeholder from './empty_cat.svg';
 
 export const ImageBook = ({ src, width, height, className }) => {

@@ -4,10 +4,9 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux/es/exports';
 
 import { stateMenuBurger } from '../../../redux/slice/burger-silce';
-
 import avatar from '../../image/avatar.jpg';
 import { BurgerMenu } from '../burger-menu';
-import style from './header.module.css';
+import style from './header.module.scss';
 
 export const Header = () => {
   const isOpenMenu = useSelector((state) => state.burgerMenu.isOpenMenuBurger);
@@ -45,7 +44,7 @@ export const Header = () => {
               </Link>
             </div>
             <div className={style.header__menu} aria-expanded={isOpenMenu}>
-              <BurgerMenu isOpenMenu={isOpenMenu} buttonBurger={buttonBurger} onClick={toggleMenuBurger} />
+              <BurgerMenu buttonBurger={buttonBurger} onClick={toggleMenuBurger} />
             </div>
             <div className={classNames(style['layout-2-column'], style['header-content-container'])}>
               <div className={style.header__text}>

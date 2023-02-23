@@ -1,0 +1,16 @@
+@use '../abstract/mixin' as mixin;
+
+.title--xxl {
+  @include mixin.font($size: 2rem, $height: 1.25, $weight: 700, $letter: 0.1px);
+}
+
+.title--xl {
+  @include mixin.font($size: 1.125rem, $height: 1.56, $weight: 700, $letter: 0.1px);
+}
+
+.title--lg {
+  @include mixin.font($size: 0.875rem, $height: 1.2857, $weight: 600, $letter: 0.1px);
+  @include mixin.media-tablet {
+    @include mixin.font($size: 0.75rem, $height: 1.5, $weight: 700, $letter: 0.1px);
+  }
+}

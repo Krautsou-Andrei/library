@@ -6,6 +6,7 @@ import { categoriesSlice } from './slice/categoties-slice';
 import { bookIdSlice } from './slice/book-id-slice';
 import { errorSlice } from './slice/error-slice';
 import { filterSlice } from './slice/filter-slice';
+import { searchSlice } from './slice/search-slice';
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     burgerMenu: stateMenuBurger.reducer,
     errorMain: errorSlice.reducer,
     filter: filterSlice.reducer,
+    search: searchSlice.reducer,
 
     [api.reducerPath]: api.reducer,
   },

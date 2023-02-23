@@ -1,3 +1,5 @@
+@use './constants' as constants;
+
 @mixin font($size, $height: $size, $weight: 400, $style: normal, $letter: normal) {
   font-size: $size;
   font-style: $style;
@@ -8,24 +10,29 @@
 
 @mixin columns {
   display: flex;
-  // flex-wrap: wrap;
   justify-content: space-between;
 }
 
 @mixin media-laptop {
-  @media (max-width: $content-width) {
+  @media (max-width: constants.$content-width) {
     @content;
   }
 }
 
 @mixin media-tablet {
-  @media (max-width: $tablet-width) {
+  @media (max-width: constants.$tablet-width) {
+    @content;
+  }
+}
+
+@mixin media-midle-tablet {
+  @media (max-width: constants.$midle-tablet-width) {
     @content;
   }
 }
 
 @mixin media-mobile {
-  @media (max-width: $mobile-width) {
+  @media (max-width: constants.$mobile-width) {
     @content;
   }
 }

@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import classNames from 'classnames';
 
-import { Slider } from '../slider';
-import { BookReview } from './book-review';
-import { Rating } from '../rating';
+import { Slider } from '../../slider';
+import { Button } from '../../button';
+import { BookReview } from '../book-review';
+import { Rating } from '../../rating';
 
 export const BookInfo = ({ book }) => {
-  const [isReviewCollapsible, setReviewCollapsible] = useState(false);
+  const [isReviewCollapsible, setReviewCollapsible] = useState(true);
   const toggleReview = () => {
     setReviewCollapsible(!isReviewCollapsible);
   };
@@ -36,15 +37,15 @@ export const BookInfo = ({ book }) => {
             <Slider images={images} />
           </div>
           <div className='book-page__content'>
-            <h2 className='book-page__title title--xxl'>{title}</h2>
+            <h2 className='book-page__title title--xxl' data-test-id='book-title'>
+              {title}
+            </h2>
             <div className='book-page__autor'>
               {authors && authors.map((author) => `${author}, `)} {issueYear}
             </div>
 
             <div className='book-page__button'>
-              <button className='button button--book-page' type='button'>
-                Забронировать
-              </button>
+              <Button className='button button--book-page' title='Забронировать' />
             </div>
           </div>
           <div className='book-page-descripton__wrap'>
@@ -52,11 +53,15 @@ export const BookInfo = ({ book }) => {
             <div className='book-page__description'>{description}</div>
           </div>
         </div>
-        <div className='book-page__rating'>
+        <div className='book-page__rating rating'>
           <h3 className='rating__title title--xl'>Рейтинг</h3>
           <div className='book__star'>
             <Rating rating={rating} />
-            <span className='rating__value'>{rating}</span>
+            {rating > 1 ? (
+              <span className='rating__value'>{rating}</span>
+            ) : (
+              <span className='rating__no'>Ещё нет оценок</span>
+            )}
           </div>
         </div>
         <div className='book-page__info'>
@@ -93,26 +98,27 @@ export const BookInfo = ({ book }) => {
 
         <div className='book-page__reviews review'>
           <div className='reviews-title-wrapper'>
-            <span className='reviews__title title--xl'>Отзывы</span> <span className='review__quantity'>2</span>
-            <button
-              className='button-review-collapsible'
-              type='button'
-              aria-expanded={isReviewCollapsible}
-              onClick={toggleReview}
-              data-test-id='button-hide-reviews'
-            >
-              <span className='button-review-collapsible__scg' />
-            </button>
+            <span className='reviews__title title--xl'>Отзывы</span>{' '}
+            <span className='review__quantity'>{comments ? comments.length : '0'}</span>
+            <div className='review__button-collapsible'>
+              <button
+                className='button button-review-collapsible'
+                type='button'
+                aria-expanded={isReviewCollapsible}
+                onClick={toggleReview}
+                data-test-id='button-hide-reviews'
+              >
+                {comments && <span className='button-review-collapsible__svg' />}
+              </button>
+            </div>
           </div>
           <div className='review-title-border' />
-          <div className={classNames({ 'review-content-wrapper': isReviewCollapsible })}>
-            {comments && comments.map((item) => <BookReview key={item.id} props={item} />)}
+          <div className={classNames('review-content-wrapper', { 'review-collapsible': isReviewCollapsible })}>
+            {comments && comments.map((comment) => <BookReview key={comment.id} comment={comment} />)}
           </div>
-        </div>
-        <div className=' review__button'>
-          <button className='button button-review' type='button'>
-            Оценить книгу
-          </button>
+          <div className='review__button'>
+            <Button className='button button--book-page' title='Оценить книгу' />
+          </div>
         </div>
       </section>
     </div>

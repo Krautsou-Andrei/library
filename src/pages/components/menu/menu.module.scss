@@ -1,7 +1,12 @@
+@use '../../../style/abstract/constants' as constants;
+@use '../../../style/abstract/mixin' as mixin;
+@use '../../../style/abstract/placeholders' as placeholders;
+@forward '../../../style/base/title.module.scss';
+
 .menu {
   width: inherit;
-  color: $color-text-primary;
-  @include font($size: 1rem, $height: 1.5, $letter: 0.1px);
+  color: constants.$color-text-primary;
+  @include mixin.font($size: 1rem, $height: 1.5, $letter: 0.1px);
 }
 
 .tab__item {
@@ -30,7 +35,7 @@
   justify-content: space-between;
   align-items: center;
 
-  @include media-mobile {
+  @include mixin.media-mobile {
     padding-right: 24px;
   }
 }
@@ -40,7 +45,7 @@
 }
 
 .tab-menu__link + .tab__arrow .arrow__svg {
-  fill: $color-text-primary;
+  fill: constants.$color-text-primary;
   // тут должен быть актив при нажатии на меню
 }
 
@@ -58,7 +63,7 @@
 
   cursor: pointer;
 
-  @include media-mobile {
+  @include mixin.media-mobile {
     padding-right: 8px;
   }
 }
@@ -68,17 +73,16 @@
 }
 
 .tab-menu__link {
-  padding-right: 6px;
+  // margin-right: 6px;
   transition: all 0.3s;
 }
 
 .tab-menu__link:hover {
-  color: $color-menu-link-hover;
+  color: constants.$color-menu-link-hover;
 }
 
 .tab-menu__link-active {
   color: unset;
-  // @include font($size: 1.125rem, $height: 156%, $weight: 700, $letter: 0.1px);
   font-weight: 700;
   @extend %linear-gradient-link-active;
   margin-left: -4px;
@@ -93,7 +97,7 @@
 }
 
 .tab-menu__link + .tab-menu__button .arrow__svg {
-  fill: $color-text-primary;
+  fill: constants.$color-text-primary;
   // тут должен быть актив при нажатии на меню
 }
 
@@ -107,12 +111,9 @@
   @extend %linear-gradient-border;
 }
 
-// .tab-menu__link-title-active ~ .link-title-border {
-//   @extend %linear-gradient-border;
-// }
-
 .tab-item-quantity {
-  color: $color-tab-item-quantity;
+  padding-left: 6px;
+  color: constants.$color-tab-item-quantity;
   font-size: 0.875rem;
   line-height: 1.71;
 }
