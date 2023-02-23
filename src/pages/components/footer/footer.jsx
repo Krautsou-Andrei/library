@@ -19,7 +19,6 @@ export const Footer = () => (
             <li className='social__item'>
               <IconVk />
             </li>
-
             <li className='social__item'>
               <IconLinkedin />
             </li>

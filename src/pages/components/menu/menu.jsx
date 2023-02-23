@@ -1,13 +1,26 @@
 import { useState } from 'react';
-import classNames from 'classnames';
-import { useGetBooksQuery, useGetCategotiesQuery } from '../../../redux';
+import { useSelector } from 'react-redux';
 
+import { useGetBooksQuery, useGetCategotiesQuery } from '../../../redux';
 import { LinkMenu } from '../link-menu';
 import { IconArrowMenuBurger } from '../image/icon/icon-arrow-menu-butger/icon-arrow-menu-burger';
 
-export const Menu = ({ onClick, dataTestNav, dataTestLink, dataTestTerms, dataTestContract }) => {
+import style from './menu.module.scss';
+
+export const Menu = ({
+  onClick,
+  className,
+  dataTestNav,
+  dataTestLink,
+  dataTestTerms,
+  dataTestContract,
+  dataTestCategoty,
+}) => {
   const { data: categories, isSuccess: successCategories } = useGetCategotiesQuery();
   const { isSuccess: successBooks } = useGetBooksQuery();
+
+  const currentCategoryPath = useSelector((state) => state.filter.currentCategoryPath);
+  const books = useSelector((state) => state.books.books);
 
   const [isCollapsibleMenu, setCollapsibleMenu] = useState(false);
 
@@ -15,36 +28,43 @@ export const Menu = ({ onClick, dataTestNav, dataTestLink, dataTestTerms, dataTe
     setCollapsibleMenu(!isCollapsibleMenu);
   };
 
-  const activeClass = ({ isActive }) => (isActive ? 'tab-menu__link-title-active' : 'tab-menu__link');
-  const activeClassMenu = ({ isActive }) => (isActive ? 'tab-menu__link-active' : 'tab-menu__link');
+  const activeClass = ({ isActive }) => (isActive ? style['tab-menu__link-title-active'] : style['tab-menu__link']);
+  const activeClassMenu = ({ isActive }) => (isActive ? style['tab-menu__link-active'] : style['tab-menu__link']);
 
   return (
-    <nav className='menu'>
-      <ul className='menu__tab tab'>
-        <li className='tab__item tab-menu'>
+    <nav className={`${style.menu} ${className && className}`}>
+      <ul className={`${style.menu__tab} ${style.tab}`}>
+        <li className={`${style.tab__item} ${style['tab-menu']}`}>
           <button
-            className='tab-menu__title title--xl'
+            className={`${style['tab-menu__title']} ${style['title--xl']}`}
             type='button'
             aria-expanded={!isCollapsibleMenu}
             onClick={collapsibleMenu}
             data-test-id={dataTestNav}
           >
-            <LinkMenu title='Витрина книг' link='books' activeClass={activeClass} />
+            <LinkMenu
+              title='Витрина книг'
+              link={`books/${currentCategoryPath}`}
+              className={activeClass}
+              onClick={() => false}
+            />
             {successCategories && successBooks && (
-              <span className='tab__arrow'>
-                <IconArrowMenuBurger className='arrow__svg' />
+              <span className={style.tab__arrow}>
+                <IconArrowMenuBurger classNameArrow={style.arrow} classNameSvg={style.arrow__svg} />
               </span>
             )}
           </button>
 
-          <div className='link-title-border' />
-          <ul className={classNames('tab-menu__list', { 'tab-menu-collapsible': isCollapsibleMenu })} id='menu-list'>
+          <div className={style['link-title-border']} />
+          <ul
+            className={`${style['tab-menu__list']} ${isCollapsibleMenu && style['tab-menu-collapsible']}`}
+            id='menu-list'
+          >
             {categories && successCategories && successBooks && (
-              <li className='tab-menu__item'>
+              <li className={style['tab-menu__item']}>
                 <LinkMenu
                   title='Все книги'
-                  classTitle='tab-link'
-                  activeClass={activeClassMenu}
+                  className={activeClassMenu}
                   link='/books/all'
                   onClick={onClick}
                   dataTestLink={dataTestLink}
@@ -57,47 +77,49 @@ export const Menu = ({ onClick, dataTestNav, dataTestLink, dataTestTerms, dataTe
               successCategories &&
               successBooks &&
               categories.map((link) => (
-                <li className='tab-menu__item' key={link.id}>
+                <li className={style['tab-menu__item']} key={link.id}>
                   <LinkMenu
                     title={link.name}
-                    classTitle='tab-link'
-                    activeClass={activeClassMenu}
+                    className={activeClassMenu}
+                    classNameQuantity={style['tab-item-quantity']}
                     link={`/books/${link.path}`}
-                    quantity={link.quantity}
+                    quantity={`${books.filter((book) => book.categories.includes(link.name)).length}`}
                     onClick={onClick}
                     dataTestLink={dataTestLink}
                     dataTest={link.dataTest}
+                    dataTestQuantity={`${dataTestCategoty}book-count-for-${link.path}`}
+                    dataTestCategoty={`${dataTestCategoty}${link.path}`}
                   />
                 </li>
               ))}
           </ul>
         </li>
-        <li className='tab__item tab-menu'>
-          <div className='tab-menu__title title--xl'>
+        <li className={`${style.tab__item} ${style['tab-menu']}`}>
+          <div className={`${style['tab-menu__title']} ${style['title--xl']}`}>
             <LinkMenu
               title='Правила пользования'
               link='regulations'
-              activeClass={activeClass}
+              className={activeClass}
               onClick={() => setCollapsibleMenu(true)}
               state={{ from: 'Правила пользования' }}
               dataTestLink={dataTestTerms}
               dataTest='true'
             />
           </div>
-          <div className='link-title-border' />
+          <div className={style['link-title-border']} />
         </li>
-        <li className='tab__item tab-menu'>
-          <div className='tab-menu__title title--xl'>
+        <li className={`${style.tab__item} ${style['tab-menu']}`}>
+          <div className={`${style['tab-menu__title']} ${style['title--xl']}`}>
             <LinkMenu
               title='Договор оферты'
               link='offer'
-              activeClass={activeClass}
+              className={activeClass}
               onClick={() => setCollapsibleMenu(true)}
               dataTestLink={dataTestContract}
               dataTest='true'
             />
           </div>
-          <div className='link-title-border' />
+          <div className={style['link-title-border']} />
         </li>
       </ul>
     </nav>

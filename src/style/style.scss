@@ -1,32 +1,42 @@
+@forward './abstract/constants';
+@forward './abstract/mixin';
+@forward './abstract/placeholders';
+@forward './base/base';
+@forward './base/fonts';
+@forward './base/title.module.scss';
+@forward '../layout/layout/wrapper';
+@forward '../layout/layout/columns';
+@forward '../layout/layout/layout';
+
+@import './base/fonts';
 @import './abstract/constants';
 @import './abstract/mixin';
 @import './abstract/placeholders';
 @import './base/base';
+@import './base/title';
 
-@import './layout/wrapper';
-@import './layout/columns';
+@import '../layout/layout/layout';
+@import '../layout/layout/wrapper';
+@import '../layout/layout/columns';
 
-@import '../pages/components/header/header';
-@import '../pages/components/burger-menu/burger-menu';
 @import '../pages/components/profil/profil';
 
 @import '../pages/components/loading/loading';
 @import '../pages/components/error/error';
 
-@import '../pages/components/breadcrumbs/breadcrumbs';
+// @import '../pages/components/breadcrumbs/breadcrumbs';
+@import '../pages/components/button/button';
 
 @import '../pages/main/main';
-@import '../pages/components/menu/menu';
 @import '../pages/components/navigation/navigation';
 @import '../pages/components/navigation/navigation-search-action';
 @import '../pages/components/contented/contented';
 @import '../pages/components/book/book';
 @import '../pages/components/rating/rating';
 
+@import '../pages/components/slider/slider';
+@import '../pages/components/book-page/book-info/book-info';
 @import '../pages/components/book-page/book-review/book-review';
 @import '../pages/components/book-page/book-review/review-user/review-user';
-
-@import '../pages/components/book-page/book-page';
-@import '../pages/components/slider/slider';
 
 @import '../pages/components/footer/footer';

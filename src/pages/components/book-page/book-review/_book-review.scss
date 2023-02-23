@@ -1,47 +1,6 @@
-.review__content {
-  margin-bottom: 28px;
-
-  @include media-mobile {
-    margin-bottom: 35px;
-  }
-}
-
 .review__content .book__star {
   margin-bottom: 0px;
 }
-
-// .review__account {
-//   margin-bottom: 18px;
-
-//   display: flex;
-//   align-items: center;
-//   column-gap: 24px;
-
-//   @include font($size: 1rem, $height: 150%);
-
-//   @include media-mobile {
-//     @include font($size: 0.9375rem, $height: 133%);
-//     margin-bottom: 14px;
-//   }
-// }
-
-// .review__image {
-//   width: 32px;
-//   height: 32px;
-//   // background: url('../../../image/ico/icon_review_avatar.svg');
-// }
-
-// .wrap__user {
-//   display: flex;
-//   align-items: center;
-//   column-gap: 24px;
-
-//   @include media-mobile {
-//     flex-direction: column;
-//     row-gap: 3px;
-//     align-items: flex-start;
-//   }
-// }
 
 .review__stars {
   margin-bottom: 19px;
@@ -52,13 +11,9 @@
 
   .book__star {
     @include media-mobile {
-      column-gap: 12px;
+      column-gap: 8px;
     }
   }
-}
-
-.book-page .book__star {
-  column-gap: 16px;
 }
 
 .review__description {

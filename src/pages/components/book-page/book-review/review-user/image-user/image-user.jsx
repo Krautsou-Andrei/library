@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import placeholder from './icon_review_avatar.svg';
 
 export const ImageUser = ({ src, width, height, className }) => {

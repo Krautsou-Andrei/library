@@ -10,9 +10,7 @@ export const errorSlice = createSlice({
   reducers: {
     setErrorMain(state, action) {
       const stateErrorMain = state;
-
       stateErrorMain.isErrorMain = action.payload;
-      console.log(state.isErrorMain);
     },
   },
 });

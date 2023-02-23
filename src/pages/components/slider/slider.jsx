@@ -1,6 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Navigation, FreeMode, Thumbs, Scrollbar, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
+
 import { ImageBook } from '../image-book';
 import { BASE_URL } from '../../../redux';
 
@@ -12,7 +13,6 @@ import 'swiper/css/scrollbar';
 export const Slider = ({ images }) => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [slider, setSlider] = useState(null);
-  console.log('images', images);
 
   return (
     <>
@@ -20,28 +20,20 @@ export const Slider = ({ images }) => {
         <Swiper
           id='slider'
           onSwiper={setSlider}
-          onResize={(swiper) => {
-            swiper.update();
-          }}
           modules={[FreeMode, Navigation, Thumbs, Pagination]}
           scrollbar={false}
           spaceBetween={50}
-          initialSlide={2}
           navigation={true}
           grabCursor={true}
-          observer={true}
-          thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
-          breakpoints={{
-            320: {
-              pagination: {
-                el: '.mySwiper__pagination',
-                type: 'bullets',
-                clickable: 'true',
-              },
-            },
-            769: {
-              pagination: 'false',
-            },
+          pagination={{
+            el: '.mySwiper__pagination',
+            type: 'bullets',
+            clickable: 'true',
+            dynamicBullets: 'true',
+            dynamicMainBullets: '7',
+          }}
+          thumbs={{
+            swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null,
           }}
           className='mySwiper'
           data-test-id='slide-big'
@@ -67,13 +59,15 @@ export const Slider = ({ images }) => {
           <Swiper
             id='image-pagination'
             onSwiper={setThumbsSwiper}
-            onResize={(swiper) => {
-              swiper.update(swiper);
-            }}
             spaceBetween={30}
             slidesPerView={5}
+            loop={true}
             width={445}
+            watchSlidesProgress={true}
+            centeredSlides={true}
+            loopedSlides={2}
             freeMode={true}
+            grabCursor={true}
             modules={[FreeMode, Navigation, Thumbs, Scrollbar, Pagination]}
             breakpoints={{
               320: {
@@ -104,7 +98,9 @@ export const Slider = ({ images }) => {
       ) : (
         ''
       )}
-      <div className='mySwiper__pagination' />
+      <div className='my-swiper-pagination-wrapper'>
+        <div className='mySwiper__pagination' />
+      </div>
       <div className='scrollbar' />
     </>
   );

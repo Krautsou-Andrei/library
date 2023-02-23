@@ -1,16 +1,34 @@
 import { NavLink } from 'react-router-dom';
 
-export const LinkMenu = (props) => (
+export const LinkMenu = ({
+  link,
+  className,
+  onClick,
+  dataTest,
+  dataTestLink,
+  dataTestCategoty,
+  dataTestQuantity,
+  classTitle,
+  title,
+  quantity,
+  classNameQuantity,
+}) => (
   <>
     <NavLink
-      to={props.link}
-      className={props.activeClass}
-      onClick={props.onClick}
-      data-test-id={props.dataTest === 'true' ? props.dataTestLink : ''}
+      to={link}
+      className={className}
+      onClick={onClick}
+      data-test-id={dataTest === 'true' ? dataTestLink : dataTestCategoty}
     >
-      <span className={props.classTitle ? props.classTitle : ''}>{props.title}</span>
+      <span className={classTitle ? classTitle : ''}>{title}</span>
     </NavLink>
 
-    {props.quantity ? <span className='tab-item-quantity'>{props.quantity}</span> : ''}
+    {quantity ? (
+      <span className={classNameQuantity} data-test-id={dataTestQuantity}>
+        {quantity}
+      </span>
+    ) : (
+      ''
+    )}
   </>
 );

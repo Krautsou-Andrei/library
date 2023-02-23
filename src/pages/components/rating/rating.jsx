@@ -10,5 +10,6 @@ export const Rating = ({ rating }) => {
       arrayStars.push(<IconStar key={i + 1} />);
     }
   }
+
   return arrayStars.map((star) => star);
 };

@@ -1,7 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  currentCategoty: 'Все книги',
+  currentCategotyTitle: 'Все книги',
+  currentCategoryPath: 'all',
+  isOrder: 'true',
   books: [],
 };
 
@@ -9,32 +11,23 @@ export const filterSlice = createSlice({
   name: 'filter',
   initialState,
   reducers: {
-    changeFilter: (state, action) => {
+    setCurrentCategotyPath: (state, action) => {
       const stateFilter = state;
-      const { category, allBooks, dataCategories } = action.payload;
-
-      if (dataCategories) {
-        dataCategories.forEach((item) => {
-          if (item.path === category) {
-            stateFilter.currentCategoty = item.name;
-          }
-        });
-      }
-
-      if (category && category === 'all' && allBooks) {
-        stateFilter.currentCategoty = 'Все книги';
-      }
-      if (category && category !== 'all' && allBooks) {
-        if (stateFilter.currentCategoty) {
-          const filteredBooks = allBooks.filter((book) => book.categories.includes(stateFilter.currentCategoty));
-
-          stateFilter.books = filteredBooks;
-        }
-      } else {
-        stateFilter.books = allBooks;
-      }
+      stateFilter.currentCategoryPath = action.payload;
+    },
+    setCurrentCategotyTitle: (state, action) => {
+      const stateFilter = state;
+      stateFilter.currentCategotyTitle = action.payload;
+    },
+    setBooksFilter: (state, action) => {
+      const stateFilter = state;
+      stateFilter.books = action.payload.books;
+    },
+    setChangeOrder: (state, acton) => {
+      const stateFilter = state;
+      stateFilter.isOrder = !stateFilter.isOrder;
     },
   },
 });
 
-export const { changeFilter } = filterSlice.actions;
+export const { setCurrentCategotyPath, setCurrentCategotyTitle, setBooksFilter, setChangeOrder } = filterSlice.actions;

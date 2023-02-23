@@ -1,41 +1,50 @@
 .ico-star svg {
-  width: 20px;
-  height: 19px;
+  width: 24px;
+  height: 24px;
 }
 
 .ico-star .active {
   fill: $color-star-background;
 }
 
-// .book-list .book__star {
-//   margin-bottom: 0px;
-
-//   @include media-tablet {
-//     margin-bottom: 16px;
-//   }
-// }
-
 .book-list .ico-star svg {
   @include media-mobile {
-    width: 14px;
-    height: 13px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.book-page .ico-star {
+  width: 24px;
+  height: 24px;
+
+  @include media-mobile {
+    width: 34px;
+    height: 34px;
   }
 }
 
 .book-page .ico-star svg {
   display: inline-block;
 
-  width: 20px;
-  height: 19px;
+  width: 24px;
+  height: 24px;
 
   @include media-mobile {
-    width: 28px;
-    height: 27px;
+    width: 34px;
+    height: 34px;
   }
 }
 
 .review__stars .ico-star svg {
   display: inline-block;
-  width: 20px;
-  height: 19px;
+  width: 24px;
+  height: 24px;
+}
+
+.book-list .ico-star svg {
+  @include media-mobile {
+    width: 16px;
+    height: 16px;
+  }
 }

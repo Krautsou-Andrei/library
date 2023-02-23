@@ -129,6 +129,18 @@
   }
 }
 
+.button-filter:hover {
+  @extend %box-shadow-button-navigation-hover;
+}
+
+// .button-filter[aria-expanded='false'] .icon-button-filter {
+//   fill: $color-input-search-cursor;
+// }
+
+.button-filter[aria-expanded='false'] svg {
+  transform: rotate(180deg);
+}
+
 .button-filter span {
   @include media-mobile {
     display: none;
@@ -142,6 +154,7 @@
 .navigation-view__button {
   width: 38px;
   height: 38px;
+
   @include media-mobile {
     width: 32px;
     height: 32px;
@@ -162,6 +175,8 @@
   color: $color-navigation-text;
 
   background: $color-navigation-background;
+
+  cursor: pointer;
 
   filter: $color-button-filter;
 

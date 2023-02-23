@@ -1,5 +1,7 @@
+@use './constants' as constants;
+
 %linear-gradient-button {
-  background: $color-text-primary;
+  background: constants.$color-text-primary;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -10,8 +12,20 @@
   transition: all 0.3s;
 }
 
+%linear-gradient-button-burger-active {
+  background: linear-gradient(
+    231.58deg,
+    constants.$color-button-primary -53.35%,
+    constants.$color-button-secondary 297.76%
+  );
+}
+
 %linear-gradient-button-active {
-  background: linear-gradient(233.73deg, $color-button-primary -16.08%, $color-button-secondary 327.37%);
+  background: linear-gradient(
+    233.73deg,
+    constants.$color-button-primary -16.08%,
+    constants.$color-button-secondary 327.37%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -19,7 +33,11 @@
 }
 
 %linear-gradient-link-active {
-  background: linear-gradient(231.58deg, #f83600 -53.35%, #f9d423 297.76%);
+  background: linear-gradient(
+    231.58deg,
+    constants.$color-button-primary -53.35%,
+    constants.$color-button-secondary 297.76%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -27,22 +45,52 @@
 }
 
 %linear-gradient-border {
-  background: linear-gradient(231.58deg, $color-button-primary -53.35%, $color-button-secondary 297.76%);
+  background: linear-gradient(
+    231.58deg,
+    constants.$color-button-primary -53.35%,
+    constants.$color-button-secondary 297.76%
+  );
 }
 
 %linear-gradient-input-cursor {
-  caret-color: linear-gradient(231.58deg, $color-button-primary -53.35%, $color-button-secondary 297.76%);
+  caret-color: linear-gradient(
+    231.58deg,
+    constants.$color-button-primary -53.35%,
+    constants.$color-button-secondary 297.76%
+  );
 }
 
 %linear-gradient-button-background {
-  background: linear-gradient(231.58deg, #f83600 -53.35%, #f9d423 297.76%);
+  background: linear-gradient(
+    231.58deg,
+    constants.$color-button-primary -53.35%,
+    constants.$color-button-secondary 297.76%
+  );
 }
 
 %linear-gradient-button-background-active {
-  background: linear-gradient(233.73deg, $color-button-primary -16.08%, $color-button-secondary 327.37%);
+  background: linear-gradient(
+    233.73deg,
+    constants.$color-button-primary -16.08%,
+    constants.$color-button-secondary 327.37%
+  );
+}
+
+%linear-gradient-thumbs-background {
+  background: linear-gradient(
+    90deg,
+    constants.$color-slider-thumbs-background-primary 0%,
+    constants.$color-slider-thumbs-background-secondary 17.19%,
+    constants.$color-slider-thumbs-background-secondary 83.33%,
+    constants.$color-slider-thumbs-background-primary 100%
+  );
 }
 
 %box-shadow-button-navigation {
   box-shadow: 0px 2px 4px rgba(191, 196, 201, 0.2), 0px 3px 4px rgba(191, 196, 201, 0.18),
     0px 1px 5px rgba(191, 196, 201, 0.24);
+}
+
+%box-shadow-button-navigation-hover {
+  box-shadow: 0px 3px 4px rgba(222, 125, 11, 0.2), 0px 1px 10px rgba(249, 89, 8, 0.2);
 }
