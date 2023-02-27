@@ -1,6 +1,7 @@
 @forward './abstract/constants';
 @forward './abstract/mixin';
-@forward './abstract/placeholders';
+// @forward './abstract/placeholders';
+@forward './abstract/placeholders.module.scss';
 @forward './base/base';
 @forward './base/fonts';
 @forward './base/title.module.scss';
@@ -11,9 +12,9 @@
 @import './base/fonts';
 @import './abstract/constants';
 @import './abstract/mixin';
-@import './abstract/placeholders';
+// @import './abstract/placeholders';
 @import './base/base';
-@import './base/title';
+// @import './base/title';
 
 @import '../layout/layout/layout';
 @import '../layout/layout/wrapper';
@@ -22,9 +23,7 @@
 @import '../pages/components/profil/profil';
 
 @import '../pages/components/loading/loading';
-@import '../pages/components/error/error';
 
-// @import '../pages/components/breadcrumbs/breadcrumbs';
 @import '../pages/components/button/button';
 
 @import '../pages/main/main';

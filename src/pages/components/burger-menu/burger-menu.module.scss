@@ -6,9 +6,9 @@
 }
 
 .menu {
-  padding: 32px 0px 10px 32px;
+  padding: 32px 0px 5px 32px;
 
   @include mixin.media-mobile {
-    padding: 32px 16px 0px 16px;
+    padding: 32px 16px 16px 16px;
   }
 }

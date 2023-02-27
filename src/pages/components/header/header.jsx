@@ -3,9 +3,10 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux/es/exports';
 
-import { stateMenuBurger } from '../../../redux/slice/burger-silce';
-import avatar from '../../image/avatar.jpg';
 import { BurgerMenu } from '../burger-menu';
+import avatar from '../../image/avatar.jpg';
+
+import { stateMenuBurger } from '../../../redux/slice/burger-silce';
 import style from './header.module.scss';
 
 export const Header = () => {

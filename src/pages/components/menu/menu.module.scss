@@ -1,7 +1,6 @@
+@forward '../../../style/style.scss';
 @use '../../../style/abstract/constants' as constants;
 @use '../../../style/abstract/mixin' as mixin;
-@use '../../../style/abstract/placeholders' as placeholders;
-@forward '../../../style/base/title.module.scss';
 
 .menu {
   width: inherit;
@@ -9,9 +8,17 @@
   @include mixin.font($size: 1rem, $height: 1.5, $letter: 0.1px);
 }
 
+.menu__tab {
+  max-width: 265px;
+}
+
 .tab__item {
   padding-right: 10px;
-  padding-bottom: 42px;
+  padding-bottom: 36px;
+
+  @include mixin.media-mobile {
+    padding-bottom: 32px;
+  }
 }
 
 .tab-menu__list {
@@ -46,7 +53,6 @@
 
 .tab-menu__link + .tab__arrow .arrow__svg {
   fill: constants.$color-text-primary;
-  // тут должен быть актив при нажатии на меню
 }
 
 .tab-menu__button[aria-expanded='true'] + .link-title-border {
@@ -54,7 +60,7 @@
 }
 
 .tab-menu__title {
-  padding-right: 37px;
+  padding-right: 16px;
 
   width: 100%;
   display: flex;
@@ -73,7 +79,6 @@
 }
 
 .tab-menu__link {
-  // margin-right: 6px;
   transition: all 0.3s;
 }
 
@@ -98,7 +103,6 @@
 
 .tab-menu__link + .tab-menu__button .arrow__svg {
   fill: constants.$color-text-primary;
-  // тут должен быть актив при нажатии на меню
 }
 
 .link-title-border {

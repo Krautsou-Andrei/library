@@ -1,5 +1,7 @@
 import { LinkMenu } from '../link-menu';
 
+import style from './profil.module.scss';
+
 export const Profil = ({ links, onClick }) => {
   const activeClass = ({ isActive }) => (isActive ? 'tab-menu__link-title-active' : 'tab-menu__link');
   return (
