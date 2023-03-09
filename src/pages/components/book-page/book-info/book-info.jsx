@@ -2,7 +2,7 @@ import { useState } from 'react';
 import classNames from 'classnames';
 
 import { Slider } from '../../slider';
-import { Button } from '../../button';
+import { Button } from '../../buttons/button';
 import { BookReview } from '../book-review';
 import { Rating } from '../../rating';
 

@@ -1,0 +1,47 @@
+@forward '../../style/style.scss';
+
+@use '../../style/abstract/constants' as constants;
+@use '../../style/abstract/mixin' as mixin;
+
+.login-page {
+  position: fixed;
+
+  padding: 16px;
+
+  z-index: 4;
+
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  @extend %linear-gradient-login-page-background;
+}
+
+.login-page__logo {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  // @include mixin.media-laptop {
+  //   top: calc(18px + (180 - 18) * ((100vw - 320px) / (1440 - 320)));
+  // }
+  @include mixin.media-mobile {
+    top: 18px;
+  }
+}
+
+.logo {
+  color: constants.$color-form-text-logo;
+  @include mixin.font($size: 2rem, $height: 125%, $weight: 700, $letter: 0.1px);
+  @include mixin.media-mobile {
+    font-size: 1.125rem;
+    line-height: 156%;
+  }
+}

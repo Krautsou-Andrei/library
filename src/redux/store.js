@@ -7,6 +7,8 @@ import { bookIdSlice } from './slice/book-id-slice';
 import { errorSlice } from './slice/error-slice';
 import { filterSlice } from './slice/filter-slice';
 import { searchSlice } from './slice/search-slice';
+import { userRegistrationSlice } from './slice/user-registration-slice';
+import { authenticationUserSlice } from './slice/user-authentication-slice';
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +19,8 @@ export const store = configureStore({
     errorMain: errorSlice.reducer,
     filter: filterSlice.reducer,
     search: searchSlice.reducer,
+    userRegistration: userRegistrationSlice.reducer,
+    authenticationUser: authenticationUserSlice.reducer,
 
     [api.reducerPath]: api.reducer,
   },

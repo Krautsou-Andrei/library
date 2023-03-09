@@ -1,5 +1,8 @@
 @forward '../../../style/style.scss';
+@forward '../profil/profil.module.scss';
+@forward '../menu/menu.module.scss';
 @use '../../../style/abstract/mixin' as mixin;
+@use '../../../style/abstract/constants' as constants;
 
 .header {
   padding-top: 32px;
@@ -11,6 +14,11 @@
   @include mixin.media-mobile {
     padding-top: 24px;
   }
+}
+
+.header:has(.active-profil) {
+  // background-color: red;
+  box-shadow: constants.$box-shadow-profil;
 }
 
 .header-wrapper {
@@ -101,12 +109,40 @@
 }
 
 .header-account-container {
+  position: relative;
+
   align-items: center;
   column-gap: 16px;
 
   @include mixin.media-tablet {
     display: none;
   }
+}
+
+.profil {
+  position: absolute;
+  width: 270px;
+
+  z-index: 2;
+
+  padding-right: 24px;
+  padding-bottom: 32px;
+
+  top: 70px;
+  right: 0;
+
+  row-gap: 32px;
+
+  border-top: none;
+  border-radius: 0px 0px 10px 10px;
+  box-shadow: constants.$box-shadow-profil;
+  background-color: constants.$color-body-background;
+}
+
+.tab-menu__title {
+}
+
+.header-account-container .active-profil {
 }
 
 .account__content {

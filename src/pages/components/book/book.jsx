@@ -7,9 +7,9 @@ import { setSearchQuery } from '../../../redux/slice/search-slice';
 
 import { Heighlight } from '../../../helpers/heigh-light';
 
-import { ImageBook } from '../image-book';
+import { ImageBook } from '../image/image-book';
 import { Rating } from '../rating';
-import { Button } from '../button';
+import { Button } from '../buttons/button';
 
 export const Book = ({ product }) => {
   const { id, image, title, rating, authors, issueYear } = product;

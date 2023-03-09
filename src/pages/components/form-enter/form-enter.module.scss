@@ -1,0 +1,288 @@
+@forward '../../../style/style.scss';
+@forward '../buttons/button.module.scss';
+@use '../../../style/abstract/constants' as constants;
+@use '../../../style/abstract/mixin' as mixin;
+
+.login-page__form {
+  // max-width: 33rem;
+  width: 33rem;
+  height: auto;
+
+  border-radius: 16px;
+  background: constants.$color-form-background;
+
+  @include mixin.media-midle-tablet {
+    width: calc(288px + (528 - 288) * (100vw - 320px) / (650 - 320));
+  }
+}
+
+.title--xl {
+  font-size: 1.5rem;
+  line-height: 125%;
+}
+
+.return-auth-page {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 4rem;
+
+  display: flex;
+  align-items: center;
+
+  border-radius: 16px 16px 0 0;
+
+  color: constants.$color-text-secondary;
+  text-transform: uppercase;
+  background-color: constants.$color-form-input-background;
+
+  @include mixin.font($size: 0.75rem, $height: 150%, $weight: 600, $letter: 0.2px);
+}
+
+.return-auth-page::before {
+  content: '';
+  display: inline-block;
+  margin-left: 16px;
+  margin-right: 12px;
+  width: 24px;
+  height: 24px;
+  background-size: 24px;
+  background-image: url('../../image/ico/icon-arrow-link-return.svg');
+}
+
+.form__legend {
+  margin-bottom: 32px;
+}
+
+.form__title {
+  margin-bottom: 8px;
+}
+
+.form__step {
+  @include mixin.font($size: 0.875rem, $height: 129%, $weight: 600, $letter: 0.1px);
+}
+
+.form {
+  position: relative;
+  padding: 56px 48px;
+  @include mixin.media-midle-tablet {
+    padding: calc(24px + (56 - 24) * (100vw - 320px) / (650 - 320))
+      calc(16px + (48 - 16) * (100vw - 320px) / (650 - 320));
+    // height: auto;
+  }
+}
+
+.login-page__form:has(.return-auth-page) {
+  padding-top: 96px;
+}
+
+.form__fieldset {
+  width: 100%;
+  // height: 100%;
+
+  margin-bottom: 32px;
+
+  display: flex;
+  flex-direction: column;
+
+  border: none;
+}
+.text-field {
+  min-height: 4.5rem;
+  // @include mixin.media-midle-tablet{
+  //   min-height:4.5rem ;
+  // }
+}
+
+.input-wrapper {
+  position: relative;
+
+  padding-left: 12px;
+  padding-right: 19px;
+
+  width: 100%;
+  height: 3.5rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  border-radius: 4px;
+  background-color: constants.$color-form-input-background;
+}
+
+.password-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+
+.view-password-wrapper {
+  // position: absolute;
+  display: flex;
+}
+
+.check-password {
+  display: inline-block;
+
+  width: 24px;
+  height: 24px;
+
+  background-size: 24px;
+  background-image: url('../../image/ico/icon-check-circle.svg');
+}
+
+.view-password {
+  position: relative;
+  display: inline-block;
+
+  z-index: 1;
+
+  width: 24px;
+  height: 24px;
+
+  border: none;
+  background-size: 24px;
+  background-color: transparent;
+  background-image: url('../../image/ico/icon-eye-closed.svg');
+}
+
+.view-password.view-active {
+  background-image: url('../../image/ico/icon-eye-opened.svg');
+}
+
+.text-field + .text-field {
+  margin-top: 16px;
+
+  @include mixin.media-mobile {
+    margin-top: 12px;
+  }
+}
+
+.input-border {
+  width: 100%;
+  height: 1px;
+  background: constants.$color-form-input-border;
+}
+
+.text-field:has(.input-login-error .error-input-empty) .input-border {
+  background: constants.$color-form-error;
+}
+
+.error .input-border {
+  background: constants.$color-form-error;
+}
+
+.form-label {
+  position: absolute;
+
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 100%;
+
+  @include mixin.font($size: 0.875rem, $height: 129%, $weight: 400, $letter: 0.1px);
+}
+.password-wrapper:has(.form-input:focus) ~ .form-label,
+.password-wrapper:has(.form-input:not(:placeholder-shown)) ~ .form-label,
+.form-input:focus ~ .form-label,
+.form-input:not(:placeholder-shown) ~ .form-label {
+  top: 20%;
+
+  color: constants.$color-form-text-second;
+  @include mixin.font($size: 0.75rem, $height: 133%, $weight: 500, $letter: 0.2px);
+  @extend %transition;
+}
+
+.form-input:not(:focus) ~ .form-label {
+  @extend %transition;
+}
+
+.form-input {
+  flex-grow: 1;
+  padding-right: 12px;
+
+  z-index: 1;
+
+  border: none;
+  outline: none;
+  background-color: constants.$color-form-input-background;
+}
+
+.input-login-error {
+  // height: 2rem;
+color: constants.$color-form-text-second;
+  @include mixin.font($size: 0.75rem, $height: 133%, $weight: 500, $letter: 0.2px);
+}
+.error-input-empty,
+.error-input {
+  color: constants.$color-form-error;
+}
+
+.error-authentication {
+  padding-left: 12px;
+  color: constants.$color-form-error;
+  @include mixin.font($size: 0.75rem, $height: 133%, $weight: 500, $letter: 0.2px);
+}
+
+.forget-password {
+  padding-right: 12px;
+  padding-left: 12px;
+
+  color: constants.$color-form-text-second;
+  @include mixin.font($size: 0.75rem, $height: 133%, $weight: 500, $letter: 0.2px);
+}
+
+.forget-password__error {
+  color: constants.$color-text-primary;
+}
+
+.form__button {
+  height: 3.25rem;
+  margin-bottom: 19px;
+
+  @include mixin.media-mobile {
+    height: 2.5rem;
+    margin-bottom: 16px;
+  }
+}
+
+.form__title-registration {
+  color: constants.$color-text-secondary;
+  @include mixin.font($size: 1rem, $height: 150%, $weight: 400, $letter: 0.1px);
+  @include mixin.media-mobile {
+    font-size: 0.9375rem;
+    line-height: 133%;
+  }
+}
+
+.registration-link {
+  display: flex;
+  align-items: center;
+  column-gap: 15px;
+
+  text-transform: uppercase;
+  @include mixin.font($size: 0.75rem, $height: 150%, $weight: 600, $letter: 0.2px);
+}
+
+.registration-link::after {
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 12px;
+  background-size: 18px 12px;
+  background-image: url('../../image/ico/icon-arrow-link-authentication.svg');
+}
+
+.link-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 16px;
+}
+
+.form__button:disabled {
+  background-color: constants.$color-button-disabled;
+}

@@ -1,3 +1,5 @@
+@forward '../../../style/style.scss';
+@forward '../menu/menu.module.scss';
 @use '../../../style/abstract/mixin' as mixin;
 @use '../../../style/abstract/constants' as constants;
 
@@ -13,4 +15,9 @@
   @include mixin.media-mobile {
     padding: 32px 16px 52px 16px;
   }
+}
+
+.header-tab-menu__title {
+  color: constants.$color-text-primary;
+  text-align: end;
 }

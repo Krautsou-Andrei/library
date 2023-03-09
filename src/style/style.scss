@@ -8,6 +8,7 @@
 @forward '../layout/layout/wrapper';
 @forward '../layout/layout/columns';
 @forward '../layout/layout/layout';
+// @forward '../pages/components/button/button.module.scss';
 
 @import './base/fonts';
 @import './abstract/constants';
@@ -20,11 +21,11 @@
 @import '../layout/layout/wrapper';
 @import '../layout/layout/columns';
 
-@import '../pages/components/profil/profil';
+// @import '../pages/components/profil/profil';
 
 @import '../pages/components/loading/loading';
 
-@import '../pages/components/button/button';
+@import '../pages/components/buttons/button';
 
 @import '../pages/main/main';
 @import '../pages/components/navigation/navigation';

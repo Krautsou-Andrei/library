@@ -12,21 +12,25 @@ import { Error } from '../error';
 import { Navigation } from '../navigation';
 import { Empty } from '../empty';
 
-import {
-  setCurrentCategotyPath,
-  setCurrentCategotyTitle,
-  useGetBooksQuery,
-  useGetCategotiesQuery,
-} from '../../../redux';
+import { setCurrentCategotyPath, setCurrentCategotyTitle, booksApi } from '../../../redux';
 
 export const Contented = () => {
   const dispatch = useDispatch();
-  const { isLoading: isloadingBooks, isError: iserrorBooks, isSuccess: successBooks } = useGetBooksQuery();
-  const {
-    isLoading: isloadingCategories,
-    isError: iserrorCategories,
-    isSuccess: successCategories,
-  } = useGetCategotiesQuery();
+  const [triggerBook, { isLoading: isloadingBooks, isError: iserrorBooks, isSuccess: successBooks }] =
+    booksApi.useLazyGetBooksQuery();
+  const [
+    triggerCategoties,
+    { isLoading: isloadingCategories, isError: iserrorCategories, isSuccess: successCategories },
+  ] = booksApi.useLazyGetCategotiesQuery();
+
+  const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    if (token) {
+      triggerBook();
+      triggerCategoties();
+    }
+  }, [token, triggerBook, triggerCategoties]);
 
   const [isOpenError, setOpenError] = useState(false);
   const [isToggleButtonView, setToggleButtonView] = useState(true);
