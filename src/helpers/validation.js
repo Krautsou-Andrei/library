@@ -33,10 +33,6 @@ export const registerStepOneSchema = object({
   password: value.password,
 });
 
-export const oneSchema = object({
-  username: value.username,
-});
-
 export const registerStepTwoSchema = object({
   lastName: value.stringEmpty,
   firstName: value.stringEmpty,

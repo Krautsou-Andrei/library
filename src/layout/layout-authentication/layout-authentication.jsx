@@ -13,6 +13,7 @@ export const LayoutAuthentication = () => {
       navigation('books/all');
     }
   }, [navigation, token]);
+
   return (
     <div className={style['login-page']} data-test-id='auth'>
       <div className={style['login-page__logo']}>

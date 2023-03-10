@@ -59,6 +59,9 @@ export const FormEnter = ({
     setError400(false);
   };
 
+  console.log('errorsInputOne', errorsInputOne);
+  console.log('errorsInputTwo', errorsInputTwo);
+
   return (
     <>
       {!inputOneType && (
@@ -203,7 +206,7 @@ export const FormEnter = ({
                   />
                   {(inputTwoType === 'password' || inputTwoType === 'passwordConfirmation') && !!watchInputTwo && (
                     <div className={style['view-password-wrapper']}>
-                      {title === 'Регистрация' && !errorsInputTwo?.length <= 1 && (
+                      {title === 'Регистрация' && errorsInputTwo?.length <= 1 && (
                         <span className={style['check-password']} data-test-id='checkmark' />
                       )}
 

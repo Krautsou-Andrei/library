@@ -3,57 +3,33 @@ import { useEffect, useState } from 'react';
 export const useErrorVaidate = (schemaValidation, textValidation, typeValidation) => {
   const [errorsArray, setErrorsArray] = useState([]);
 
-  useEffect(() => {
-    switch (typeValidation) {
-      case 'username':
-        {
-          const validate = async (username) => {
-            try {
-              const result = await schemaValidation.validate(
-                {
-                  username,
-                },
-                { abortEarly: false }
-              );
-
-              if (result) {
-                setErrorsArray([]);
-              }
-            } catch (error) {
-              setErrorsArray(error.errors);
-            }
-          };
-
-          validate(textValidation);
-        }
-        break;
-
-      case 'password':
-        {
-          const validate = async (password) => {
-            try {
-              const result = await schemaValidation.validate(
-                {
-                  password,
-                },
-                { abortEarly: false }
-              );
-
-              if (result) {
-                setErrorsArray([]);
-              }
-            } catch (error) {
-              setErrorsArray(error.errors);
-            }
-          };
-
-          validate(textValidation);
-        }
-        break;
-
-      default:
-        break;
+  const validateUsername = (typeValidation, value) => {
+    if (typeValidation === 'username') {
+      return { username: `${value}` };
     }
+    if (typeValidation === 'password') {
+      return { password: `${value}}` };
+    }
+
+    return {};
+  };
+
+  useEffect(() => {
+    const validate = async (value) => {
+      try {
+        const result = await schemaValidation.validate(validateUsername(typeValidation, value), {
+          abortEarly: false,
+        });
+
+        if (result) {
+          setErrorsArray([]);
+        }
+      } catch (error) {
+        setErrorsArray(error.errors);
+      }
+    };
+
+    validate(textValidation);
   }, [textValidation, schemaValidation, typeValidation]);
 
   return { errorsArray };
