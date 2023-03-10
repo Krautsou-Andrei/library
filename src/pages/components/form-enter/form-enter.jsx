@@ -1,10 +1,11 @@
 import classNames from 'classnames';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import InputMask from 'react-input-mask';
+import { ButtonSubmit } from '../buttons/button-submit/button-submit';
+import { ErrorHelperForInput } from '../../../helpers/error-helper-for-input';
 
 import style from './form-enter.module.scss';
-import { ButtonSubmit } from '../buttons/button-submit/button-submit';
 
 export const FormEnter = ({
   type,
@@ -171,37 +172,7 @@ export const FormEnter = ({
                 inputOneName === 'password' &&
                 errors &&
                 errors[inputOneName]?.type !== 'required' && (
-                  <span
-                    className={classNames({
-                      [style['error-input-empty']]: errors[inputOneName]?.type === 'matches',
-                    })}
-                    data-test-id='hint'
-                  >
-                    Пароль{' '}
-                    <span
-                      className={classNames({
-                        [style['error-input']]: errorsInputOne.includes('не менее 8 символов'),
-                      })}
-                    >
-                      не менее 8 символов
-                    </span>
-                    , с{' '}
-                    <span
-                      className={classNames({
-                        [style['error-input']]: errorsInputOne.includes('с заглавной буквой'),
-                      })}
-                    >
-                      заглавной буквой
-                    </span>{' '}
-                    и{' '}
-                    <span
-                      className={classNames({
-                        [style['error-input']]: errorsInputOne.includes('цифрой'),
-                      })}
-                    >
-                      цифрой
-                    </span>
-                  </span>
+                  <ErrorHelperForInput errors={errors} inputName={inputOneName} errorsInput={errorsInputOne} />
                 )}
               {inputOneName === 'phone' && errors && errors[inputOneName]?.type !== 'required' && (
                 <span
@@ -284,37 +255,7 @@ export const FormEnter = ({
               )}
 
               {step && inputTwoName === 'password' && errors && errors.password?.type !== 'required' && (
-                <span
-                  className={classNames({
-                    [style['error-input-empty']]: errors.password?.type === 'matches',
-                  })}
-                  data-test-id='hint'
-                >
-                  Пароль{' '}
-                  <span
-                    className={classNames({
-                      [style['error-input']]: errorsInputTwo.includes('не менее 8 символов'),
-                    })}
-                  >
-                    не менее 8 символов
-                  </span>
-                  , с{' '}
-                  <span
-                    className={classNames({
-                      [style['error-input']]: errorsInputTwo.includes('с заглавной буквой'),
-                    })}
-                  >
-                    заглавной буквой
-                  </span>{' '}
-                  и{' '}
-                  <span
-                    className={classNames({
-                      [style['error-input']]: errorsInputTwo.includes('цифрой'),
-                    })}
-                  >
-                    цифрой
-                  </span>
-                </span>
+                <ErrorHelperForInput errors={errors} inputName={inputTwoName} errorsInput={errorsInputTwo} />
               )}
               {errors?.[inputTwoName] === 'email' && errors[inputTwoName]?.type === 'required' && (
                 <p className={style['error-input-empty']} data-test-id='hint'>
