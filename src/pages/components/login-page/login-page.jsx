@@ -7,8 +7,10 @@ import { useAuthenticationUserMutation } from '../../../redux';
 
 import { authenticationSchema } from '../../../helpers/validation';
 import { FormEnter } from '../form-enter';
-import { ModalErrorAuthentication } from '../modals-windows/modal-error-authentication';
 import { Loading } from '../loading';
+import { ModalWindow } from '../modals-windows';
+
+import { modalErrorAuthentication } from '../modals-windows/type-modal';
 
 import style from '../form-enter/form-enter.module.scss';
 
@@ -51,9 +53,10 @@ export const LoginPage = () => {
     if (result?.error?.status === 400) {
       setInitialUserError400(true);
     } else if (result?.error?.status && result?.error?.status !== 400) {
-      setInitialUserError(!initialUserError);
+      setInitialUserError(true);
       setInitialUserError400(false);
     } else {
+      setInitialUserError(false);
       setTimeout(() => navigation('/books/all'), 1000);
     }
   };
@@ -61,6 +64,10 @@ export const LoginPage = () => {
   const onSubmit = (data) => {
     setInitialUser(data);
     authenticationUser(data).then((result) => setAuthentication(result));
+  };
+
+  const repeatSubmit = () => {
+    authenticationUser(initialUser).then((result) => setAuthentication(result));
   };
 
   return (
@@ -85,7 +92,7 @@ export const LoginPage = () => {
           />
         </form>
       )}
-      {initialUserError && <ModalErrorAuthentication initialUser={initialUser} onSubmit={onSubmit} />}
+      {initialUserError && <ModalWindow typeModal={modalErrorAuthentication} onSubmit={repeatSubmit} />}
     </>
   );
 };

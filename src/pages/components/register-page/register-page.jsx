@@ -8,13 +8,17 @@ import { RegisterStepOne } from './register-step-one';
 import { RegisterStepTwo } from './register-step-two';
 import { RegisterStepThree } from './register-step-three';
 import { Loading } from '../loading';
-import { ModalSeccessRegistration } from '../modals-windows/modal-success-registration';
-import { ModalErrorRegistration } from '../modals-windows/modal-error-registration';
-import { ModalErrorRegistration400 } from '../modals-windows/modal-error-registration-400';
-
-import style from '../form-enter/form-enter.module.scss';
+import { ModalWindow } from '../modals-windows';
 import { registerStepOneSchema, registerStepTwoSchema, registerStepThreeSchema } from '../../../helpers/validation';
 import { useErrorVaidate } from '../../../hooks/error-validate';
+
+import {
+  modalSeccessRegistration,
+  modalErrorRegistration,
+  modalErrorRegistration400,
+} from '../modals-windows/type-modal';
+
+import style from '../form-enter/form-enter.module.scss';
 
 export const RegisterPage = () => {
   const [step, setStep] = useState(1);
@@ -129,9 +133,9 @@ export const RegisterPage = () => {
           )}
         </form>
       )}
-      {isSuccess && !initialUserError && !initialUserError400 && <ModalSeccessRegistration />}
-      {isError && initialUserError && <ModalErrorRegistration onSubmit={repeatSubmit} />}
-      {initialUserError400 && <ModalErrorRegistration400 onSubmit={onSubmitStep} />}
+      {isSuccess && !initialUserError && !initialUserError400 && <ModalWindow typeModal={modalSeccessRegistration} />}
+      {isError && initialUserError && <ModalWindow typeModal={modalErrorRegistration} onSubmit={repeatSubmit} />}
+      {initialUserError400 && <ModalWindow typeModal={modalErrorRegistration400} onSubmit={onSubmitStep} />}
     </div>
   );
 };

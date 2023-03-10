@@ -7,8 +7,10 @@ import { forgotPasswordSchema, recovetyPasswordSchema } from '../../../helpers/v
 import { useForgotPasswordMutation, useRecoveryPasswordMutation } from '../../../redux';
 import { FormEnter } from '../form-enter';
 import { Loading } from '../loading';
-import { ModalErrorRecovery, ModalSuccessForgot, ModalSuccessRecovery } from '../modals-windows';
+import { ModalWindow } from '../modals-windows';
 import { RecoveryPasswordPage } from '../recovery-password-page';
+
+import { modalSuccessForgot, modalSuccessRecovery, modalErrorRecovery } from '../modals-windows/type-modal';
 
 import style from '../form-enter/form-enter.module.scss';
 
@@ -98,9 +100,11 @@ export const ForgotPage = () => {
           clearErrors={clearErrors}
         />
       )}
-      {isSuccessForgot && <ModalSuccessForgot />}
-      {isSuccessRecovery && <ModalSuccessRecovery />}
-      {isErrorRecovery && isError && !isSuccessRecovery && <ModalErrorRecovery onSubmit={setErrorRecovery} />}
+      {isSuccessForgot && <ModalWindow typeModal={modalSuccessForgot} />}
+      {isSuccessRecovery && <ModalWindow typeModal={modalSuccessRecovery} />}
+      {isErrorRecovery && isError && !isSuccessRecovery && (
+        <ModalWindow typeModal={modalErrorRecovery} onSubmit={setErrorRecovery} />
+      )}
     </>
   );
 };
