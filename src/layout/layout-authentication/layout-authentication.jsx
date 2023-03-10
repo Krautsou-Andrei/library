@@ -9,7 +9,6 @@ export const LayoutAuthentication = () => {
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    // if (document?.cookie.match(/token=(.+?)(;|$)/)) {
     if (token) {
       navigation('books/all');
     }

@@ -7,7 +7,6 @@ export const LayoutMainPage = () => {
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    // if (!document?.cookie.match(/token=(.+?)(;|$)/) || !isInitialUser) {
     if (!token) {
       navigation('/auth');
     }

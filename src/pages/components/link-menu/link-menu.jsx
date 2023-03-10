@@ -16,14 +16,10 @@ export const LinkMenu = ({
   const navigation = useNavigate();
 
   function deleteToken() {
-    // document.cookie = `token=${value} ; max-age=-1`;
-
     localStorage.removeItem('token');
   }
 
   const logout = async () => {
-    // const value = document?.cookie.match(/token=(.+?)(;|$)/)[1];
-
     const promise = new Promise((resolve, rejects) => {
       setTimeout(() => resolve(deleteToken()), 1000);
     });
