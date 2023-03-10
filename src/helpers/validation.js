@@ -1,12 +1,8 @@
 import { object, string, lazy, ref } from 'yup';
 import { RegExp } from './regexp';
 
-export const authenticationSchema = object({
-  identifier: string().required('Поле не может быть пустым'),
-  password: string().required('Поле не может быть пустым'),
-});
-
-export const registerStepOneSchema = object({
+const value = {
+  stringEmpty: string().required('Поле не может быть пустым'),
   username: string()
     .required('Поле не может быть пустым')
     .matches(RegExp.leastOneLatinLetter, 'латинский алфавит')
@@ -16,28 +12,8 @@ export const registerStepOneSchema = object({
     .matches(RegExp.leastEightCharacters, 'не менее 8 символов')
     .matches(RegExp.capitalized, 'с заглавной буквой')
     .matches(RegExp.numbers, 'цифрой'),
-});
-
-export const registerStepTwoSchema = object({
-  lastName: string().required('Поле не может быть пустым'),
-  firstName: string().required('Поле не может быть пустым'),
-});
-
-export const registerStepThreeSchema = object({
+  email: string().required('Поле не может быть пустым').matches(RegExp.email, 'Введите корректный e-mail'),
   phone: string().required('Поле не может быть пустым').matches(RegExp.phoneNumber, 'В формате +375 (xx) xxx-xx-xx'),
-  email: string().required('Поле не может быть пустым').matches(RegExp.email, 'Введите корректный e-mail'),
-});
-
-export const forgotPasswordSchema = object({
-  email: string().required('Поле не может быть пустым').matches(RegExp.email, 'Введите корректный e-mail'),
-});
-
-export const recovetyPasswordSchema = object({
-  password: string()
-    .required('Поле не может быть пустым')
-    .matches(RegExp.leastEightCharacters, 'не менее 8 символов')
-    .matches(RegExp.capitalized, 'с заглавной буквой')
-    .matches(RegExp.numbers, 'цифрой'),
   passwordConfirmation: lazy((value) =>
     string().when('passwordConfirmation', (any, schema) =>
       value === ''
@@ -45,4 +21,37 @@ export const recovetyPasswordSchema = object({
         : schema.oneOf([ref('password')], 'Пароли не совпадают')
     )
   ),
+};
+
+export const authenticationSchema = object({
+  identifier: value.stringEmpty,
+  password: value.stringEmpty,
+});
+
+export const registerStepOneSchema = object({
+  username: value.username,
+  password: value.password,
+});
+
+export const oneSchema = object({
+  username: value.username,
+});
+
+export const registerStepTwoSchema = object({
+  lastName: value.stringEmpty,
+  firstName: value.stringEmpty,
+});
+
+export const registerStepThreeSchema = object({
+  phone: value.phone,
+  email: value.email,
+});
+
+export const forgotPasswordSchema = object({
+  email: value.email,
+});
+
+export const recovetyPasswordSchema = object({
+  password: value.password,
+  passwordConfirmation: value.passwordConfirmation,
 });
