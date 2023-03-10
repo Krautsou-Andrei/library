@@ -209,12 +209,12 @@
 
   border: none;
   outline: none;
-  background-color: constants.$color-form-input-background;
+  background-color: constants.$color-form-input;
 }
 
 .input-login-error {
   // height: 2rem;
-color: constants.$color-form-text-second;
+  color: constants.$color-form-text-second;
   @include mixin.font($size: 0.75rem, $height: 133%, $weight: 500, $letter: 0.2px);
 }
 .error-input-empty,
