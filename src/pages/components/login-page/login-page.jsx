@@ -49,6 +49,15 @@ export const LoginPage = () => {
     resolver: yupResolver(authenticationSchema),
   });
 
+  const goToPage = () => {
+    const token = localStorage.getItem('token');
+    if (token === null) {
+      goToPage();
+    } else {
+      navigation('/books/all');
+    }
+  };
+
   const setAuthentication = (result) => {
     if (result?.error?.status === 400) {
       setInitialUserError400(true);
@@ -57,7 +66,7 @@ export const LoginPage = () => {
       setInitialUserError400(false);
     } else {
       setInitialUserError(false);
-      setTimeout(() => navigation('/books/all'), 1000);
+      goToPage();
     }
   };
 
