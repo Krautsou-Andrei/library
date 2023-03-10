@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { HashRouter, Route, Routes, Navigate, useLocation } from 'react-router-dom';
 import { Provider } from 'react-redux';
-// import { store } from './store/store';
 import { store } from './redux';
 
 import { Layout } from './layout/layout';

@@ -59,9 +59,6 @@ export const FormEnter = ({
     setError400(false);
   };
 
-  console.log('errorsInputOne', errorsInputOne);
-  console.log('errorsInputTwo', errorsInputTwo);
-
   return (
     <>
       {!inputOneType && (

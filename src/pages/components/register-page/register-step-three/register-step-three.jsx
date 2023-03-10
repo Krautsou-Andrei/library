@@ -1,8 +1,4 @@
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-
 import { FormEnter } from '../../form-enter';
-import { registerStepThreeSchema } from '../../../../helpers/validation';
 
 export const RegisterStepThree = ({ step, register, clearErrors, errors, watch }) => {
   const typeRegistrationStepOne = {

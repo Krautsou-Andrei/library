@@ -1,6 +1,5 @@
 @forward './abstract/constants';
 @forward './abstract/mixin';
-// @forward './abstract/placeholders';
 @forward './abstract/placeholders.module.scss';
 @forward './base/base';
 @forward './base/fonts';
@@ -8,20 +7,15 @@
 @forward '../layout/layout/wrapper';
 @forward '../layout/layout/columns';
 @forward '../layout/layout/layout';
-// @forward '../pages/components/button/button.module.scss';
 
 @import './base/fonts';
 @import './abstract/constants';
 @import './abstract/mixin';
-// @import './abstract/placeholders';
 @import './base/base';
-// @import './base/title';
 
 @import '../layout/layout/layout';
 @import '../layout/layout/wrapper';
 @import '../layout/layout/columns';
-
-// @import '../pages/components/profil/profil';
 
 @import '../pages/components/loading/loading';
 

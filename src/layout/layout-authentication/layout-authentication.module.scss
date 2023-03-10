@@ -29,9 +29,6 @@
   left: 50%;
   transform: translateX(-50%);
 
-  // @include mixin.media-laptop {
-  //   top: calc(18px + (180 - 18) * ((100vw - 320px) / (1440 - 320)));
-  // }
   @include mixin.media-mobile {
     top: 18px;
   }

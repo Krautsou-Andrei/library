@@ -40,7 +40,6 @@ export const LoginPage = () => {
     register,
     formState: { errors },
     handleSubmit,
-
     clearErrors,
     watch,
   } = useForm({

@@ -6,9 +6,9 @@ import { useSelector, useDispatch } from 'react-redux/es/exports';
 import { BurgerMenu } from '../burger-menu';
 import { Profil } from '../profil';
 import { DataBurgerLink } from '../../../data/data-burger-link';
+import { stateMenuBurger } from '../../../redux/slice/burger-silce';
 import avatar from '../../image/avatar.jpg';
 
-import { stateMenuBurger } from '../../../redux/slice/burger-silce';
 import style from './header.module.scss';
 
 export const Header = () => {

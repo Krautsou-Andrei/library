@@ -5,8 +5,6 @@
     padding-bottom: 24px;
   }
 }
-.header__wrapper {
-}
 
 .header-wrapper {
   align-items: center;
@@ -14,15 +12,18 @@
     column-gap: 24px;
   }
 }
+
 .header__logo {
   flex: 25.7%;
   @include media-tablet {
     display: none;
   }
 }
+
 .logo {
   width: 100%;
 }
+
 .logo__svg {
   display: inline-block;
   background-image: url('../../image/ico/cleverland.svg');
@@ -44,12 +45,7 @@
   flex: 74.3%;
   align-items: center;
 }
-.header__text {
-}
-.header__title {
-}
-.title--xxl {
-}
+
 .header-account-container {
   align-items: center;
   column-gap: 16px;
@@ -57,13 +53,11 @@
     display: none;
   }
 }
+
 .account__content {
   @include font($size: 0.875rem, $height: 1.2857);
 }
-.acconut__image {
-}
-.image {
-}
+
 .image__account {
   width: 58px;
   height: 58px;

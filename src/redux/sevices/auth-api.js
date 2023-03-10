@@ -17,7 +17,6 @@ export const authApi = api.injectEndpoints({
           const { jwt } = result.data;
 
           localStorage.setItem('token', jwt);
-          // document.cookie = `token=${jwt}`;
         } catch (error) {
           console.error('erro authentication', error);
         }

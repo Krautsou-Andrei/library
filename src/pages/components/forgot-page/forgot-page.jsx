@@ -7,9 +7,8 @@ import { forgotPasswordSchema, recovetyPasswordSchema } from '../../../helpers/v
 import { useForgotPasswordMutation, useRecoveryPasswordMutation } from '../../../redux';
 import { FormEnter } from '../form-enter';
 import { Loading } from '../loading';
-import { ModalWindow } from '../modals-windows';
 import { RecoveryPasswordPage } from '../recovery-password-page';
-
+import { ModalWindow } from '../modals-windows';
 import { modalSuccessForgot, modalSuccessRecovery, modalErrorRecovery } from '../modals-windows/type-modal';
 
 import style from '../form-enter/form-enter.module.scss';
