@@ -65,7 +65,9 @@ img {
   display: block;
 }
 
-article {
+article,
+fieldset,
+legend {
   margin: 0;
   padding: 0;
 }

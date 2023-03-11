@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Navigation, FreeMode, Thumbs, Scrollbar, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import { ImageBook } from '../image-book';
+import { ImageBook } from '../image/image-book';
 import { BASE_URL } from '../../../redux';
 
 import 'swiper/css';

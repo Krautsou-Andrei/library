@@ -1,21 +1,30 @@
 import classNames from 'classnames';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux/es/exports';
 
+import { BurgerMenu } from '../burger-menu';
+import { Profil } from '../profil';
+import { DataBurgerLink } from '../../../data/data-burger-link';
 import { stateMenuBurger } from '../../../redux/slice/burger-silce';
 import avatar from '../../image/avatar.jpg';
-import { BurgerMenu } from '../burger-menu';
+
 import style from './header.module.scss';
 
 export const Header = () => {
+  const [isButtonProfil, setButtonProfil] = useState(false);
+  const links = DataBurgerLink();
+
   const isOpenMenu = useSelector((state) => state.burgerMenu.isOpenMenuBurger);
   const actionMenuBurger = stateMenuBurger.actions.toggleMenuMode;
   const dispatch = useDispatch();
 
-  const toggleMenuBurger = () => dispatch(actionMenuBurger());
-
   const buttonBurger = useRef(null);
+
+  const toggleMenuBurger = () => dispatch(actionMenuBurger());
+  const toogleProfil = () => {
+    setButtonProfil(!isButtonProfil);
+  };
 
   return (
     <section className='main-page'>
@@ -50,7 +59,14 @@ export const Header = () => {
               <div className={style.header__text}>
                 <h1 className={classNames(style.header__title, style['title--xxl'])}>Библиотека</h1>
               </div>
-              <div className={classNames(style['layout-2-column'], style['header-account-container'])}>
+              <button
+                className={`
+                  ${style['layout-2-column']}
+                  ${style['header-account-container']}
+                  ${isButtonProfil && style['active-profil']}`}
+                type='button'
+                onClick={toogleProfil}
+              >
                 <div className={style.account__content}>
                   <span>Привет, Иван!</span>
                 </div>
@@ -63,7 +79,8 @@ export const Header = () => {
                     height='58'
                   />
                 </div>
-              </div>
+                {isButtonProfil && <Profil className={style.profil} links={links} />}
+              </button>
             </div>
           </div>
         </div>

@@ -86,6 +86,14 @@
   );
 }
 
+%linear-gradient-login-page-background {
+  background: linear-gradient(
+    231.58deg,
+    constants.$color-button-primary -53.35%,
+    constants.$color-button-secondary 297.76%
+  );
+}
+
 %box-shadow-button-navigation {
   box-shadow: 0px 2px 4px rgba(191, 196, 201, 0.2), 0px 3px 4px rgba(191, 196, 201, 0.18),
     0px 1px 5px rgba(191, 196, 201, 0.24);

@@ -1,11 +1,3 @@
-.footer {
-}
-.footer__wrapper {
-}
-.wrapper {
-}
-.layout-2-column {
-}
 .footer-wrapper {
   padding-top: 16px;
   padding-bottom: 16px;
@@ -13,11 +5,11 @@
   @include media-mobile {
     flex-wrap: wrap;
     row-gap: 18px;
-    // align-items: center;
     text-align: center;
     justify-content: center;
   }
 }
+
 .footer__copyright {
   @include font($size: 1rem, $height: 1.5, $weight: 400, $letter: 0.1px);
   @include media-mobile {
@@ -25,16 +17,14 @@
     width: 200px;
   }
 }
-.footer__address {
-}
+
 .social__list {
   display: inline-flex;
   align-items: center;
   column-gap: 28px;
 }
+
 .social__item {
   display: flex;
   align-items: center;
-}
-.social__link {
 }

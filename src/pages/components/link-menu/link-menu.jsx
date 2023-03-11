@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 export const LinkMenu = ({
   link,
@@ -12,23 +12,49 @@ export const LinkMenu = ({
   title,
   quantity,
   classNameQuantity,
-}) => (
-  <>
-    <NavLink
-      to={link}
-      className={className}
-      onClick={onClick}
-      data-test-id={dataTest === 'true' ? dataTestLink : dataTestCategoty}
-    >
-      <span className={classTitle ? classTitle : ''}>{title}</span>
-    </NavLink>
+}) => {
+  const navigation = useNavigate();
 
-    {quantity ? (
-      <span className={classNameQuantity} data-test-id={dataTestQuantity}>
-        {quantity}
-      </span>
-    ) : (
-      ''
-    )}
-  </>
-);
+  function deleteToken() {
+    localStorage.removeItem('token');
+  }
+
+  const logout = async () => {
+    const promise = new Promise((resolve, rejects) => {
+      setTimeout(() => resolve(deleteToken()), 1000);
+    });
+
+    await promise;
+    navigation('/auth');
+  };
+
+  const onClickLink = () => {
+    if (onClick) {
+      onClick();
+    }
+    if (title === 'Выход') {
+      logout();
+    }
+  };
+
+  return (
+    <>
+      <NavLink
+        to={link}
+        className={className}
+        onClick={onClickLink}
+        data-test-id={dataTest === 'true' ? dataTestLink : dataTestCategoty}
+      >
+        <span className={classTitle ? classTitle : ''}>{title}</span>
+      </NavLink>
+
+      {quantity ? (
+        <span className={classNameQuantity} data-test-id={dataTestQuantity}>
+          {quantity}
+        </span>
+      ) : (
+        ''
+      )}
+    </>
+  );
+};

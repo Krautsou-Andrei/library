@@ -92,7 +92,6 @@
 
 .input:focus {
   outline: none;
-  // caret-color: $color-input-search-cursor;
 }
 
 .navigation__button {
@@ -132,10 +131,6 @@
 .button-filter:hover {
   @extend %box-shadow-button-navigation-hover;
 }
-
-// .button-filter[aria-expanded='false'] .icon-button-filter {
-//   fill: $color-input-search-cursor;
-// }
 
 .button-filter[aria-expanded='false'] svg {
   transform: rotate(180deg);

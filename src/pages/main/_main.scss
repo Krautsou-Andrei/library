@@ -14,7 +14,6 @@
 .main__menu {
   flex: 25.7%;
   @include media-tablet {
-    // display: none;
     position: absolute;
     width: 1px;
     height: 1px;

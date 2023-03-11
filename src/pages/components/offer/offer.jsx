@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 
-import style from './offer.module.css';
+import style from './offer.module.scss';
 
 export const Offer = (props) => (
   <section className={style.offer}>

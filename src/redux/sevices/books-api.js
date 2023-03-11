@@ -42,7 +42,7 @@ export const booksApi = api.injectEndpoints({
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           const result = await queryFulfilled;
-          
+
           if (result.data.id) dispatch(setBookId(result.data.id));
         } catch (error) {
           console.log('erroe bookid', error);

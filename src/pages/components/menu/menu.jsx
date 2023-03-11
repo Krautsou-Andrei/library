@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { useGetBooksQuery, useGetCategotiesQuery } from '../../../redux';
+import { booksApi } from '../../../redux';
+
 import { LinkMenu } from '../link-menu';
 import { IconArrowMenuBurger } from '../image/icon/icon-arrow-menu-butger/icon-arrow-menu-burger';
 
@@ -16,8 +17,17 @@ export const Menu = ({
   dataTestContract,
   dataTestCategoty,
 }) => {
-  const { data: categories, isSuccess: successCategories } = useGetCategotiesQuery();
-  const { isSuccess: successBooks } = useGetBooksQuery();
+  const [triggerCategoties, { data: categories, isSuccess: successCategories }] = booksApi.useLazyGetCategotiesQuery();
+  const [triggerBook, { isSuccess: successBooks }] = booksApi.useLazyGetBooksQuery();
+
+  const token = localStorage.getItem('token');
+
+  useEffect(() => {
+    if (token) {
+      triggerBook();
+      triggerCategoties();
+    }
+  }, [token, triggerBook, triggerCategoties]);
 
   const currentCategoryPath = useSelector((state) => state.filter.currentCategoryPath);
   const books = useSelector((state) => state.books.books);
