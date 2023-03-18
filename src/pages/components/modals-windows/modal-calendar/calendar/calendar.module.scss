@@ -1,0 +1,169 @@
+@forward '../../../../../style/style.scss';
+@use '../../../../../style/abstract/constants' as constants;
+@use '../../../../../style/abstract/mixin' as mixin;
+
+.calendar {
+  padding: 16px 16px 0px 16px;
+  width: 16rem;
+  // height: 15rem;
+  border-radius: 8px;
+  @extend %box-shadow-calendar;
+}
+
+.calendar__header-calendar {
+  margin-bottom: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.calendar__month-calendar {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  color: constants.$color-modal-calendar-text-month;
+  @include mixin.font($size: 1rem, $height: 150%, $weight: 400, $letter: 0.1px);
+}
+
+.month {
+  display: flex;
+  align-items: center;
+  column-gap: 4px;
+  color: constants.$color-modal-calendar-text-month;
+  cursor: pointer;
+}
+
+.select-month {
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+.month-input {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+
+.year {
+  cursor: pointer;
+}
+
+.month-options {
+  width: 100%;
+  position: absolute;
+  top: 1.5rem;
+  z-index: -1;
+
+  max-height: 0;
+
+  overflow: hidden;
+
+  text-transform: capitalize;
+
+  border-radius: 0 0 8px 8px;
+  background-color: constants.$color-modal-calendar-background;
+  transition: all 1s;
+  cursor: pointer;
+}
+
+.month-options.active {
+  max-height: 20rem;
+  z-index: 1;
+  transition: all 1s;
+}
+
+.month-value {
+  cursor: pointer;
+}
+
+.arrow-select-month {
+  width: 1.5rem;
+  height: 1.5rem;
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('../../../../image/ico/icon-select-month.svg');
+}
+
+.arrow-prev-month {
+  width: 1rem;
+  height: 1rem;
+
+  margin-right: 8px;
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('../../../../image/ico/icon-arrow-next-month.svg');
+  cursor: pointer;
+}
+
+.arrow-next-month {
+  width: 1rem;
+  height: 1rem;
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('../../../../image/ico/icon-arrow-next-month.svg');
+  transform: rotate(180deg);
+  cursor: pointer;
+}
+
+.calendar__day-of-week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  @include mixin.font($size: 0.75rem, $height: 133%, $weight: 500, $letter: 0.2px);
+}
+
+.day-of-week {
+  width: 2rem;
+  height: 2rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @extend %linear-gradient-calendar-day-of-week;
+}
+
+.calendar__body-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.day {
+  width: 2rem;
+  height: 2rem;
+
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: constants.$color-modal-calendar-text-day;
+  @include mixin.font($size: 0.75rem, $height: 133%, $weight: 400, $letter: 0.2px);
+}
+
+.weekend {
+  background-color: constants.$color-modal-calendar-weekend-background;
+}
+
+.today {
+  @extend %linear-gradient-calendar-day-of-week;
+}
+
+.next-day {
+  color: constants.$color-modal-calendar-text-today-next;
+}
+
+.day:hover {
+  border: 1px solid constants.$color-modal-calendar-border-day;
+}
+
+.day-select {
+  color: constants.$color-modal-calendar-text-day-select;
+  @extend %linear-gradient-calendar-day-of-select;
+}

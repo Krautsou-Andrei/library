@@ -1,7 +1,8 @@
-export const IconStar = ({ classActive }) => (
-  <span className='ico-star'>
+export const IconStar = ({ className, classActive, dataTestStar, dataTestStarActive }) => (
+  <span className={className} data-test-id={dataTestStar}>
     <svg
       className={classActive}
+      data-test-id={dataTestStarActive ? dataTestStarActive : ''}
       width='25'
       height='24'
       viewBox='0 0 25 24'

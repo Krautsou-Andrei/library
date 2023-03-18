@@ -9,6 +9,7 @@ export const bookIdSlice = createSlice({
   initialState,
   reducers: {
     setBookId(state, action) {
+      console.log(action.payload);
       const stateBookid = state;
       stateBookid.bookId = action.payload;
     },

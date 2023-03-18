@@ -66,6 +66,7 @@
   margin-bottom: 17px;
 
   width: 445px;
+  height: auto;
 
   aspect-ratio: 443 / 591;
 
@@ -74,8 +75,6 @@
   border-radius: 10px;
 
   overflow: hidden;
-
-  height: auto;
 
   @include media-laptop {
     width: calc(136px + (445 - 136) * ((100vw - 768px) / (1440 - 768)));

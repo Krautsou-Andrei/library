@@ -1,17 +1,32 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import classNames from 'classnames';
 
 import { Slider } from '../../slider';
 import { Button } from '../../buttons/button';
 import { BookReview } from '../book-review';
 import { Rating } from '../../rating';
+import {
+  setBooking,
+  setBookingCurrentUser,
+  setButtonBookPage,
+  setButtonComments,
+  setSelectBookid,
+} from '../../../../redux';
+import { bookingBook } from '../../../../utils/booking-book';
+import { dateTranslatorShort } from '../../../../utils/date-translator';
+import { isCommentsCurrentUser, sortComments } from '../../../../utils/comments';
 
-export const BookInfo = ({ book }) => {
+export const BookInfo = ({ book, onClickComments }) => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const dispatch = useDispatch();
   const [isReviewCollapsible, setReviewCollapsible] = useState(true);
   const toggleReview = () => {
     setReviewCollapsible(!isReviewCollapsible);
   };
   const {
+    id,
     images,
     title,
     authors,
@@ -27,8 +42,19 @@ export const BookInfo = ({ book }) => {
     categories,
     comments,
     rating,
+    booking,
+    delivery,
   } = book;
+  const currentBookingBook = bookingBook(booking);
 
+  const onClick = (event) => {
+    console.log('currentBookingBookcurrentBookingBook', !!currentBookingBook);
+    dispatch(setBookingCurrentUser(!!currentBookingBook));
+    dispatch(setBooking(true));
+    dispatch(setSelectBookid(event.target.name));
+  };
+  const { category, bookId } = useParams();
+  console.log('bookId', bookId);
   return (
     <div className='book-page-wrapper wrapper'>
       <section className='book-page'>
@@ -45,7 +71,22 @@ export const BookInfo = ({ book }) => {
             </div>
 
             <div className='book-page__button'>
-              <Button className='button button--book-page' title='Забронировать' />
+              <Button
+                className={classNames('button', 'button--book-page', {
+                  'button-booking-current-user': currentBookingBook === 'current',
+                })}
+                onClick={onClick}
+                name={bookId}
+                title={`${
+                  currentBookingBook
+                    ? 'забронирована'
+                    : delivery
+                    ? `занята до ${dateTranslatorShort(delivery.dateHandedTo)}`
+                    : 'забронировать'
+                }`}
+                disabled={(currentBookingBook && currentBookingBook !== 'current') || delivery}
+                data-test-id='booking-button'
+              />
             </div>
           </div>
           <div className='book-page-descripton__wrap'>
@@ -113,11 +154,22 @@ export const BookInfo = ({ book }) => {
             </div>
           </div>
           <div className='review-title-border' />
-          <div className={classNames('review-content-wrapper', { 'review-collapsible': isReviewCollapsible })}>
-            {comments && comments.map((comment) => <BookReview key={comment.id} comment={comment} />)}
+
+          <div
+            className={classNames('review-content-wrapper', { 'review-collapsible': isReviewCollapsible })}
+            data-test-id='reviews'
+          >
+            {comments && sortComments(comments).map((comment) => <BookReview key={comment.id} comment={comment} />)}
+            {/* </div> */}
           </div>
           <div className='review__button'>
-            <Button className='button button--book-page' title='Оценить книгу' />
+            <Button
+              className='button button--book-page'
+              title='Оценить книгу'
+              onClick={onClickComments}
+              disabled={comments && isCommentsCurrentUser(comments)}
+              data-test-id='button-rate-book'
+            />
           </div>
         </div>
       </section>

@@ -1,3 +1,4 @@
+// import { setUser } from '../slice/user-slice';
 import { api } from './api';
 
 export const resetApi = api.injectEndpoints({
@@ -15,6 +16,7 @@ export const resetApi = api.injectEndpoints({
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           const result = await queryFulfilled;
+          // dispatch(setUser(result.data));
         } catch (error) {
           console.log('error reset password', error);
         }

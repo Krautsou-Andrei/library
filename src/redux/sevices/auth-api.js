@@ -1,3 +1,4 @@
+import { setUser } from '../slice/user-slice';
 import { api } from './api';
 
 export const authApi = api.injectEndpoints({
@@ -17,6 +18,8 @@ export const authApi = api.injectEndpoints({
           const { jwt } = result.data;
 
           localStorage.setItem('token', jwt);
+          dispatch(setUser(result.data));
+          localStorage.setItem('user', JSON.stringify(result.data.user));
         } catch (error) {
           console.error('erro authentication', error);
         }

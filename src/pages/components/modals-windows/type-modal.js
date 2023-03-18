@@ -45,3 +45,19 @@ export const modalSeccessRegistration = {
   modalButtonText: 'вход',
   modalLinkPath: '/books/all',
 };
+
+export const modalBooking = {
+  isCalendar: true,
+  modalTitle: 'Выбор даты бронирования',
+  modalTitleChangeBooking: 'Изменение даты бронирования',
+  modalButtonBookingText: 'забронировать',
+  modalButtonDeleteBookingText: 'отменить бронь',
+};
+
+export const modalComments = {
+  isComments: true,
+  modalTitle: 'Оцените книгу',
+  titleRating: 'Ваша оценка',
+  modalButtonCommentsText: 'оценить',
+  titleTextArea: 'Комментарий',
+};

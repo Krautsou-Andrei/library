@@ -4,3 +4,9 @@ export const dateTranslator = (createdAt) =>
     month: 'long',
     day: 'numeric',
   });
+
+export const dateTranslatorShort = (createdAt) =>
+  new Date(createdAt).toLocaleDateString('ru', {
+    day: 'numeric',
+    month: 'numeric',
+  });

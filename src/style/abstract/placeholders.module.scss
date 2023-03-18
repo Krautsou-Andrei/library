@@ -102,3 +102,37 @@
 %box-shadow-button-navigation-hover {
   box-shadow: 0px 3px 4px rgba(222, 125, 11, 0.2), 0px 1px 10px rgba(249, 89, 8, 0.2);
 }
+
+%background-blure {
+  background: rgba(54, 54, 54, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+%box-shadow-calendar {
+  box-shadow: 0px 2px 4px rgba(191, 196, 201, 0.2), 0px 3px 4px rgba(191, 196, 201, 0.18),
+    0px 1px 5px rgba(191, 196, 201, 0.24);
+}
+
+%linear-gradient-calendar-day-of-week {
+  background: linear-gradient(
+    231.58deg,
+    constants.$color-button-primary -53.35%,
+    constants.$color-button-secondary 297.76%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+%linear-gradient-calendar-day-of-select {
+  background: linear-gradient(
+    231.58deg,
+    constants.$color-button-primary -53.35%,
+    constants.$color-button-secondary 297.76%
+  );
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: unset;
+  background-clip: unset;
+  text-fill-color: unset;
+}
