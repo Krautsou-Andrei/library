@@ -158,7 +158,7 @@ export const ModalBooking = ({
               <IconButtonClose fill='currentColor' />
             </button>
           </div>
-          <div className={style['madal-calendar__calendar']}>
+          <div className={style['modal-calendar__calendar']}>
             {isCalendar && (
               <Calendar
                 date={date}
@@ -178,7 +178,14 @@ export const ModalBooking = ({
               />
             )}
           </div>
-          {isComments && <textarea className={style['comments-textarea']} onChange={onChange} data-test-id='comment' />}
+          {isComments && (
+            <textarea
+              className={style['comments-textarea']}
+              placeholder='Комментарий'
+              onChange={onChange}
+              data-test-id='comment'
+            />
+          )}
           <div className={style['modal-calendar__button']}>
             {isComments && (
               <ButtonSubmit
