@@ -71,7 +71,7 @@ export const ModalBooking = ({
     event.preventDefault();
 
     const dateFormat = new Date(!!dateBooking && dateBooking);
-    dateFormat?.setHours(dateFormat.getHours() + 3);
+    // dateFormat?.setHours(dateFormat.getHours() + 3);
     const isoDate = dateFormat?.toISOString();
 
     if (isCalendar && isCurrentDateBooking && !clickButtonDelete) {
