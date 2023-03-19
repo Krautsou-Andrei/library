@@ -133,18 +133,6 @@ export const LayoutMainPage = () => {
   console.log('errorDeleteBooking', errorDeleteBooking);
   console.log(' errorBooking ', errorBooking);
 
-  const message = () => {
-    if (errorBooking) {
-      return typeMessage.errorLoadingBooking;
-    }
-    if (errorDeleteBooking) {
-      return typeMessage.errorLoadingDeleteBooking;
-    }
-    if (errorUpdateBooking) {
-      return typeMessage.errorLoadingUpdateBooking;
-    }
-    return '';
-  };
   return (
     <>
       {(isLoadingBooking ||
@@ -156,12 +144,11 @@ export const LayoutMainPage = () => {
         <Error
           closeMessage={closeErrorMessage}
           message={
-            message()
-            // errorBooking
-            //   ? typeMessage.errorLoadingBooking
-            //   : errorUpdateBooking
-            //   ? typeMessage.errorLoadingUpdateBooking
-            //   : typeMessage.errorLoadingDeleteBooking
+            errorBooking
+              ? typeMessage.errorLoadingBooking
+              : errorUpdateBooking
+              ? typeMessage.errorLoadingUpdateBooking
+              : typeMessage.errorLoadingDeleteBooking
           }
         />
       )}

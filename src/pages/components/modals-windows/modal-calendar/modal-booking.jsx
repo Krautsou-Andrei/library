@@ -48,7 +48,7 @@ export const ModalBooking = ({
   if (user === undefined) {
     user = JSON.parse(localStorage.getItem('user'));
   }
-  console.log('yser0, user', user);
+  console.log('yser0, user', book);
 
   const {
     isCalendar,
@@ -114,7 +114,7 @@ export const ModalBooking = ({
         book: currentBook.id,
         user: user.id.toString(),
       };
-
+      console.log({ data });
       sendComments({ data });
     }
   };
@@ -123,7 +123,7 @@ export const ModalBooking = ({
     setClickButtonDelete(true);
   };
 
-  const onBlure = (event) => {
+  const onChange = (event) => {
     setDataTextarea(event.target.value);
   };
 
@@ -189,7 +189,7 @@ export const ModalBooking = ({
               />
             )}
           </div>
-          {isComments && <textarea className={style['comments-textarea']} onBlur={onBlure} data-test-id='comment' />}
+          {isComments && <textarea className={style['comments-textarea']} onChange={onChange} data-test-id='comment' />}
           <div className={style['modal-calendar__button']}>
             {isComments && (
               <ButtonSubmit
