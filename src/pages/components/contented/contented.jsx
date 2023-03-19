@@ -14,6 +14,8 @@ import { Empty } from '../empty';
 
 import { setCurrentCategotyPath, setCurrentCategotyTitle, booksApi } from '../../../redux';
 
+import { typeMessage } from '../error/type-message';
+
 export const Contented = () => {
   const dispatch = useDispatch();
   const [triggerBook, { isLoading: isloadingBooks, isError: iserrorBooks, isSuccess: successBooks }] =
@@ -88,9 +90,11 @@ export const Contented = () => {
         <Navigation isToggleButtonView={isToggleButtonView} toggleButtonView={toggleButtonView} />
       )}
       <section className={classNames('main__contented', { 'book-list': !isToggleButtonView })}>
-        <div className='contented'>
+        <div className='contented' data-test-id='content'>
           {(isloadingBooks || isloadingCategories) && <Loading />}
-          {isOpenError && !isloadingBooks && !isloadingCategories && <Error closeMessage={() => setOpenError(false)} />}
+          {isOpenError && !isloadingBooks && !isloadingCategories && (
+            <Error closeMessage={() => setOpenError(false)} message={typeMessage.errorLoadingBook} />
+          )}
           {successCategories &&
             successBooks &&
             (books.length > 0 ? (

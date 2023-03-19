@@ -9,10 +9,12 @@ export const ReviewUser = ({ user, createdAt }) => {
         <ImageUser src={avatarUrl ? `${BASE_URL}${avatarUrl}` : ''} width='32' height='32' alt='' />
       </div>
       <div className='wrap__user'>
-        <span className='review__name'>
-          {firstName} {lastName}
+        <span className='review__name' data-test-id='comment-author'>
+          {`${firstName} ${lastName}`}
         </span>
-        <span className='review__date'>{createdAt}</span>
+        <span className='review__date' data-test-id='comment-date'>
+          {createdAt}
+        </span>
       </div>
     </div>
   );

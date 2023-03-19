@@ -7,22 +7,17 @@
 }
 
 .button--book {
-  color: $color-button-book-text;
-  text-transform: uppercase;
-
   border: 1px solid $color-button-book-border;
   border-radius: 20px;
+
+  color: $color-button-book-text;
+  text-transform: uppercase;
 
   @include font($size: 0.75rem, $height: 150%, $weight: 600, $letter: 0.2px);
 
   @extend %linear-gradient-button-background;
 
   @extend %transition;
-}
-
-.button--book-page:active,
-.button--book:active {
-  @extend %linear-gradient-button-background-active;
 }
 
 .button--book-page {
@@ -40,6 +35,24 @@
   @include media-mobile {
     @include font($size: 0.75rem, $height: 150%, $weight: 400);
   }
+}
+
+.button-booking-current-user {
+  border-color: $color-button-border-booking-current;
+  background: $color-button-book-background;
+  color: $color-button-text-booking-current !important;
+}
+
+.button--book-page:disabled,
+.button--book:disabled {
+  border-color: $color-button-border-booking-current;
+  background: $color-button-background-booking;
+  color: $color-button-text-booking;
+}
+
+.button--book-page:active,
+.button--book:active {
+  @extend %linear-gradient-button-background-active;
 }
 
 .button-review-collapsible[aria-expanded='false'] {

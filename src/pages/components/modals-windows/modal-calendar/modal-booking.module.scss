@@ -1,0 +1,184 @@
+@forward '../../../../style/style.scss';
+@use '../../../../style/abstract/constants' as constants;
+@use '../../../../style/abstract/mixin' as mixin;
+
+.modal-calendar__wrapper {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @extend %background-blure;
+
+  z-index: 5;
+}
+
+.modal-calendar {
+  position: relative;
+  padding: 48px 56px;
+
+  width: 33rem;
+
+  border-radius: 16px;
+  background-color: constants.$color-modal-calendar-background;
+
+  @include mixin.media-midle-tablet {
+    width: 100%;
+    padding: 32px 16px;
+  }
+}
+
+.modal-calendar__title {
+  margin-bottom: 32px;
+  display: flex;
+  justify-content: center;
+
+  @include mixin.media-midle-tablet {
+    margin-bottom: 24px;
+  }
+}
+
+.title {
+  width: 16rem;
+  text-align: center;
+  color: constants.$color-modal-calendar-title;
+  @include mixin.font($size: 1.5rem, $height: 125%, $weight: 700, $letter: 0.1px);
+
+  @include mixin.media-midle-tablet {
+    @include mixin.font($size: 1.125rem, $height: 156%, $weight: 700, $letter: 0.1px);
+  }
+}
+
+.button-close {
+  position: absolute;
+  top: 32px;
+  right: 32px;
+  width: 48px;
+  height: 48px;
+  border-radius: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: constants.$color-modal-calendar-button-close-text;
+  background-color: constants.$color-modal-calendar-button-close-background;
+
+  @include mixin.media-midle-tablet {
+    top: 16px;
+    right: 16px;
+
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.button-close:hover {
+  filter: constants.$color-button-filter-hover;
+}
+
+.button-close:active {
+  color: white;
+
+  @extend %linear-gradient-button-background;
+  filter: constants.$color-button-filter-active;
+}
+
+.modal-calendar__calendar {
+  margin-bottom: 32px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @include mixin.media-mobile {
+    margin-bottom: 24px;
+  }
+}
+
+.comments-textarea {
+  padding-top: 19px;
+  padding-left: 12px;
+  padding-right: 12px;
+  margin-bottom: 52px;
+
+  width: 100%;
+  height: 8.25rem;
+
+  border-color: transparent;
+  border-radius: 4px;
+  resize: none;
+  background-color: constants.$color-modal-comments-textarea-backgrond;
+
+  @include mixin.media-midle-tablet {
+    margin-bottom: 44px;
+  }
+}
+
+.comments-textarea::placeholder {
+  color: constants.$color-modal-calendar-text-placeholder;
+
+  @include mixin.font($size: 0.875rem, $height: 129%, $weight: 400, $letter: 0.1px);
+}
+
+.modal-calendar__button {
+  width: 100%;
+  height: 3.25rem;
+  cursor: pointer;
+
+  @include mixin.media-midle-tablet {
+    height: 2.5rem;
+  }
+}
+
+.button-booking {
+  border-radius: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-transform: uppercase;
+  color: constants.$color-button-book-text;
+
+  @extend %linear-gradient-button-background;
+
+  @include mixin.font($size: 1rem, $height: 150%, $weight: 600, $letter: 0.2px);
+  @include mixin.media-midle-tablet {
+    border-radius: 20px;
+    font-size: 0.75rem;
+  }
+}
+
+.button-booking:disabled {
+  background: constants.$color-modal-calendar-button-disabled-background;
+  color: constants.$color-modal-calendar-button-text-disabled;
+}
+
+.button-delete-booking {
+  border-radius: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-transform: uppercase;
+
+  border: 1px solid constants.$color-button-border-booking-delete;
+  background: constants.$color-button-book-background;
+  color: constants.$color-button-text-booking-current !important;
+
+  @include mixin.font($size: 1rem, $height: 150%, $weight: 600, $letter: 0.2px);
+  @include mixin.media-midle-tablet {
+    border-radius: 20px;
+    font-size: 0.75rem;
+  }
+}
+
+.modal-calendar__button + .modal-calendar__button {
+  margin-top: 1rem;
+}

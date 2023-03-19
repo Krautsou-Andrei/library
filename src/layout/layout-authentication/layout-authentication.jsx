@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import style from './layout-authentication.module.scss';
@@ -6,7 +7,12 @@ import style from './layout-authentication.module.scss';
 export const LayoutAuthentication = () => {
   const navigation = useNavigate();
 
-  const token = localStorage.getItem('token');
+  const user = useSelector((state) => state.user.user);
+  let token = user.jwt;
+
+  if (!Object.keys(user).length) {
+    token = localStorage.getItem('token');
+  }
 
   useEffect(() => {
     if (token) {

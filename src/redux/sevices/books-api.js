@@ -43,7 +43,7 @@ export const booksApi = api.injectEndpoints({
         try {
           const result = await queryFulfilled;
 
-          if (result.data.id) dispatch(setBookId(result.data.id));
+          if (result.data.id) dispatch(setBookId(result.data));
         } catch (error) {
           console.log('erroe bookid', error);
         }

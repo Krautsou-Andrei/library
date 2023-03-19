@@ -35,6 +35,11 @@
   }
 }
 
+.success {
+  border: 1.5px solid constants.$color-success-border;
+  background: constants.$color-success-background;
+}
+
 .error-icon {
   width: 32px;
   height: 32px;
@@ -52,6 +57,10 @@
     height: 18px;
     background-size: 18px;
   }
+}
+
+.success-icon {
+  background: url('../../image/ico/icon-check-success.svg');
 }
 
 .error-message {

@@ -1,4 +1,5 @@
 @forward '../buttons/button.module.scss';
+@forward '../buttons/button.module.scss';
 @use '../../../style/abstract/constants' as constants;
 @use '../../../style/abstract/mixin' as mixin;
 
@@ -20,6 +21,8 @@
     padding-bottom: calc(32px + (48 - 32) * (100vw - 320px) / (650 - 320));
     padding-left: calc(16px + (95 - 16) * (100vw - 320px) / (650 - 320));
   }
+
+  
 }
 
 .modal__title {
