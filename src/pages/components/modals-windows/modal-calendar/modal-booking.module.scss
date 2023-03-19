@@ -27,12 +27,20 @@
 
   border-radius: 16px;
   background-color: constants.$color-modal-calendar-background;
+
+  @include mixin.media-mobile {
+    padding: 32px 16px;
+  }
 }
 
 .modal-calendar__title {
   margin-bottom: 32px;
   display: flex;
   justify-content: center;
+
+  @include mixin.media-mobile {
+    margin-bottom: 24px;
+  }
 }
 
 .title {
@@ -40,6 +48,10 @@
   text-align: center;
   color: constants.$color-modal-calendar-title;
   @include mixin.font($size: 1.5rem, $height: 125%, $weight: 700, $letter: 0.1px);
+
+  @include mixin.media-mobile {
+    @include mixin.font($size: 1.125rem, $height: 156%, $weight: 700, $letter: 0.1px);
+  }
 }
 
 .button-close {
@@ -53,7 +65,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color: constants.$color-modal-calendar-button-close-text;
   background-color: constants.$color-modal-calendar-button-close-background;
+
+  @include mixin.media-mobile {
+    top: 16px;
+    right: 16px;
+
+    width: 32px;
+    height: 32px;
+  }
 }
 
 .button-close:hover {
@@ -61,6 +82,8 @@
 }
 
 .button-close:active {
+  color: white;
+
   @extend %linear-gradient-button-background;
   filter: constants.$color-button-filter-active;
 }
@@ -71,6 +94,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @include mixin.media-mobile {
+    margin-bottom: 24px;
+  }
 }
 
 .comments-textarea {
@@ -81,12 +108,20 @@
   border-radius: 4px;
   resize: none;
   background-color: constants.$color-modal-comments-textarea-backgrond;
+
+  @include mixin.media-mobile {
+    margin-bottom: 44px;
+  }
 }
 
 .modal-calendar__button {
   width: 100%;
   height: 3.25rem;
   cursor: pointer;
+
+  @include mixin.media-mobile {
+    height: 2.5rem;
+  }
 }
 
 .button-booking {
@@ -103,6 +138,7 @@
 
   @include mixin.font($size: 1rem, $height: 150%, $weight: 600, $letter: 0.2px);
   @include mixin.media-mobile {
+    border-radius: 20px;
     font-size: 0.75rem;
   }
 }
@@ -127,6 +163,7 @@
 
   @include mixin.font($size: 1rem, $height: 150%, $weight: 600, $letter: 0.2px);
   @include mixin.media-mobile {
+    border-radius: 20px;
     font-size: 0.75rem;
   }
 }

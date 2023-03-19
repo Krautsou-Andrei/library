@@ -34,6 +34,11 @@
 .ico-star svg {
   width: 2.5rem;
   height: 2.5rem;
+
+  @include mixin.media-mobile {
+    width: 2rem;
+    height: 2rem;
+  }
 }
 
 .ico-star .active {

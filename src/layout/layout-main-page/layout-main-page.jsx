@@ -44,11 +44,11 @@ export const LayoutMainPage = () => {
   const location = useLocation();
   const user = useSelector((state) => state.user.user);
 
-  const token = user.jwt;
+  let token = user.jwt;
 
-  // if (!Object.keys(user).length) {
-  //   token = localStorage.getItem('token');
-  // }
+  if (!Object.keys(user).length) {
+    token = localStorage.getItem('token');
+  }
 
   const isUpadateBookPage = bookingIsPage(location);
 
@@ -95,17 +95,11 @@ export const LayoutMainPage = () => {
       dispatch(setBooking(false));
     }
   }, [
-    isErrorBooking,
-    isSuccessBooking,
     triggerBooks,
     triggerBookId,
     dispatch,
     isUpadateBookPage,
     bookId,
-    isErrorUpdateBooking,
-    isSuccessUpdateBooking,
-    isSuccessDeleteBooking,
-    isErrorDeleteBooking,
     closeSuccess,
     closeError,
     successBooking,

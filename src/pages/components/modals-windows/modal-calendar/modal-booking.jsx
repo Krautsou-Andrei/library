@@ -5,9 +5,9 @@ import { ButtonSubmit } from '../../buttons/button-submit';
 import { Calendar } from './calendar';
 import { Comments } from './comments/comments';
 import { IconButtonClose } from '../../image/icon/icon-button-close';
+import { useGetBook } from '../../../../hooks/use-get-book';
 
 import style from './modal-booking.module.scss';
-import { useGetBook } from '../../../../hooks/use-get-book';
 
 export const ModalBooking = ({
   typeModal,
@@ -67,34 +67,25 @@ export const ModalBooking = ({
     }
   };
 
-  const newDate = () => {};
-
   const onSubmit = (event) => {
     event.preventDefault();
 
-    // const dateFormat = new Date(!!dateBooking && dateBooking);
-    // dateFormat?.setHours(dateFormat.getHours() + 3);
-    const isoDate = dateBooking?.toISOString();
+    const dateFormat = new Date(!!dateBooking && dateBooking);
+    dateFormat?.setHours(dateFormat.getHours() + 3);
+    const isoDate = dateFormat?.toISOString();
+
+    const data = {
+      order: true,
+      dateOrder: isoDate,
+      book: bookId,
+      customer: user.id.toString(),
+    };
 
     if (isCalendar && isCurrentDateBooking && !clickButtonDelete) {
       const dataId = book.booking.id;
-      const data = {
-        order: true,
-        dateOrder: isoDate,
-        book: bookId,
-        customer: user.id.toString(),
-      };
-
       updateBooking({ dataId, data });
     }
     if (isCalendar && !isCurrentDateBooking && !clickButtonDelete) {
-      const data = {
-        order: true,
-        dateOrder: isoDate,
-        book: bookId,
-        customer: user.id.toString(),
-      };
-
       booking({ data });
     }
 
@@ -106,14 +97,14 @@ export const ModalBooking = ({
     }
 
     if (isComments) {
-      const data = {
+      const dataComments = {
         rating: +dataRating,
         text: dataTextarea,
         book: currentBook.id,
         user: user.id.toString(),
       };
 
-      sendComments({ data });
+      sendComments({ data: dataComments });
     }
   };
 
@@ -164,7 +155,7 @@ export const ModalBooking = ({
               onClick={onClick}
               data-test-id='modal-close-button'
             >
-              <IconButtonClose />
+              <IconButtonClose fill='currentColor' />
             </button>
           </div>
           <div className={style['madal-calendar__calendar']}>
@@ -200,7 +191,7 @@ export const ModalBooking = ({
               <ButtonSubmit
                 className={`${style.button} ${style['button-booking']}`}
                 title={modalButtonBookingText}
-                isDisabled={isBookingDisabled} // добавить условие на проверку даты брони
+                isDisabled={isBookingDisabled}
                 data-test-id='booking-button'
               />
             )}

@@ -16,7 +16,7 @@ export const authApi = api.injectEndpoints({
         try {
           const result = await queryFulfilled;
           const { jwt } = result.data;
-          console.log(result.data);
+
           const user = result.data;
 
           localStorage.setItem('token', jwt);

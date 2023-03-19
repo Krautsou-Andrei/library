@@ -8,11 +8,11 @@ export const LayoutAuthentication = () => {
   const navigation = useNavigate();
 
   const user = useSelector((state) => state.user.user);
-  const token = user.jwt;
+  let token = user.jwt;
 
-  // if (!Object.keys(user).length) {
-  //   token = localStorage.getItem('token');
-  // }
+  if (!Object.keys(user).length) {
+    token = localStorage.getItem('token');
+  }
 
   useEffect(() => {
     if (token) {

@@ -79,7 +79,6 @@ export const Calendar = ({
         ))}
       </div>
       <div className={style['calendar__body-calendar']}>
-        {/* {console.log('calendarDays', state.calendarDays)} */}
         {state.calendarDays.map((day, index) => {
           const isWeekend =
             (day.dayNumberInWeek === 1 || day.dayNumberInWeek === 7) &&
