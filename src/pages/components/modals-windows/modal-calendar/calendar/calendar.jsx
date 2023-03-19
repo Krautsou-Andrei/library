@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useCalendar } from '../../../../../hooks/calendar/calendar';
 import { checkDateIsEqual, checkNextDay, checkToday } from '../../../../../utils/calendar';
 
@@ -12,12 +12,10 @@ export const Calendar = ({
   firstWeekDayNumber = 2,
   setDateBooking,
   setBookingDisabled,
-  isBookingDisabled,
   currentDateBooking,
 }) => {
   const { functions, state } = useCalendar({ locale, date, firstWeekDayNumber });
   const [selectDay, setSelectDay] = useState(false);
-  const [a, setA] = useState(false);
 
   const onClickDay = (event) => {
     setDateBooking(new Date(state.selectedMonth.year, state.selectedMonth.monthIndex, event.target.innerHTML));
@@ -105,8 +103,6 @@ export const Calendar = ({
                 selectDate(day.date);
                 setSelectDay(true);
                 onClickDay(event);
-                // const isBookingDay = checkDateIsEqual(locale, new Date(currentDateBooking), state.selectedDay.date);
-                // console.log('isBookingDay', isBookingDay);
                 setBookingDisabled(!((isToday || isNextDay) && !isWeekend));
               }}
               data-test-id='day-button'

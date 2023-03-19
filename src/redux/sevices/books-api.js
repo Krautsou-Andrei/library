@@ -17,7 +17,7 @@ export const booksApi = api.injectEndpoints({
           if (result.data) dispatch(setBooks(result.data));
         } catch (error) {
           dispatch(setErrorMain(true));
-          // console.error('erro books', error);
+          console.error('erro books', error);
         }
       },
       providesTags: () => ['books'],
@@ -45,7 +45,7 @@ export const booksApi = api.injectEndpoints({
 
           if (result.data.id) dispatch(setBookId(result.data));
         } catch (error) {
-          // console.log('erroe bookid', error);
+          console.log('erroe bookid', error);
         }
       },
     }),

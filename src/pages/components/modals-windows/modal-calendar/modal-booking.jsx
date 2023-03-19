@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { booksApi, setBooking } from '../../../../redux';
+import { setBooking } from '../../../../redux';
 import { ButtonSubmit } from '../../buttons/button-submit';
 import { Calendar } from './calendar';
 import { Comments } from './comments/comments';
@@ -16,8 +16,6 @@ export const ModalBooking = ({
   updateBooking,
   deleteBooking,
   sendComments,
-  triggerBookId,
-  triggerBooks,
   clickButtonComments,
 }) => {
   const dispatch = useDispatch();
@@ -33,7 +31,6 @@ export const ModalBooking = ({
   const [date, setSelectedDay] = useState(currentDateBooking ? new Date(currentDateBooking) : new Date());
 
   const currentBook = useSelector((state) => state.book.bookId);
-  const books = useSelector((state) => state.books.books);
   const bookId = useSelector((state) => state.selectBook.selectBookid);
 
   const bookingCurrentUser = useSelector((state) => state.bookingCurrentUser.bookingCurrentUser);
@@ -48,7 +45,6 @@ export const ModalBooking = ({
   if (user === undefined) {
     user = JSON.parse(localStorage.getItem('user'));
   }
-  console.log('yser0, user', book);
 
   const {
     isCalendar,
@@ -114,7 +110,7 @@ export const ModalBooking = ({
         book: currentBook.id,
         user: user.id.toString(),
       };
-      console.log({ data });
+
       sendComments({ data });
     }
   };

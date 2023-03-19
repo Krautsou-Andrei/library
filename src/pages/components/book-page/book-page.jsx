@@ -65,7 +65,6 @@ export const BookPage = () => {
     }
   }, [isSuccessComments, triggerBookId, bookId]);
 
-  console.log('bookid');
   return (
     <div>
       {(isLoadingBookId || isLoadingComments) && <Loading />}

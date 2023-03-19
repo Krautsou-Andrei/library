@@ -1,16 +1,9 @@
 import { Link } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  BASE_URL,
-  setBooking,
-  setBookingCurrentUser,
-  setBookingDate,
-  setButtonBook,
-  setSelectBookid,
-} from '../../../redux';
+import { BASE_URL, setBooking, setBookingCurrentUser, setBookingDate, setSelectBookid } from '../../../redux';
 import { setSearchQuery } from '../../../redux/slice/search-slice';
 
 import { Heighlight } from '../../../helpers/heigh-light';

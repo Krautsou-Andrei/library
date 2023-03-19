@@ -78,7 +78,6 @@ export const LayoutMainPage = () => {
   useEffect(() => {
     if (errorBooking || errorUpdateBooking || errorDeleteBooking) {
       setOpenError(true);
-      console.log('yae');
       setTimeout(() => closeError(), 4000);
 
       dispatch(setBooking(false));
@@ -128,10 +127,6 @@ export const LayoutMainPage = () => {
   useMemo(() => setErrorUpdateBooking(isErrorUpdateBooking), [isErrorUpdateBooking]);
 
   useMemo(() => setErrorDeleteBooking(isErrorDeleteBooking), [isErrorDeleteBooking]);
-
-  console.log(' errorUpdateBooking', errorUpdateBooking);
-  console.log('errorDeleteBooking', errorDeleteBooking);
-  console.log(' errorBooking ', errorBooking);
 
   return (
     <>

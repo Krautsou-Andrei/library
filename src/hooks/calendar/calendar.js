@@ -77,7 +77,6 @@ export const useCalendar = ({ locale = 'default', date, firstWeekDayNumber = 2 }
   };
 
   const onClickSelectMonts = (event) => {
-    // event.stoppropagation();
     setShowMonts(!isShowMonths);
   };
 

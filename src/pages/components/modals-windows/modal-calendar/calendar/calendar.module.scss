@@ -124,8 +124,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
-  // @extend %linear-gradient-calendar-day-of-week;
 }
 
 .calendar__body-calendar {
@@ -153,7 +151,6 @@
 
 .today {
   color: constants.$color-modal-calendar-text-today;
-  // @extend %linear-gradient-calendar-day-of-week;
 }
 
 .next-day {
@@ -166,6 +163,5 @@
 
 .day-select {
   color: constants.$color-modal-calendar-text-day-select;
-  // background: constants.$color-modal-calendar-background-select-day;
   @extend %linear-gradient-calendar-day-of-select;
 }
