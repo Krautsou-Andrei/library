@@ -67,12 +67,14 @@ export const ModalBooking = ({
     }
   };
 
+  const newDate = () => {};
+
   const onSubmit = (event) => {
     event.preventDefault();
 
-    const dateFormat = new Date(!!dateBooking && dateBooking);
+    // const dateFormat = new Date(!!dateBooking && dateBooking);
     // dateFormat?.setHours(dateFormat.getHours() + 3);
-    const isoDate = dateFormat?.toISOString();
+    const isoDate = dateBooking?.toISOString();
 
     if (isCalendar && isCurrentDateBooking && !clickButtonDelete) {
       const dataId = book.booking.id;
