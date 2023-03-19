@@ -23,9 +23,6 @@ export const ModalBooking = ({
   const dispatch = useDispatch();
   const currentDateBooking = useSelector((state) => state.bookingCurrentUser.bookingDate);
   const isBooking = useSelector((state) => state.booking.isBooking);
-  // const buttonBook = useSelector((state) => state.booking.refButtonBook);
-  // const buttonBookPage = useSelector((state) => state.booking.refButtonBookPage);
-  // const buttonComments = useSelector((state) => state.booking.refButtonComments);
 
   const [dateBooking, setDateBooking] = useState();
   const [dataTextarea, setDataTextarea] = useState();
@@ -35,7 +32,7 @@ export const ModalBooking = ({
   const [isBookingDisabled, setBookingDisabled] = useState(true);
   const [date, setSelectedDay] = useState(currentDateBooking ? new Date(currentDateBooking) : new Date());
 
-  // const book = useSelector((state) => state.book.bookId);
+  const currentBook = useSelector((state) => state.book.bookId);
   const books = useSelector((state) => state.books.books);
   const bookId = useSelector((state) => state.selectBook.selectBookid);
 
@@ -43,11 +40,15 @@ export const ModalBooking = ({
 
   const book = useGetBook(bookId);
 
-  console.log(useGetBook(bookId));
   useEffect(() => {
     setIsCurrentDateBooking(bookingCurrentUser);
   }, [setIsCurrentDateBooking, bookingCurrentUser]);
-  const user = JSON.parse(localStorage.getItem('user'));
+  let { user } = useSelector((state) => state.user.user);
+
+  if (user === undefined) {
+    user = JSON.parse(localStorage.getItem('user'));
+  }
+  console.log('yser0, user', user);
 
   const {
     isCalendar,
@@ -72,7 +73,6 @@ export const ModalBooking = ({
 
   const onSubmit = (event) => {
     event.preventDefault();
-    console.log(clickButtonDelete);
 
     const dateFormat = new Date(!!dateBooking && dateBooking);
     dateFormat?.setHours(dateFormat.getHours() + 3);
@@ -111,9 +111,10 @@ export const ModalBooking = ({
       const data = {
         rating: +dataRating,
         text: dataTextarea,
-        book: book.id.toString(),
+        book: currentBook.id,
         user: user.id.toString(),
       };
+
       sendComments({ data });
     }
   };
@@ -138,7 +139,6 @@ export const ModalBooking = ({
     const handleClick = (event) => {
       if (!modalBooking.current.contains(event.target) && event.target.tagName !== 'BUTTON') {
         outClick();
-        console.log('yes');
       }
     };
 
@@ -153,7 +153,7 @@ export const ModalBooking = ({
 
   return (
     <div className={style['modal-calendar__wrapper']} data-test-id='modal-outer'>
-      <div data-test-id='booking-modal'>
+      <div data-test-id={`${isCalendar ? 'booking-modal' : 'modal-rate-book'}`}>
         <form className={style['modal-calendar']} action='' onSubmit={onSubmit} ref={modalBooking}>
           <div className={style['modal-calendar__title']}>
             <span className={style.title} data-test-id='modal-title'>
@@ -207,7 +207,7 @@ export const ModalBooking = ({
               />
             )}
           </div>
-          {bookingCurrentUser && (
+          {isCurrentDateBooking && (
             <div className={style['modal-calendar__button']}>
               <ButtonSubmit
                 className={`${style.button} ${style['button-delete-booking']}`}

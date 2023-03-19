@@ -1,11 +1,14 @@
-export const bookingBook = (booking) => {
-  const user = JSON.parse(localStorage.getItem('user'));
+import { useSelector } from 'react-redux';
 
-  if (booking && booking?.customerId === user.id) {
+export const useBookingBook = (booking) => {
+  const user = useSelector((state) => state.user.user);
+  // const user = JSON.parse(localStorage.getItem('user'));
+
+  if (booking && booking?.customerId === user?.user?.id) {
     return 'current';
   }
 
-  if (booking && booking?.customerId !== user.id) {
+  if (booking && booking?.customerId !== user?.id) {
     return true;
   }
 
@@ -21,5 +24,3 @@ export const bookingIsPage = (location) => {
 
   return false;
 };
-
-// export const bookingDate = (booking) => booking.dateOrder;

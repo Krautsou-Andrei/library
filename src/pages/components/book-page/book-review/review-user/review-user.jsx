@@ -10,7 +10,7 @@ export const ReviewUser = ({ user, createdAt }) => {
       </div>
       <div className='wrap__user'>
         <span className='review__name' data-test-id='comment-author'>
-          {firstName} {lastName}
+          {`${firstName} ${lastName}`}
         </span>
         <span className='review__date' data-test-id='comment-date'>
           {createdAt}

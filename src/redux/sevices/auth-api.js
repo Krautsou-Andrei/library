@@ -16,9 +16,11 @@ export const authApi = api.injectEndpoints({
         try {
           const result = await queryFulfilled;
           const { jwt } = result.data;
+          console.log(result.data);
+          const user = result.data;
 
           localStorage.setItem('token', jwt);
-          dispatch(setUser(result.data));
+          dispatch(setUser({ user }));
           localStorage.setItem('user', JSON.stringify(result.data.user));
         } catch (error) {
           console.error('erro authentication', error);

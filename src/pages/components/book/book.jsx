@@ -18,7 +18,7 @@ import { Heighlight } from '../../../helpers/heigh-light';
 import { ImageBook } from '../image/image-book';
 import { Rating } from '../rating';
 import { Button } from '../buttons/button';
-import { bookingBook } from '../../../utils/booking-book';
+import { useBookingBook } from '../../../utils/booking-book';
 import { dateTranslatorShort } from '../../../utils/date-translator';
 
 export const Book = ({ product }) => {
@@ -26,7 +26,7 @@ export const Book = ({ product }) => {
 
   const dispatch = useDispatch();
   const searchParams = useSelector((state) => state.search.searchQuery);
-  const currentBookingBook = bookingBook(booking);
+  const currentBookingBook = useBookingBook(booking);
 
   const [currentTitle, setCurrentTittle] = useState();
   useEffect(() => {
@@ -45,9 +45,6 @@ export const Book = ({ product }) => {
     dispatch(setSelectBookid(event.target.name));
     dispatch(setBooking(true));
   };
-
-  // const buttonBook = useRef(null);
-  // dispatch(setButtonBook(buttonBook));
 
   return (
     <Link id={`${id}`} to={`${id}`} className='book' onClick={handlerClick} data-test-id='card'>

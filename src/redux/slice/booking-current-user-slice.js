@@ -11,7 +11,6 @@ export const bookingCurrentUserSlice = createSlice({
   reducers: {
     setBookingCurrentUser(state, action) {
       const booking = state;
-      console.log('sdfsdfsdf', action.payload);
       booking.bookingCurrentUser = action.payload;
     },
     setBookingDate(state, action) {

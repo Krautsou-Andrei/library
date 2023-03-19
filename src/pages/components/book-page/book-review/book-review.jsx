@@ -14,7 +14,7 @@ export const BookReview = ({ comment }) => {
         </div>
       </div>
       <div className='review__description'>
-        <p data-test-id='comment-text'>{text}</p>
+        <span data-test-id='comment-text'>{text}</span>
       </div>
     </div>
   );

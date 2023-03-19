@@ -8,8 +8,8 @@ $color-body-background: #ffffff;
 $color-text-primary: #363636;
 $color-text-secondary: #727272;
 $color-text-heighlight: #ff5253;
-$color-button-primary: #f83600;
-$color-button-secondary: #f9d423;
+$color-button-primary: rgb(248, 54, 0);
+$color-button-secondary: rgb(249, 212, 35);
 
 $color-no-rating-text-book: #a7a7a7;
 $color-no-rating-text-book-page: #363636;
@@ -84,13 +84,15 @@ $color-modal-calendar-button-disabled-background: #ebebeb;
 $color-madal-calendar-button-text-disabled: #ffffff;
 $color-modal-calendar-title: #363636;
 $color-modal-calendar-text-month: #a7a7a7;
-$color-modal-calendar-text-day: #bfc4c9;
+$color-modal-calendar-text-day: rgb(167, 167, 167);
 $color-modal-calendar-weekend-background: #feebea;
 $color-modal-calendar-text-today-next: #363636;
 $color-modal-calendar-border-day: #bfc4c9;
 $color-modal-calendar-text-day-select: #ffffff;
 $color-modal-comments-text-title: #363636;
 $color-modal-comments-textarea-backgrond: #f9f9fa;
+$color-modal-calendar-text-today: rgb(248, 54, 0);
+$color-modal-calendar-background-select-day: rgb(248, 54, 0);
 
 $color-button-filter: drop-shadow(0px 2px 4px rgba(191, 196, 201, 0.2))
   drop-shadow(0px 3px 4px rgba(191, 196, 201, 0.18)) drop-shadow(0px 1px 5px rgba(191, 196, 201, 0.24));

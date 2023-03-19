@@ -24,7 +24,7 @@ export const Calendar = ({
   };
 
   return (
-    <div className={style.calendar}>
+    <div className={style.calendar} data-test-id='calendar'>
       <div className={style['calendar__header-calendar']}>
         <div className={style['calendar__month-calendar']}>
           <div className={classNames(style['month-options'], { [style.active]: state.isShowMonths })}>
@@ -80,7 +80,7 @@ export const Calendar = ({
           </span>
         ))}
       </div>
-      <div className={style['calendar__body-calendar']} data-test-id='calendar'>
+      <div className={style['calendar__body-calendar']}>
         {state.calendarDays.map((day, index) => {
           const isWeekend =
             (day.dayShort === 'сб' || day.dayShort === 'вс') && day.monthIndex === state.selectedMonth.monthIndex;

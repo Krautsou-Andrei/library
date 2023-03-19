@@ -14,7 +14,7 @@ import {
   setButtonComments,
   setSelectBookid,
 } from '../../../../redux';
-import { bookingBook } from '../../../../utils/booking-book';
+import { useBookingBook } from '../../../../utils/booking-book';
 import { dateTranslatorShort } from '../../../../utils/date-translator';
 import { isCommentsCurrentUser, sortComments } from '../../../../utils/comments';
 
@@ -45,7 +45,7 @@ export const BookInfo = ({ book, onClickComments }) => {
     booking,
     delivery,
   } = book;
-  const currentBookingBook = bookingBook(booking);
+  const currentBookingBook = useBookingBook(booking);
 
   const onClick = (event) => {
     console.log('currentBookingBookcurrentBookingBook', !!currentBookingBook);
@@ -154,22 +154,19 @@ export const BookInfo = ({ book, onClickComments }) => {
             </div>
           </div>
           <div className='review-title-border' />
-
-          <div
-            className={classNames('review-content-wrapper', { 'review-collapsible': isReviewCollapsible })}
-            data-test-id='reviews'
-          >
-            {comments && sortComments(comments).map((comment) => <BookReview key={comment.id} comment={comment} />)}
-            {/* </div> */}
-          </div>
-          <div className='review__button'>
-            <Button
-              className='button button--book-page'
-              title='Оценить книгу'
-              onClick={onClickComments}
-              disabled={comments && isCommentsCurrentUser(comments)}
-              data-test-id='button-rate-book'
-            />
+          <div data-test-id='reviews'>
+            <div className={classNames('review-content-wrapper', { 'review-collapsible': isReviewCollapsible })}>
+              {comments && sortComments(comments).map((comment) => <BookReview key={comment.id} comment={comment} />)}
+            </div>
+            <div className='review__button'>
+              <Button
+                className='button button--book-page'
+                title='Оценить книгу'
+                onClick={onClickComments}
+                disabled={comments && isCommentsCurrentUser(comments)}
+                data-test-id='button-rate-book'
+              />
+            </div>
           </div>
         </div>
       </section>

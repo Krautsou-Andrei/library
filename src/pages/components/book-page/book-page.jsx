@@ -65,17 +65,18 @@ export const BookPage = () => {
     }
   }, [isSuccessComments, triggerBookId, bookId]);
 
+  console.log('bookid');
   return (
     <div>
-      {isOpenSuccess && (
+      {(isLoadingBookId || isLoadingComments) && <Loading />}
+      {isOpenSuccess && !isLoadingComments && (
         <Error
           closeMessage={() => setOpenSuccess(false)}
           message={typeMessage.successLoadingComments}
           isSuccess={true}
         />
       )}
-      {(isLoadingBookId || isLoadingComments || isLoadingUpdate) && <Loading />}
-      {isOpenError && (
+      {isOpenError && !isLoadingBookId && (
         <Error
           closeMessage={() => setOpenError(false)}
           message={

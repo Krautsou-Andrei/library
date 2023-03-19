@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Error } from '../../pages/components/error';
@@ -17,13 +17,19 @@ import {
 import { bookingIsPage } from '../../utils/booking-book';
 
 export const LayoutMainPage = () => {
+  const [successBooking, setSuccessBooking] = useState(false);
+  const [successUpdateBooking, setSuccessUpdateBooking] = useState(false);
+  const [successDeleteBooking, setSuccessDeleteBooking] = useState(false);
+  const [errorBooking, setErrorBooking] = useState(false);
+  const [errorUpdateBooking, setErrorUpdateBooking] = useState(false);
+  const [errorDeleteBooking, setErrorDeleteBooking] = useState(false);
   const [isOpenError, setOpenError] = useState(false);
   const [isOpenSuccess, setOpenSuccess] = useState(false);
   const dispatch = useDispatch();
   const navigation = useNavigate();
   const bookId = useSelector((state) => state.selectBook.selectBookid);
   const isBooking = useSelector((state) => state.booking.isBooking);
-  const [booking, { isLoading: isLoadingBooking, isSuccess: isSuccessBooking, isError: isErrorBooking }] =
+  const [booking, { isLoading: isLoadingBooking, isSuccess: isSuccessBooking, isError: isErrorBooking, success }] =
     useBookingMutation();
   const [
     updateBooking,
@@ -35,13 +41,16 @@ export const LayoutMainPage = () => {
   ] = useDeleteBookingMutation();
   const [triggerBooks, { isLoading: isLoadingUpdateBooks }] = booksApi.useLazyGetBooksQuery();
   const [triggerBookId, { isLoading: isLoadingUpdateBookId }] = booksApi.useLazyGetBookIdQuery();
-
-  const token = localStorage.getItem('token');
   const location = useLocation();
+  const user = useSelector((state) => state.user.user);
+
+  const token = user.jwt;
+
+  // if (!Object.keys(user).length) {
+  //   token = localStorage.getItem('token');
+  // }
 
   const isUpadateBookPage = bookingIsPage(location);
-
-  // console.log('bookId', bookId);
 
   useEffect(() => {
     if (!token) {
@@ -49,27 +58,42 @@ export const LayoutMainPage = () => {
     }
   }, [navigation, token]);
 
+  const closeErrorMessage = () => {
+    setOpenError(false);
+    setErrorBooking(false);
+    setErrorUpdateBooking(false);
+    setErrorDeleteBooking(false);
+  };
+
+  const closeSuccessMessage = () => {
+    setOpenSuccess(false);
+    setSuccessBooking(false);
+    setSuccessUpdateBooking(false);
+    setSuccessDeleteBooking(false);
+  };
+
+  const closeSuccess = closeSuccessMessage;
+  const closeError = closeErrorMessage;
+
   useEffect(() => {
-    if (isErrorBooking || isErrorUpdateBooking || isErrorDeleteBooking) {
+    if (errorBooking || errorUpdateBooking || errorDeleteBooking) {
       setOpenError(true);
-      setTimeout(() => setOpenError(false), 4000);
+      console.log('yae');
+      setTimeout(() => closeError(), 4000);
+
       dispatch(setBooking(false));
     }
 
-    if (isUpadateBookPage) {
-      triggerBookId(bookId);
-      triggerBooks();
-    } else {
-      setOpenError(false);
-    }
-
-    if (isSuccessBooking || isSuccessUpdateBooking || isSuccessDeleteBooking) {
+    if (successBooking || successUpdateBooking || successDeleteBooking) {
       setOpenSuccess(true);
-      setTimeout(() => setOpenSuccess(false), 4000);
-      dispatch(setBooking(false));
 
-      triggerBookId(bookId);
-      triggerBooks();
+      setTimeout(() => closeSuccess(), 4000);
+      if (isUpadateBookPage) {
+        triggerBookId(bookId);
+      } else {
+        triggerBooks();
+      }
+      dispatch(setBooking(false));
     }
   }, [
     isErrorBooking,
@@ -83,16 +107,44 @@ export const LayoutMainPage = () => {
     isSuccessUpdateBooking,
     isSuccessDeleteBooking,
     isErrorDeleteBooking,
+    closeSuccess,
+    closeError,
+    successBooking,
+    successUpdateBooking,
+    successDeleteBooking,
+    errorBooking,
+    errorUpdateBooking,
+    errorDeleteBooking,
   ]);
 
-  const closeErrorMessage = () => {
-    setOpenError(false);
-  };
+  useMemo(() => setSuccessBooking(isSuccessBooking), [isSuccessBooking]);
 
-  const closeSuccessMessage = () => {
-    setOpenSuccess(false);
-  };
+  useMemo(() => setSuccessUpdateBooking(isSuccessUpdateBooking), [isSuccessUpdateBooking]);
 
+  useMemo(() => setSuccessDeleteBooking(isSuccessDeleteBooking), [isSuccessDeleteBooking]);
+
+  useMemo(() => setErrorBooking(isErrorBooking), [isErrorBooking]);
+
+  useMemo(() => setErrorUpdateBooking(isErrorUpdateBooking), [isErrorUpdateBooking]);
+
+  useMemo(() => setErrorDeleteBooking(isErrorDeleteBooking), [isErrorDeleteBooking]);
+
+  console.log(' errorUpdateBooking', errorUpdateBooking);
+  console.log('errorDeleteBooking', errorDeleteBooking);
+  console.log(' errorBooking ', errorBooking);
+
+  const message = () => {
+    if (errorBooking) {
+      return typeMessage.errorLoadingBooking;
+    }
+    if (errorDeleteBooking) {
+      return typeMessage.errorLoadingDeleteBooking;
+    }
+    if (errorUpdateBooking) {
+      return typeMessage.errorLoadingUpdateBooking;
+    }
+    return '';
+  };
   return (
     <>
       {(isLoadingBooking ||
@@ -104,11 +156,12 @@ export const LayoutMainPage = () => {
         <Error
           closeMessage={closeErrorMessage}
           message={
-            isErrorBooking
-              ? typeMessage.errorLoadingBooking
-              : isErrorUpdateBooking
-              ? typeMessage.errorLoadingUpdateBooking
-              : isErrorDeleteBooking && typeMessage.errorLoadingDeleteBooking
+            message()
+            // errorBooking
+            //   ? typeMessage.errorLoadingBooking
+            //   : errorUpdateBooking
+            //   ? typeMessage.errorLoadingUpdateBooking
+            //   : typeMessage.errorLoadingDeleteBooking
           }
         />
       )}
@@ -116,11 +169,11 @@ export const LayoutMainPage = () => {
         <Error
           closeMessage={closeSuccessMessage}
           message={
-            isSuccessBooking
+            successBooking
               ? typeMessage.successLoadingBooking
-              : isSuccessUpdateBooking
+              : successUpdateBooking
               ? typeMessage.successLoadingUpdateBooking
-              : isSuccessDeleteBooking && typeMessage.successLoadingDeleteBooking
+              : typeMessage.successLoadingDeleteBooking
           }
           isSuccess={true}
         />
@@ -136,9 +189,6 @@ export const LayoutMainPage = () => {
           deleteBooking={deleteBooking}
           triggerBooks={triggerBooks}
           triggerBookId={triggerBookId}
-          // isLoading={isLoadingBooking}
-          // isSuccess={isSuccessBooking}
-          // isError={isErrorBooking}
         />
       ) : null}
     </>
