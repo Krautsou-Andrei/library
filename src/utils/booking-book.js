@@ -7,7 +7,8 @@ export const useBookingBook = (booking) => {
     return 'current';
   }
 
-  if (booking && booking?.customerId !== user?.id) {
+  // if (booking && booking?.customerId !== user?.id) {
+  if (booking) {
     return true;
   }
 

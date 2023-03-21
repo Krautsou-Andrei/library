@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setBooking } from '../../../../redux';
+import { setBooking, useLazyGetUserQuery } from '../../../../redux';
 import { ButtonSubmit } from '../../buttons/button-submit';
 import { Calendar } from './calendar';
 import { Comments } from './comments/comments';
@@ -36,6 +36,8 @@ export const ModalBooking = ({
   const bookingCurrentUser = useSelector((state) => state.bookingCurrentUser.bookingCurrentUser);
 
   const book = useGetBook(bookId);
+
+  const [triggerUser] = useLazyGetUserQuery();
 
   useEffect(() => {
     setIsCurrentDateBooking(bookingCurrentUser);
@@ -85,6 +87,7 @@ export const ModalBooking = ({
       const dataId = book.booking.id;
       updateBooking({ dataId, data });
     }
+
     if (isCalendar && !isCurrentDateBooking && !clickButtonDelete) {
       booking({ data });
     }
@@ -106,6 +109,8 @@ export const ModalBooking = ({
 
       sendComments({ data: dataComments });
     }
+
+    triggerUser();
   };
 
   const onClickButtonDelete = () => {

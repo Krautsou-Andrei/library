@@ -18,7 +18,7 @@ export const Profil = ({ className, links, onClick }) => {
           <LinkMenu
             title={link.title}
             activeClass={activeClass}
-            link='/'
+            link={link.link}
             onClick={onClick}
             dataTestLink={link.dataTestLink}
             dataTest={link.dataTest}

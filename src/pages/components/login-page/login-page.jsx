@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { useAuthenticationUserMutation } from '../../../redux';
+import { useAuthenticationUserMutation, useLazyGetUserQuery, userApi } from '../../../redux';
 
 import { authenticationSchema } from '../../../helpers/validation';
 import { FormEnter } from '../form-enter';
@@ -35,6 +35,7 @@ export const LoginPage = () => {
     linkPath: '/registration',
   };
   const [authenticationUser, { isLoading }] = useAuthenticationUserMutation();
+  const [triggerUser] = useLazyGetUserQuery();
 
   const {
     register,
@@ -65,6 +66,7 @@ export const LoginPage = () => {
       setInitialUserError400(false);
     } else {
       setInitialUserError(false);
+      triggerUser();
       goToPage();
     }
   };

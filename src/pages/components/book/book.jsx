@@ -14,12 +14,15 @@ import { Button } from '../buttons/button';
 import { useBookingBook } from '../../../utils/booking-book';
 import { dateTranslatorShort } from '../../../utils/date-translator';
 
-export const Book = ({ product }) => {
+export const Book = ({ product, type }) => {
   const { id, image, title, rating, authors, issueYear, booking, delivery } = product;
 
   const dispatch = useDispatch();
   const searchParams = useSelector((state) => state.search.searchQuery);
-  const currentBookingBook = useBookingBook(booking);
+  const profilBooking = useSelector((state) => state.authenticationUser.user.booking);
+  const currentBookingBook = useBookingBook(type ? profilBooking : booking);
+
+  // console.log('booking', booking, profilBooking);
 
   const [currentTitle, setCurrentTittle] = useState();
   useEffect(() => {
@@ -39,12 +42,34 @@ export const Book = ({ product }) => {
     dispatch(setBooking(true));
   };
 
+  const getTitleButton = () => {
+    if (type === 'profil') {
+      return currentBookingBook
+        ? 'отменить бронь'
+        : delivery
+        ? `занята до ${dateTranslatorShort(delivery.dateHandedTo)}`
+        : 'отменить бронь';
+    }
+    return currentBookingBook
+      ? 'забронирована'
+      : delivery
+      ? `занята до ${dateTranslatorShort(delivery.dateHandedTo)}`
+      : 'забронировать';
+  };
+
+  const disabledButtonBooking = () => {
+    if (type) {
+      return false;
+    }
+    return (!!currentBookingBook && currentBookingBook !== 'current') || delivery;
+  };
+
   return (
     <Link id={`${id}`} to={`${id}`} className='book' onClick={handlerClick} data-test-id='card'>
       <div className='book__container'>
         <div className='book__image'>
           <ImageBook
-            src={image ? `${BASE_URL}${image.url}` : ''}
+            src={image ? `${BASE_URL}${image.url ? image.url : image}` : ''}
             alt={title}
             width='174'
             height='242'
@@ -69,14 +94,8 @@ export const Book = ({ product }) => {
             })}
             onClick={buttonHundler}
             name={id}
-            title={`${
-              currentBookingBook
-                ? 'забронирована'
-                : delivery
-                ? `занята до ${dateTranslatorShort(delivery.dateHandedTo)}`
-                : 'забронировать'
-            }`}
-            disabled={(!!currentBookingBook && currentBookingBook !== 'current') || delivery}
+            title={getTitleButton()}
+            disabled={disabledButtonBooking()}
             data-test-id='booking-button'
           />
         </div>

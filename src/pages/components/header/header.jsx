@@ -9,9 +9,19 @@ import { DataBurgerLink } from '../../../data/data-burger-link';
 import { stateMenuBurger } from '../../../redux/slice/burger-silce';
 import avatar from '../../image/avatar.jpg';
 
+import { ImageUser } from '../image/image-user/image-user';
+import { BASE_URL } from '../../../redux';
+
 import style from './header.module.scss';
 
 export const Header = () => {
+  let userAuth = useSelector((state) => state.authenticationUser.user);
+  if (!Object.keys(userAuth).length || userAuth === null) {
+    userAuth = JSON.parse(localStorage.getItem('userAuth'));
+  }
+
+  console.log('authenticationUser', userAuth);
+
   const [isButtonProfil, setButtonProfil] = useState(false);
   const links = DataBurgerLink();
 
@@ -24,6 +34,10 @@ export const Header = () => {
   const toggleMenuBurger = () => dispatch(actionMenuBurger());
   const toogleProfil = () => {
     setButtonProfil(!isButtonProfil);
+  };
+
+  const handleChange = (event) => {
+    // console.log('file upload', event.target.files);
   };
 
   return (
@@ -68,17 +82,25 @@ export const Header = () => {
                 onClick={toogleProfil}
               >
                 <div className={style.account__content}>
-                  <span>Привет, Иван!</span>
+                  <span>{`Привет, ${userAuth?.firstName}!`}</span>
                 </div>
                 <div className={style.acconut__image}>
-                  <img
+                  <ImageUser
+                    src={userAuth.avatar ? `${BASE_URL}${userAuth.avatar}` : ''}
+                    alt='user'
+                    width='58'
+                    height='58'
                     className={classNames(style.image, style.image__account)}
-                    src={avatar}
+                  />
+                  {/* <img
+                    className={classNames(style.image, style.image__account)}
+                    src={userAuth.avatar}
                     alt=''
                     width='58'
                     height='58'
-                  />
+                  /> */}
                 </div>
+                {/* <input type='file' onChange={handleChange} /> */}
                 {isButtonProfil && <Profil className={style.profil} links={links} />}
               </button>
             </div>

@@ -13,6 +13,7 @@ import { Offer } from './pages/components/offer';
 import { LoginPage } from './pages/components/login-page';
 import { RegisterPage } from './pages/components/register-page';
 import { ForgotPage } from './pages/components/forgot-page';
+import { ProfilUser } from './pages/components/profil/profil-user';
 
 import './style/style.scss';
 
@@ -24,6 +25,7 @@ root.render(
       <Provider store={store}>
         <Routes>
           <Route path='/' element={<Layout />}>
+            <Route path='/profile' element={<ProfilUser />} />
             <Route element={<MainPage />}>
               <Route path='/' element={<Navigate to='/books/all' />} />
               <Route path='books/:category' element={<Contented />} />

@@ -12,6 +12,7 @@ import {
   setBooking,
   useBookingMutation,
   useDeleteBookingMutation,
+  useLazyGetUserQuery,
   useUpdateBookingMutation,
 } from '../../redux';
 import { bookingIsPage } from '../../utils/booking-book';
@@ -41,6 +42,8 @@ export const LayoutMainPage = () => {
   ] = useDeleteBookingMutation();
   const [triggerBooks, { isLoading: isLoadingUpdateBooks }] = booksApi.useLazyGetBooksQuery();
   const [triggerBookId, { isLoading: isLoadingUpdateBookId }] = booksApi.useLazyGetBookIdQuery();
+ 
+
   const location = useLocation();
   const user = useSelector((state) => state.user.user);
 

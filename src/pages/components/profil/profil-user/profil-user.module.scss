@@ -1,0 +1,101 @@
+@forward '../../../../style/style.scss';
+@use '../../../../style/abstract/constants' as constants;
+@use '../../../../style/abstract/mixin' as mixin;
+
+.user {
+  padding-top: 47px;
+  padding-bottom: 62px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 92px;
+}
+.user__header {
+  display: flex;
+  column-gap: 30px;
+}
+.user__image {
+  position: relative;
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.user__image img {
+  width: 100%;
+  height: 100%;
+}
+
+.input-image {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+.label-input-image {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2.625rem;
+  opacity: 0.7;
+  background-color: constants.$color-profil-user-image-background;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url('../../../image/ico/Icon-camera.svg');
+}
+
+.user__title {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.user-name {
+  @include mixin.font($size: 3.25rem, $height: 123%, $weight: 500, $letter: 0.2px);
+}
+
+.user__form {
+  // margin-bottom: 92px;
+}
+
+.section-title {
+  margin-bottom: 8px;
+  color: constants.$color-text-primary;
+  @include mixin.font($size: 1.5rem, $height: 125%, $weight: 700, $letter: 0.1px);
+}
+
+.title-info {
+  margin-bottom: 32px;
+  color: constants.$color-text-description;
+  @include mixin.font($size: 1rem, $height: 150%, $weight: 400, $letter: 0.1px);
+}
+
+.info-booking-description-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 13.625rem;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.info-booking__description {
+  width: 100%;
+  min-height: 13.625rem;
+  opacity: 0.7;
+  background: constants.$color-profil-user-description-background;
+}
+
+.description-label {
+  position: absolute;
+  padding: 16px;
+
+  color: constants.$color-profil-user-description-text;
+  @include mixin.font($size: 2rem, $height: 125%, $weight: 700, $letter: 0.1px);
+}
