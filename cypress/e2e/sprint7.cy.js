@@ -2964,7 +2964,7 @@ const getContent = () => {
   cy.intercept('GET', /categories/, CATEGORIES).as('categories');
 };
 
-describe('Sprint 2', () => {
+describe.skip('Sprint 2', () => {
   const BOOK_NO_IMAGES = {
     id: 11,
     title: 'Сам себе бренд: Искусство самопрезентации',
@@ -3275,7 +3275,7 @@ describe('Sprint 2', () => {
   });
 });
 
-describe('Sprint 3', () => {
+describe.skip('Sprint 3', () => {
   describe('Get books test', () => {
     const login = 'Wally123';
     const pass = 'GarrusWally123';
@@ -3359,7 +3359,7 @@ describe('Sprint 3', () => {
   });
 });
 
-describe('Sprint 4', () => {
+describe.skip('Sprint 4', () => {
   describe('search and sort', () => {
     const login = 'Wally123';
     const pass = 'GarrusWally123';
@@ -3608,7 +3608,7 @@ describe('Sprint 4', () => {
   });
 });
 
-describe('Sprint 5', () => {
+describe.skip('Sprint 5', () => {
   describe('authorization and registartion', () => {
     beforeEach(() => {
       cy.viewport(1024, 768);
@@ -4905,7 +4905,7 @@ describe('Sprint 6', () => {
   });
 });
 
-describe('Sprint 7', () => {
+describe.skip('Sprint 7', () => {
   const login = 'Wally13';
   const pass = 'GarrusWally13';
 

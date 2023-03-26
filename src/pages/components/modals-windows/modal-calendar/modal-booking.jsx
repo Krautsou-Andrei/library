@@ -26,6 +26,7 @@ import { useGetBook } from '../../../../hooks/use-get-book';
 import style from './modal-booking.module.scss';
 import { useUserComments } from '../../../../hooks/use-user-comments';
 import { isCommentsCurrentUser } from '../../../../utils/comments';
+import { Button } from '../../buttons/button';
 
 export const ModalBooking = ({
   typeModal,
@@ -142,6 +143,8 @@ export const ModalBooking = ({
     }
   };
 
+  console.log('day', date);
+
   const modalBooking = useRef(null);
 
   const onSubmit = (event) => {
@@ -158,6 +161,13 @@ export const ModalBooking = ({
       customer: user.id.toString(),
     };
 
+    // if (isCalendar && clickButtonDelete) {
+    //   setClickButtonDelete(false);
+    //   const dataId = userAuth.booking.id;
+
+    //   deleteBooking({ dataId }).then((result) => hundlerDeleteBooking(result));
+    // }
+
     if (isCalendar && isCurrentDateBooking && !clickButtonDelete) {
       const dataId = book.booking.id;
       updateBooking({ dataId, data }).then((result) => hundlerUpdateBooking(result));
@@ -165,13 +175,6 @@ export const ModalBooking = ({
 
     if (isCalendar && !isCurrentDateBooking && !clickButtonDelete) {
       booking({ data }).then((result) => hundlerBooking(result));
-    }
-
-    if (isCalendar && clickButtonDelete) {
-      setClickButtonDelete(false);
-      const dataId = userAuth.booking.id;
-
-      deleteBooking({ dataId }).then((result) => hundlerDeleteBooking(result));
     }
 
     if (isComments && !isCurrentBookComment) {
@@ -201,6 +204,13 @@ export const ModalBooking = ({
 
   const onClickButtonDelete = () => {
     setClickButtonDelete(true);
+    if (isCalendar) {
+      setClickButtonDelete(false);
+      const dataId = book.booking.id;
+
+      deleteBooking({ dataId }).then((result) => hundlerDeleteBooking(result));
+    }
+    triggerUser();
   };
 
   const onChange = (event) => {
@@ -296,7 +306,7 @@ export const ModalBooking = ({
           </div>
           {isCurrentDateBooking && (
             <div className={style['modal-calendar__button']}>
-              <ButtonSubmit
+              <Button
                 className={`${style.button} ${style['button-delete-booking']}`}
                 title={modalButtonDeleteBookingText}
                 name='delete'
