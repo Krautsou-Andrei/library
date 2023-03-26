@@ -1,6 +1,22 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setBooking, useLazyGetUserQuery } from '../../../../redux';
+import { useParams } from 'react-router-dom';
+import {
+  setErrorDeleteBooking,
+  setBooking,
+  setComments,
+  setSuccessDeleteBooking,
+  useGetBookIdQuery,
+  useLazyGetUserQuery,
+  setErrorComments,
+  setSuccessComments,
+  setErrorEditComments,
+  setSuccessEditComments,
+  setErrorUpdateBooking,
+  setSuccessUpdateBooking,
+  setErrorBooking,
+  setSuccessBooking,
+} from '../../../../redux';
 import { ButtonSubmit } from '../../buttons/button-submit';
 import { Calendar } from './calendar';
 import { Comments } from './comments/comments';
@@ -8,14 +24,16 @@ import { IconButtonClose } from '../../image/icon/icon-button-close';
 import { useGetBook } from '../../../../hooks/use-get-book';
 
 import style from './modal-booking.module.scss';
+import { useUserComments } from '../../../../hooks/use-user-comments';
+import { isCommentsCurrentUser } from '../../../../utils/comments';
 
 export const ModalBooking = ({
   typeModal,
-  onClickCommentsClose,
   booking,
   updateBooking,
   deleteBooking,
   sendComments,
+  editComments,
   clickButtonComments,
 }) => {
   const dispatch = useDispatch();
@@ -26,16 +44,21 @@ export const ModalBooking = ({
   const [dataTextarea, setDataTextarea] = useState();
   const [clickButtonDelete, setClickButtonDelete] = useState(false);
   const [isCurrentDateBooking, setIsCurrentDateBooking] = useState(false);
-  const [dataRating, setDataRating] = useState(0);
+  const [dataRating, setDataRating] = useState();
   const [isBookingDisabled, setBookingDisabled] = useState(true);
   const [date, setSelectedDay] = useState(currentDateBooking ? new Date(currentDateBooking) : new Date());
-
+  // const { category, bookId } = useParams();
   const currentBook = useSelector((state) => state.book.bookId);
   const bookId = useSelector((state) => state.selectBook.selectBookid);
 
   const bookingCurrentUser = useSelector((state) => state.bookingCurrentUser.bookingCurrentUser);
 
   const book = useGetBook(bookId);
+
+  let userAuth = useSelector((state) => state.authenticationUser.user);
+  if (!Object.keys(userAuth).length || userAuth === null) {
+    userAuth = JSON.parse(localStorage.getItem('userAuth'));
+  }
 
   const [triggerUser] = useLazyGetUserQuery();
 
@@ -48,6 +71,16 @@ export const ModalBooking = ({
     user = JSON.parse(localStorage.getItem('user'));
   }
 
+  // const { data: getBook } = useGetBookIdQuery(bookId);
+
+  // const isCurrentBookComment = isCommentsCurrentUser(getBook?.Comments);
+  const comment = useUserComments(bookId);
+  const isCurrentBookComment = !!comment;
+  const commentRating = comment?.rating;
+
+  useMemo(() => setDataRating(commentRating), [commentRating]);
+
+  console.log('isCurrentBookComment', comment);
   const {
     isCalendar,
     isComments,
@@ -65,9 +98,51 @@ export const ModalBooking = ({
       dispatch(setBooking(false));
     }
     if (isComments) {
-      onClickCommentsClose();
+      dispatch(setComments(false));
     }
   };
+
+  const handlerComments = (result) => {
+    if (result?.error?.status) {
+      dispatch(setErrorComments(true));
+    } else {
+      dispatch(setSuccessComments(true));
+    }
+  };
+
+  const hundlerDeleteBooking = (result) => {
+    if (result?.error?.status) {
+      dispatch(setErrorDeleteBooking(true));
+    } else {
+      dispatch(setSuccessDeleteBooking(true));
+    }
+  };
+
+  const hundlerEditComments = (result) => {
+    if (result?.error?.status) {
+      dispatch(setErrorEditComments(true));
+    } else {
+      dispatch(setSuccessEditComments(true));
+    }
+  };
+
+  const hundlerUpdateBooking = (result) => {
+    if (result?.error?.status) {
+      dispatch(setErrorUpdateBooking(true));
+    } else {
+      dispatch(setSuccessUpdateBooking(true));
+    }
+  };
+
+  const hundlerBooking = (result) => {
+    if (result?.error?.status) {
+      dispatch(setErrorBooking(true));
+    } else {
+      dispatch(setSuccessBooking(true));
+    }
+  };
+
+  const modalBooking = useRef(null);
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -85,29 +160,40 @@ export const ModalBooking = ({
 
     if (isCalendar && isCurrentDateBooking && !clickButtonDelete) {
       const dataId = book.booking.id;
-      updateBooking({ dataId, data });
+      updateBooking({ dataId, data }).then((result) => hundlerUpdateBooking(result));
     }
 
     if (isCalendar && !isCurrentDateBooking && !clickButtonDelete) {
-      booking({ data });
+      booking({ data }).then((result) => hundlerBooking(result));
     }
 
     if (isCalendar && clickButtonDelete) {
-      const dataId = book.booking.id;
-
-      deleteBooking({ dataId });
       setClickButtonDelete(false);
+      const dataId = userAuth.booking.id;
+
+      deleteBooking({ dataId }).then((result) => hundlerDeleteBooking(result));
     }
 
-    if (isComments) {
+    if (isComments && !isCurrentBookComment) {
       const dataComments = {
-        rating: +dataRating,
+        rating: +dataRating || +5,
         text: dataTextarea,
         book: currentBook.id,
         user: user.id.toString(),
       };
 
-      sendComments({ data: dataComments });
+      sendComments({ data: dataComments }).then((result) => handlerComments(result));
+    }
+
+    if (isComments && isCurrentBookComment) {
+      const commentId = comment.id;
+      const dataComments = {
+        rating: +dataRating || +5,
+        text: dataTextarea,
+        book: currentBook.id,
+        user: user.id.toString(),
+      };
+      editComments({ commentId, data: dataComments }).then((result) => hundlerEditComments(result));
     }
 
     triggerUser();
@@ -124,8 +210,6 @@ export const ModalBooking = ({
   const onClickRating = (event) => {
     setDataRating(event.target.value);
   };
-
-  const modalBooking = useRef(null);
 
   const outClick = onClick;
 
@@ -144,6 +228,8 @@ export const ModalBooking = ({
       document.removeEventListener('click', handleClick);
     };
   }, [modalBooking, isBooking, clickButtonComments, outClick]);
+
+  // console.log('bookId', bookId, comment);
 
   return (
     <div className={style['modal-calendar__wrapper']} data-test-id='modal-outer'>

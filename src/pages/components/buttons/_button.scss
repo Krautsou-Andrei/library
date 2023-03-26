@@ -69,3 +69,28 @@
   background-position: center;
   background-image: url('../../image/ico/icon-button-review-collapsible.svg');
 }
+
+.button-current-user {
+  border-color: $color-button-border-booking-current;
+  background: $color-button-book-background;
+  color: $color-button-text-booking-current !important;
+}
+
+.button-current-user:active {
+  color: $color-button-book-text-active !important;
+}
+
+.button-delivery {
+  border-color: $color-profil-user-button-border-delivery !important;
+  background: $color-profil-user-button-background-delivery !important;
+  color: $color-profil-user-button-text-delivery !important;
+  @include font($size: 1.5rem, $height: 125%, $weight: 700, $letter: 0.1px);
+
+  @include media-tablet {
+    @include font($size: 1.25rem, $height: 125%, $weight: 700, $letter: 0.2px);
+  }
+}
+
+.button-history {
+  width: 100% !important;
+}

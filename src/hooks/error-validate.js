@@ -7,6 +7,9 @@ export const useErrorVaidate = (schemaValidation, textValidation, typeValidation
     if (typeValidation === 'username') {
       return { username: `${value}` };
     }
+    if (typeValidation === 'login') {
+      return { login: `${value}` };
+    }
     if (typeValidation === 'password') {
       return { password: `${value}}` };
     }

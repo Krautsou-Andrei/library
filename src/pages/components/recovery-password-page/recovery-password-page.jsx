@@ -1,10 +1,22 @@
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
+
 import { useErrorVaidate } from '../../../hooks/error-validate';
-import { recovetyPasswordSchema } from '../../../helpers/validation';
+import { forgotPasswordSchema, recovetyPasswordSchema } from '../../../helpers/validation';
 import { FormEnter } from '../form-enter';
 
 import style from '../form-enter/form-enter.module.scss';
 
-export const RecoveryPasswordPage = ({ onSubmit, handleSubmit, register, clearErrors, errors, watch }) => {
+export const RecoveryPasswordPage = ({
+  onSubmit,
+  // handleSubmit,
+  // register,
+  // clearErrors,
+  // errors,
+  // watch,
+  // trigger,
+  // isValid,
+}) => {
   const typeRecoveryPage = {
     title: 'Восстановление пароля',
     inputOneName: 'password',
@@ -16,6 +28,21 @@ export const RecoveryPasswordPage = ({ onSubmit, handleSubmit, register, clearEr
     buttonText: 'сохранить изменения',
     linkHeader: 'После сохранения войдите в библиотеку, используя новый пароль',
   };
+
+  const {
+    register,
+    formState: { errors, isValid },
+    handleSubmit,
+    watch,
+    clearErrors,
+    trigger,
+  } = useForm({
+    mode: 'all',
+
+    criteriaMode: 'all',
+    shouldFocusError: 'true',
+    resolver: yupResolver(recovetyPasswordSchema),
+  });
 
   const { errorsArray: errorPassword } = useErrorVaidate(recovetyPasswordSchema, watch('password'), 'password');
 
@@ -34,6 +61,8 @@ export const RecoveryPasswordPage = ({ onSubmit, handleSubmit, register, clearEr
         errorsInputOne={errorPassword}
         watchInputOne={watch('password')}
         watchInputTwo={watch('passwordConfirmation')}
+        isValid={isValid}
+        trigger={trigger}
       />
     </form>
   );

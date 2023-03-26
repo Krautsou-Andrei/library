@@ -5,21 +5,27 @@ import InputMask from 'react-input-mask';
 import { ButtonSubmit } from '../buttons/button-submit/button-submit';
 import { ErrorHelperForInput } from '../../../helpers/error-helper-for-input';
 
-import style from '../form-enter/form-enter.module.scss';
 // import style from '../form-enter/form-enter.module.scss';
 
-export const CustomInput = (
+export const CustomInput = ({
   type,
-  initialUserError400 = false,
   register,
   errors,
   errorsInputOne,
   errorsInputTwo,
   clearErrors,
   error,
-  watchInputOne,
-  watchInputTwo
-) => {
+  watch,
+  trigger,
+  inputDisabled,
+  isValid,
+  style,
+}) => {
+  const [isViewPassword, setViewPassword] = useState(false);
+  const [isViewPasswordOne, setViewPasswordOne] = useState(false);
+  const [errorValid, setErrorValid] = useState(false);
+  const [viewMask, setViewMask] = useState(false);
+
   const {
     step,
     title,
@@ -29,14 +35,11 @@ export const CustomInput = (
     inputTwoName,
     inputTwoType,
     inputTwoPlaseholder,
-    buttonText,
-    linkHeader,
-    linkTitle,
-    linkPath,
   } = type;
-  const [isViewPassword, setViewPassword] = useState(false);
-  const [isViewPasswordOne, setViewPasswordOne] = useState(false);
-  const [isError400, setError400] = useState(false);
+
+  const watchInputOne = watch(`${inputOneName}`);
+  const watchInputTwo = watch(`${inputTwoName}`);
+  const watchInputPhone = watch('phone');
 
   const changeViewPassword = () => {
     setViewPassword(!isViewPassword);
@@ -46,21 +49,38 @@ export const CustomInput = (
     setViewPasswordOne(!isViewPasswordOne);
   };
 
-  // useEffect(() => {
-  //   if (initialUserError400 && (!errors[inputOneName] || !!errors[inputTwoName])) {
-  //     setError400(true);
-  //   }
-  // }, [initialUserError400, errors, inputOneName, inputTwoName]);
+  const clearErrorFocus = (event) => {
+    setErrorValid(false);
 
-  const clearErrorFocus = () => {
-    if (clearErrors && inputOneName !== 'identifier') {
-      clearErrors();
+    const trueWatchInputOne = !watchInputOne;
+    const trueWatchInputTwo = !watchInputTwo;
+
+    if (!trueWatchInputOne) {
+      clearErrors(inputOneName);
     }
-    setError400(false);
+    if (!trueWatchInputTwo) {
+      clearErrors(inputTwoName);
+    }
+    if (event.target.name === 'phone') {
+      setViewMask(true);
+    }
   };
 
+  const viewErrorOnBlure = () => {
+    if (!isValid) {
+      setErrorValid(true);
+    }
+    if (trigger) {
+      trigger();
+    }
+  };
+
+  // const onChangeMask = () => {
+  //   setViewMask(true);
+  // };
+
   return (
-    <>
+    <div className={style['field-wrapper']}>
       {inputOneType && (
         <div className={style['text-field']}>
           <div className={style['input-wrapper']}>
@@ -69,12 +89,14 @@ export const CustomInput = (
                 <div className={style['password-wrapper']}>
                   <input
                     className={style['form-input']}
-                    id='input-login'
+                    id={`${inputOneName}`}
                     type={`${!isViewPasswordOne ? inputOneType : 'text'}`}
                     name={`${inputOneName}`}
                     placeholder=' '
                     {...register(`${inputOneName}`)}
                     onFocus={clearErrorFocus}
+                    onBlur={viewErrorOnBlure}
+                    disabled={inputDisabled}
                   />
                   {inputOneType === 'password' && !!watchInputOne && (
                     <div className={style['view-password-wrapper']}>
@@ -94,26 +116,35 @@ export const CustomInput = (
               ) : (
                 <InputMask
                   className={style['form-input']}
-                  id='input-login'
+                  id={`${inputOneName}`}
                   type={`${inputOneType}`}
                   name={`${inputOneName}`}
                   placeholder=' '
                   {...register(`${inputOneName}`)}
                   onFocus={clearErrorFocus}
+                  onBlur={viewErrorOnBlure}
                   mask='+375 (99) 999-99-99'
+                  // onChange={onChangeMask}
                   maskChar='x'
-                  alwaysShowMask={!errors?.message && inputOneName !== 'phone'}
+                  alwaysShowMask={
+                    viewMask
+                    // !errors?.message &&
+                    // !!watchInputOne && inputOneName !== 'phone'
+                  }
+                  disabled={inputDisabled}
                 />
               )
             ) : (
               <input
                 className={`${style['form__input-login']} ${style['form-input']}`}
-                id='input-login'
+                id={`${inputOneName}`}
                 type={`${inputOneType}`}
                 name={`${inputOneName}`}
                 placeholder=' '
                 {...register(`${inputOneName}`)}
                 onFocus={clearErrorFocus}
+                onBlur={viewErrorOnBlure}
+                disabled={inputDisabled}
               />
             )}
             <label className={style['form-label']} htmlFor='input-login'>
@@ -123,49 +154,66 @@ export const CustomInput = (
           <div className={style['input-border']} />
 
           <div className={style['input-login-error']}>
-            {((errors?.[inputOneName] && errors[inputOneName]?.type === 'required') ||
-              (errors?.[inputTwoName] && errors[inputTwoName]?.type === 'required')) &&
+            {errors?.[inputOneName] &&
+              (errors?.[inputOneName]?.type === 'required' || errors?.[inputOneName]?.type === 'optionality') &&
+              // ||
+              // (errors?.[inputTwoName] &&
+              //   (errors?.[inputTwoName]?.type === 'required' || errors?.[inputTwoName]?.type === 'optionality'))
+
               !watchInputOne && (
-                <p className={style['error-input-empty']} data-test-id='hint'>
-                  <span>Поле не может быть пустым</span>
-                </p>
+                <div className={style['error-input-empty']} data-test-id='hint'>
+                  <div>Поле не может быть пустым</div>
+                </div>
               )}
 
-            {inputOneName === 'username' && errors && errors[inputOneName]?.type !== 'required' && (
-              <span
-                className={classNames({
-                  [style['error-input-empty']]: errors[inputOneName]?.type === 'matches',
-                })}
-                data-test-id='hint'
-              >
-                Используйте для логина{' '}
+            {inputOneName === 'login' &&
+              errors &&
+              errors?.[inputOneName]?.type !== 'required' &&
+              errors?.[inputOneName]?.type !== 'optionality' &&
+              ((errors?.[inputTwoName]?.type !== 'required' && errors?.[inputTwoName]?.type !== 'optionality') ||
+                !!watchInputOne) && (
                 <span
                   className={classNames({
-                    [style['error-input']]: errorsInputOne.includes('латинский алфавит'),
+                    [style['error-input-empty']]: errors?.[inputOneName]?.type === 'matches',
                   })}
+                  data-test-id='hint'
                 >
-                  латинский алфавит{' '}
+                  Используйте для логина{' '}
+                  <span
+                    className={classNames({
+                      [style['error-input']]: errorsInputOne?.includes('латинский алфавит'),
+                    })}
+                  >
+                    латинский алфавит{' '}
+                  </span>
+                  и{' '}
+                  <span
+                    className={classNames({
+                      [style['error-input']]: errorsInputOne?.includes('цифры'),
+                    })}
+                  >
+                    цифры
+                  </span>
                 </span>
-                и{' '}
-                <span
-                  className={classNames({
-                    [style['error-input']]: errorsInputOne.includes('цифры'),
-                  })}
-                >
-                  цифры
-                </span>
-              </span>
-            )}
+              )}
             {inputTwoName === 'passwordConfirmation' &&
               inputOneName === 'password' &&
               errors &&
-              errors[inputOneName]?.type !== 'required' && (
-                <ErrorHelperForInput errors={errors} inputName={inputOneName} errorsInput={errorsInputOne} />
+              errors?.[inputOneName]?.type !== 'required' &&
+              errors?.[inputOneName]?.type !== 'optionality' && (
+                <ErrorHelperForInput
+                  errors={errors}
+                  inputName={inputOneName}
+                  errorsInput={errorsInputOne}
+                  watchInputTwo={watchInputTwo}
+                  style={style}
+                  errorValid={errorValid}
+                />
               )}
-            {inputOneName === 'phone' && errors && errors[inputOneName]?.type !== 'required' && (
+            {inputOneName === 'phone' && errors && errors?.[inputOneName]?.type !== 'required' && (
               <span
                 className={classNames({
-                  [style['error-input-empty']]: errors[inputOneName]?.type === 'matches',
+                  [style['error-input-empty']]: errors?.[inputOneName]?.type === 'matches',
                 })}
                 data-test-id='hint'
               >
@@ -182,16 +230,18 @@ export const CustomInput = (
               <div className={style['password-wrapper']}>
                 <input
                   className={style['form-input']}
-                  id='input-password'
+                  id={`${inputTwoName}`}
                   type={`${!isViewPassword ? inputTwoType : 'text'}`}
                   name={`${inputTwoName}`}
                   placeholder=' '
                   {...register(`${inputTwoName}`)}
                   onFocus={clearErrorFocus}
+                  onBlur={viewErrorOnBlure}
+                  disabled={inputDisabled}
                 />
                 {(inputTwoType === 'password' || inputTwoType === 'passwordConfirmation') && !!watchInputTwo && (
                   <div className={style['view-password-wrapper']}>
-                    {title === 'Регистрация' && errorsInputTwo?.length <= 1 && (
+                    {(title === 'Регистрация' || step === '1') && errorsInputTwo?.length <= 1 && (
                       <span className={style['check-password']} data-test-id='checkmark' />
                     )}
 
@@ -207,12 +257,14 @@ export const CustomInput = (
             ) : (
               <input
                 className={style['form-input']}
-                id='input-password'
+                id={`${inputTwoName}`}
                 type={`${inputTwoType}`}
                 name={`${inputTwoName}`}
                 placeholder=' '
                 {...register(`${inputTwoName}`)}
                 onFocus={clearErrorFocus}
+                onBlur={viewErrorOnBlure}
+                disabled={inputDisabled}
               />
             )}
             <label className={style['form-label']} htmlFor='input-password'>
@@ -222,13 +274,18 @@ export const CustomInput = (
           <div className={style['input-border']} />
 
           <div className={style['input-login-error']}>
-            {((errors?.[inputOneName] && errors[inputOneName]?.type === 'required') ||
-              (errors?.[inputTwoName] && errors[inputTwoName]?.type === 'required')) &&
-              !watchInputTwo && (
-                <p className={style['error-input-empty']} data-test-id='hint'>
-                  <span>Поле не может быть пустым</span>
-                </p>
-              )}
+            {
+              // (errors?.[inputOneName] &&
+              // (errors?.[inputOneName]?.type === 'required' || errors?.[inputOneName]?.type === 'optionality')) ||
+
+              errors?.[inputTwoName] &&
+                (errors?.[inputTwoName]?.type === 'required' || errors?.[inputTwoName]?.type === 'optionality') &&
+                !watchInputTwo && (
+                  <div className={style['error-input-empty']} data-test-id='hint'>
+                    <div>Поле не может быть пустым</div>
+                  </div>
+                )
+            }
 
             {error && (
               <p className={style['error-input-empty']} data-test-id='hint'>
@@ -236,21 +293,34 @@ export const CustomInput = (
               </p>
             )}
 
-            {errors?.[inputTwoName] && errors[inputTwoName]?.type === 'oneOf' && (
+            {errors?.[inputTwoName] && errors?.[inputTwoName]?.type === 'oneOf' && (
               <span className={style['error-input-empty']} data-test-id='hint'>
                 {errors?.[inputTwoName]?.message}
               </span>
             )}
 
-            {step && inputTwoName === 'password' && errors && errors.password?.type !== 'required' && (
-              <ErrorHelperForInput errors={errors} inputName={inputTwoName} errorsInput={errorsInputTwo} />
-            )}
-            {errors?.[inputTwoName] === 'email' && errors[inputTwoName]?.type === 'required' && (
-              <p className={style['error-input-empty']} data-test-id='hint'>
-                <span>Поле не может быть пустым</span>
-              </p>
-            )}
-            {inputTwoName === 'email' && errors[inputTwoName]?.type === 'matches' && (
+            {step &&
+              inputTwoName === 'password' &&
+              errors &&
+              errors?.[inputTwoName]?.type !== 'required' &&
+              errors?.[inputTwoName]?.type !== 'optionality' && (
+                <ErrorHelperForInput
+                  errors={errors}
+                  inputName={inputTwoName}
+                  errorsInput={errorsInputTwo}
+                  inputDisabled={inputDisabled}
+                  watchInputTwo={watchInputTwo}
+                  style={style}
+                  errorValid={errorValid}
+                />
+              )}
+            {errors?.[inputTwoName] === 'email' &&
+              (errors?.[inputTwoName]?.type === 'required' || errors?.[inputTwoName]?.type === 'optionality') && (
+                <div className={style['error-input-empty']} data-test-id='hint'>
+                  <div>Поле не может быть пустым</div>
+                </div>
+              )}
+            {inputTwoName === 'email' && errors?.[inputTwoName]?.type === 'matches' && (
               <p className={style['error-input-empty']} data-test-id='hint'>
                 {errors?.[inputTwoName]?.message}
               </p>
@@ -259,22 +329,6 @@ export const CustomInput = (
           </div>
         </div>
       )}
-      {inputOneType && inputOneType !== 'password' && (
-        <>
-          {isError400 && (
-            <span className={style['error-authentication']} data-test-id='hint'>
-              <span>Неверный логин или пароль!</span>
-            </span>
-          )}
-          <NavLink className={style['forget-password']} to='/forgot-pass'>
-            {isError400 ? (
-              <span className={style['forget-password__error']}>Востановить?</span>
-            ) : (
-              <span>Забыли логин или пароль?</span>
-            )}
-          </NavLink>
-        </>
-      )}
-    </>
+    </div>
   );
 };

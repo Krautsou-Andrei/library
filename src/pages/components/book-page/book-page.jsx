@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { useCurrentCategory } from '../../../hooks/current-category';
 
@@ -10,6 +10,10 @@ import {
   useGetBookIdQuery,
   booksApi,
   useSendCommentsMutation,
+  useLazyGetUserQuery,
+  userSlice,
+  setComments,
+  useLazyGetCategotiesQuery,
 } from '../../../redux';
 import { Breadcrumbs } from '../breadcrumbs/breadcrumbs';
 
@@ -19,81 +23,115 @@ import { Error } from '../error';
 import { ModalBooking } from '../modals-windows/modal-calendar';
 import { modalComments } from '../modals-windows/type-modal';
 import { typeMessage } from '../error/type-message';
+import { useGetBook } from '../../../hooks/use-get-book';
 
 export const BookPage = () => {
   const [isOpenError, setOpenError] = useState(false);
   const [isOpenSuccess, setOpenSuccess] = useState(false);
-  const [isComments, setComments] = useState(false);
+
+  const [errorTriggerBookId, setErrorTriggerBookId] = useState(false);
+  const [errorBookId, setErrorBookId] = useState(false);
+  const [errorUser, setErrorUser] = useState(false);
+  const [errorCategories, setErrorCategories] = useState(false);
+
+  const isComments = useSelector((state) => state.booking.isComments);
   const { category, bookId } = useParams();
   const dispatch = useDispatch();
 
   const { data: dataBookId, isLoading: isLoadingBookId, isError: isErrorBookId } = useGetBookIdQuery(bookId);
-  const [triggerBookId, { isLoading: isLoadingUpdate }] = booksApi.useLazyGetBookIdQuery();
-  const [sendComments, { isLoading: isLoadingComments, isSuccess: isSuccessComments, isError: isErrorComments }] =
-    useSendCommentsMutation();
+  const [triggerBookId, { isLoading: isLoadingUpdate, isErrorTriggerBookId }] = booksApi.useLazyGetBookIdQuery();
 
   const [currentCategotyTitle, currentCategoryPath] = useCurrentCategory(category);
+  const [triggerUser, { isError: isErrorUser }] = useLazyGetUserQuery();
+  const [triggerCategories, { iseError: isErrorCategories }] = useLazyGetCategotiesQuery();
 
-  const onClickComments = () => {
-    setComments(!isComments);
-  };
+  const book = useGetBook(bookId);
+
+  useEffect(() => {
+    triggerCategories();
+    triggerUser();
+  }, [triggerUser, triggerCategories]);
 
   useEffect(() => {
     dispatch(setCurrentCategotyTitle(currentCategotyTitle));
     dispatch(setCurrentCategotyPath(currentCategoryPath));
   }, [dispatch, currentCategotyTitle, currentCategoryPath]);
 
+  const closeErrorMessage = () => {
+    setOpenError(false);
+    setErrorBookId(false);
+    setErrorCategories(false);
+    setErrorUser(false);
+    setErrorTriggerBookId(false);
+  };
+
+  const closeError = closeErrorMessage;
+
   useEffect(() => {
-    if (isErrorBookId || isErrorComments) {
+    if (errorBookId || errorCategories || errorUser || errorTriggerBookId) {
       setOpenError(true);
-      setTimeout(() => setOpenError(false), 4000);
-      setComments(false);
-      triggerBookId(bookId);
+      setTimeout(() => closeError(), 4000);
+      // dispatch(setComments(false));
+      // triggerBookId(bookId);
+      // triggerUser();
+      // triggerCategories();
     } else {
       setOpenError(false);
     }
-  }, [isErrorBookId, isErrorComments, triggerBookId, bookId]);
+  }, [
+    errorBookId,
+    errorCategories,
+    errorUser,
+    errorTriggerBookId,
+    triggerBookId,
+    bookId,
+    triggerUser,
+    triggerCategories,
+    dispatch,
+    closeError,
+  ]);
 
-  useEffect(() => {
-    if (isSuccessComments) {
-      setOpenSuccess(true);
-      setTimeout(() => setOpenSuccess(false), 4000);
-      setComments(false);
-      triggerBookId(bookId);
-    } else {
-      setOpenSuccess(false);
-    }
-  }, [isSuccessComments, triggerBookId, bookId]);
+  // console.log('book', book);
+  // console.log('isArray', Array.isArray(dataBookId));
+  useMemo(() => setErrorBookId(isErrorBookId), [isErrorBookId]);
+  useMemo(() => setErrorCategories(isErrorCategories), [isErrorCategories]);
+  useMemo(() => setErrorUser(isErrorUser), [isErrorUser]);
+  useMemo(() => setErrorTriggerBookId(isErrorTriggerBookId), [isErrorTriggerBookId]);
+  // useEffect(() => {
+  //   if (isSuccessComments) {
+  //     setOpenSuccess(true);
+  //     setTimeout(() => setOpenSuccess(false), 4000);
+  //     dispatch(setComments(false));
+  //     triggerBookId(bookId);
+  //     triggerUser();
+  //   } else {
+  //     setOpenSuccess(false);
+  //   }
+  // }, [isSuccessComments, triggerBookId, triggerUser, bookId, dispatch]);
 
   return (
     <div>
-      {(isLoadingBookId || isLoadingComments) && <Loading />}
-      {isOpenSuccess && !isLoadingComments && (
+      {isLoadingBookId && <Loading />}
+      {/* {isOpenSuccess && !isLoadingComments && (
         <Error
           closeMessage={() => setOpenSuccess(false)}
           message={typeMessage.successLoadingComments}
           isSuccess={true}
         />
-      )}
+      )} */}
       {isOpenError && !isLoadingBookId && (
-        <Error
-          closeMessage={() => setOpenError(false)}
-          message={
-            (isErrorBookId && typeMessage.errorLoadingBook) || (isErrorComments && typeMessage.errorLoadingComments)
-          }
-        />
+        <Error closeMessage={() => setOpenError(false)} message={isErrorBookId && typeMessage.errorLoadingBook} />
       )}
 
-      <Breadcrumbs category={category} categoryTitle={currentCategotyTitle} label={dataBookId?.title} />
-      {dataBookId && <BookInfo book={dataBookId} onClickComments={onClickComments} />}
-      {isComments && (
-        <ModalBooking
-          typeModal={modalComments}
-          onClickCommentsClose={onClickComments}
-          sendComments={sendComments}
-          clickButtonComments={isComments}
-        />
-      )}
+      <Breadcrumbs
+        category={category}
+        categoryTitle={currentCategotyTitle}
+        label={dataBookId?.title ? dataBookId?.title : book?.title}
+      />
+      {dataBookId && <BookInfo book={dataBookId?.title ? dataBookId : book} />}
+      {/* {isComments && (
+        <ModalBooking typeModal={modalComments} sendComments={sendComments} clickButtonComments={isComments} />
+      )} */}
     </div>
   );
 };

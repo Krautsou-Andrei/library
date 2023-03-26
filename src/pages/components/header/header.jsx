@@ -7,7 +7,6 @@ import { BurgerMenu } from '../burger-menu';
 import { Profil } from '../profil';
 import { DataBurgerLink } from '../../../data/data-burger-link';
 import { stateMenuBurger } from '../../../redux/slice/burger-silce';
-import avatar from '../../image/avatar.jpg';
 
 import { ImageUser } from '../image/image-user/image-user';
 import { BASE_URL } from '../../../redux';
@@ -16,8 +15,8 @@ import style from './header.module.scss';
 
 export const Header = () => {
   let userAuth = useSelector((state) => state.authenticationUser.user);
-  if (!Object.keys(userAuth).length || userAuth === null) {
-    userAuth = JSON.parse(localStorage.getItem('userAuth'));
+  if (userAuth === null || (userAuth !== null && userAuth !== undefined && !Object.keys(userAuth).length)) {
+      userAuth = JSON.parse(localStorage.getItem('userAuth'));
   }
 
   console.log('authenticationUser', userAuth);
@@ -86,7 +85,7 @@ export const Header = () => {
                 </div>
                 <div className={style.acconut__image}>
                   <ImageUser
-                    src={userAuth.avatar ? `${BASE_URL}${userAuth.avatar}` : ''}
+                    src={userAuth?.avatar ? `${BASE_URL}${userAuth?.avatar}` : ''}
                     alt='user'
                     width='58'
                     height='58'

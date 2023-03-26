@@ -14,6 +14,7 @@ import {
   registerStepOneSchema,
   registerStepThreeSchema,
   registerStepTwoSchema,
+  userSchema,
 } from '../../../../../helpers/validation';
 import { ModalWindow } from '../../../modals-windows';
 import { Loading } from '../../../loading';
@@ -27,37 +28,50 @@ import { FormEnter } from '../../../form-enter';
 import { CustomInput } from '../../../custom-input';
 // import style from '../../../form-enter'
 
-export const ChangeInfoUser = () => {
-  const [step, setStep] = useState(1);
+export const ChangeInfoUser = ({
+  register,
+  style,
+  errors,
+  clearErrors,
+  watch,
+  trigger,
+  inputDisabled,
+  setInputDisabled,
+  isDirty,
+  isValid,
+  getFieldState,
+  isTouched,
+  // resetField,
+}) => {
   const [initialUserError400, setInitialUserError400] = useState(false);
   const [initialUserError, setInitialUserError] = useState(false);
   const [initialUser, setInitialUser] = useState({});
 
-  const selectSchema = () => {
-    if (step === 1) {
-      return registerStepOneSchema;
-    }
-    if (step === 2) {
-      return registerStepTwoSchema;
-    }
-    if (step === 3) {
-      return registerStepThreeSchema;
-    }
-    return registerStepOneSchema;
-  };
+  // const selectSchema = () => {
+  //   if (step === 1) {
+  //     return registerStepOneSchema;
+  //   }
+  //   if (step === 2) {
+  //     return registerStepTwoSchema;
+  //   }
+  //   if (step === 3) {
+  //     return registerStepThreeSchema;
+  //   }
+  //   return registerStepOneSchema;
+  // };
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    clearErrors,
-    formState: { errors },
-  } = useForm({
-    mode: 'onBlur',
-    reValidateMode: 'onBlur',
-    shouldFocusError: false,
-    resolver: yupResolver(selectSchema(step)),
-  });
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   watch,
+  //   clearErrors,
+  //   formState: { errors },
+  // } = useForm({
+  //   mode: 'onBlur',
+  //   reValidateMode: 'onBlur',
+  //   shouldFocusError: false,
+  //   resolver: yupResolver(selectSchema(step)),
+  // });
 
   const [registerUser, { isLoading, isSuccess, isError }] = useRegisterUserMutation();
 
@@ -101,42 +115,91 @@ export const ChangeInfoUser = () => {
     // }
   };
 
-  const { errorsArray: errorsUsername } = useErrorVaidate(registerStepOneSchema, watch('username'), 'username');
-  const { errorsArray: errorsPassword } = useErrorVaidate(registerStepOneSchema, watch('password'), 'password');
+  // const { errorsArray: errorsUsername } = useErrorVaidate(registerStepOneSchema, watch('username'), 'username');
+  // const { errorsArray: errorsPassword } = useErrorVaidate(registerStepOneSchema, watch('password'), 'password');
+  const typeRowOne = {
+    step: '1',
+    inputOneName: 'login',
+    inputOneType: 'text',
+    inputOnePlaseholder: 'Логин',
+    inputTwoName: 'password',
+    inputTwoType: 'password',
+    inputTwoPlaseholder: 'Пароль',
+  };
+  const typeRowTwo = {
+    step: `2`,
+    inputOneName: 'firstName',
+    inputOneType: 'text',
+    inputOnePlaseholder: 'Имя',
+    inputTwoName: 'lastName',
+    inputTwoType: 'text',
+    inputTwoPlaseholder: 'Фамилия',
+  };
+  const typeRowThree = {
+    step: `3`,
+    inputOneName: 'phone',
+    inputOneType: 'text',
+    inputOnePlaseholder: 'Номер телефона',
+    inputTwoName: 'email',
+    inputTwoType: 'email',
+    inputTwoPlaseholder: 'E-mail',
+  };
+
+  const { errorsArray: errorsUsername } = useErrorVaidate(userSchema, watch('login'), 'login');
+  const { errorsArray: errorsPassword } = useErrorVaidate(userSchema, watch('password'), 'password');
 
   return (
-    <div>
-      {isLoading && <Loading />}
-      {!isSuccess && !initialUserError && !initialUserError400 && (
-        <form
-          className={`${style['login-page__form']} ${style.form} `}
-          action=''
-          onSubmit={handleSubmit(onSubmit)}
-          data-test-id='register-form'
-        >
-          <CustomInput
-            type={registerStepOne}
-            register={register}
-            errors={errors}
-            clearErrors={clearErrors}
-            errorsInputOne={errorsUsername}
-            errorsInputTwo={errorsPassword}
-            watchInputOne={watch('username')}
-            watchInputTwo={watch('password')}
-          />
-          {/* {step === 1 && ( */}
-
-          {/* {step === 2 && ( */}
-          <RegisterStepTwo step={step} register={register} clearErrors={clearErrors} errors={errors} watch={watch} />
-          {/* )} */}
-          {/* {step === 3 && ( */}
-          <RegisterStepThree step={step} register={register} clearErrors={clearErrors} errors={errors} watch={watch} />
-          {/* )} */}
-        </form>
-      )}
-      {isSuccess && !initialUserError && !initialUserError400 && <ModalWindow typeModal={modalSeccessRegistration} />}
-      {/* {isError && initialUserError && <ModalWindow typeModal={modalErrorRegistration} onSubmit={repeatSubmit} />} */}
-      {/* {initialUserError400 && <ModalWindow typeModal={modalErrorRegistration400} onSubmit={onSubmitStep} />} */}
-    </div>
+    <>
+      <CustomInput
+        type={typeRowOne}
+        register={register}
+        errors={errors}
+        clearErrors={clearErrors}
+        watch={watch}
+        trigger={trigger}
+        errorsInputOne={errorsUsername}
+        errorsInputTwo={errorsPassword}
+        style={style}
+        inputDisabled={inputDisabled}
+        setInputDisabled={setInputDisabled}
+        // resetField={resetField}
+        isDirty={isDirty}
+        isValid={isValid}
+        getFieldState={getFieldState}
+        isTouched={isTouched}
+      />
+      <CustomInput
+        type={typeRowTwo}
+        register={register}
+        errors={errors}
+        clearErrors={clearErrors}
+        watch={watch}
+        trigger={trigger}
+        style={style}
+        inputDisabled={inputDisabled}
+        setInputDisabled={setInputDisabled}
+        // resetField={resetField}
+        isDirty={isDirty}
+        isValid={isValid}
+        getFieldState={getFieldState}
+        isTouched={isTouched}
+      />
+      <CustomInput
+        type={typeRowThree}
+        register={register}
+        errors={errors}
+        clearErrors={clearErrors}
+        watch={watch}
+        trigger={trigger}
+        style={style}
+        inputDisabled={inputDisabled}
+        setInputDisabled={setInputDisabled}
+        // resetField={resetField}
+        isDirty={isDirty}
+        isValid={isValid}
+        getFieldState={getFieldState}
+        isTouched={isTouched}
+      />
+    </>
   );
 };

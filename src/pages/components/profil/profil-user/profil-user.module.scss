@@ -1,4 +1,5 @@
 @forward '../../../../style/style.scss';
+@forward '../../buttons/button.module.scss';
 @use '../../../../style/abstract/constants' as constants;
 @use '../../../../style/abstract/mixin' as mixin;
 
@@ -12,6 +13,11 @@
 .user__header {
   display: flex;
   column-gap: 30px;
+
+  @include mixin.media-tablet {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
 .user__image {
   position: relative;
@@ -19,6 +25,8 @@
   height: 10rem;
   border-radius: 50%;
   overflow: hidden;
+  @extend %box-shadow-avatar;
+  cursor: pointer;
 }
 
 .user__image img {
@@ -59,10 +67,168 @@
 
 .user-name {
   @include mixin.font($size: 3.25rem, $height: 123%, $weight: 500, $letter: 0.2px);
+  @include mixin.media-mobile {
+    @include mixin.font($size: 1.625rem, $height: 138%, $weight: 500, $letter: 0.1px);
+  }
 }
 
 .user__form {
   // margin-bottom: 92px;
+}
+
+.field-wrapper {
+  display: flex;
+  column-gap: 30px;
+  @include mixin.media-tablet {
+    flex-wrap: wrap;
+  }
+}
+
+.field-wrapper + .field-wrapper {
+  margin-top: 36px; //16
+}
+
+.form__fieldset {
+  border: none;
+  margin-bottom: 52px;
+}
+
+.input-wrapper {
+  position: relative;
+
+  padding-left: 12px;
+  padding-right: 19px;
+
+  width: 100%;
+  height: 3.5rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  border-radius: 4px;
+  background-color: constants.$color-form-input-background;
+}
+
+.password-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+
+.view-password-wrapper {
+  display: flex;
+}
+
+.input-border {
+  width: 100%;
+  height: 1px;
+  background: constants.$color-form-input-border;
+}
+
+.text-field {
+  flex: 50%;
+}
+
+@include mixin.media-tablet {
+  .text-field + .text-field {
+    margin-top: 30px;
+  }
+}
+
+.text-field:has(.input-login-error .error-input-empty) .input-border {
+  background: constants.$color-form-error;
+}
+
+.error .input-border {
+  background: constants.$color-form-error;
+}
+
+.form-label {
+  position: absolute;
+
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 100%;
+
+  @include mixin.font($size: 0.875rem, $height: 129%, $weight: 400, $letter: 0.1px);
+}
+
+.password-wrapper:has(.form-input:focus) ~ .form-label,
+.password-wrapper:has(.form-input:not(:placeholder-shown)) ~ .form-label,
+.form-input:focus ~ .form-label,
+.form-input:not(:placeholder-shown) ~ .form-label {
+  top: 20%;
+
+  color: constants.$color-form-text-second;
+  @include mixin.font($size: 0.75rem, $height: 133%, $weight: 500, $letter: 0.2px);
+  @extend %transition;
+}
+
+.form-input:not(:focus) ~ .form-label {
+  @extend %transition;
+}
+
+.form-input {
+  flex-grow: 1;
+  padding-right: 12px;
+
+  z-index: 1;
+
+  border: none;
+  outline: none;
+  background-color: constants.$color-form-input;
+}
+
+.input-login-error {
+  color: constants.$color-form-text-second;
+  @include mixin.font($size: 0.75rem, $height: 133%, $weight: 500, $letter: 0.2px);
+}
+
+.error-input-empty,
+.error-input {
+  color: constants.$color-form-error;
+}
+
+.check-password {
+  display: inline-block;
+
+  width: 24px;
+  height: 24px;
+
+  background-size: 24px;
+  background-image: url('../../../image/ico/icon-check-circle.svg');
+}
+
+.view-password {
+  position: relative;
+  display: inline-block;
+
+  z-index: 1;
+
+  width: 24px;
+  height: 24px;
+
+  border: none;
+  background-size: 24px;
+  background-color: transparent;
+  background-image: url('../../../image/ico/icon-eye-closed.svg');
+}
+
+.view-password.view-active {
+  background-image: url('../../../image/ico/icon-eye-opened.svg');
+}
+
+.form__buttons {
+  display: flex;
+  column-gap: 30px;
+}
+
+.form__button-edit,
+.form__button-save {
+  width: 15.9375rem;
+  height: 3.25rem;
 }
 
 .section-title {
@@ -81,14 +247,37 @@
   position: relative;
   width: 100%;
   min-height: 13.625rem;
+}
+
+.info-booking-description-wrapper:has(.info-booking__description-error) .book-list {
+  filter: blur(10px);
+}
+
+.info-booking-description-wrapper:has(.info-booking__description) .book-list {
+  filter: blur(10px);
+}
+
+.info-booking__description-error {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  min-height: 13.625rem;
+  opacity: 0.7;
   border-radius: 10px;
   overflow: hidden;
+  z-index: 5;
+  background: constants.$color-profil-user-description-background-error;
 }
 
 .info-booking__description {
   width: 100%;
   min-height: 13.625rem;
   opacity: 0.7;
+  border-radius: 10px;
+  overflow: hidden;
+
   background: constants.$color-profil-user-description-background;
 }
 
@@ -98,4 +287,49 @@
 
   color: constants.$color-profil-user-description-text;
   @include mixin.font($size: 2rem, $height: 125%, $weight: 700, $letter: 0.1px);
+}
+
+.description-label__subtitle {
+  @include mixin.font($size: 1rem, $height: 150%, $weight: 600, $letter: 0.1px);
+}
+
+.history-slider {
+  max-width: 15.9375rem;
+}
+
+.history-slider-wrapper {
+  width: 100% !important;
+  height: 100% !important;
+  margin-bottom: 24px !important;
+}
+
+.history-slider-wrapper .mySwiper {
+  padding: 1px;
+}
+
+.history-pagination-wrapper {
+  height: 1.5rem !important;
+  display: flex;
+  justify-content: center;
+}
+
+.history-pagination-wrapper div {
+  display: flex;
+  justify-content: center;
+}
+
+.history-pagination-wrapper div {
+  display: flex;
+  justify-content: center;
+}
+
+.history-pagination-wrapper span {
+  width: 7px;
+  height: 7px;
+}
+
+.history-pagination-wrapper span .swiper-pagination-bullet-active {
+  background: constants.$color-slider-pagination-bullet-active;
+
+  transform: scale(1.2) !important;
 }

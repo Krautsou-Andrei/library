@@ -1,9 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useSelector } from 'react-redux';
 
-import { useAuthenticationUserMutation, useLazyGetUserQuery, userApi } from '../../../redux';
+import {
+  useAuthenticationUserMutation,
+  useLazyGetBooksQuery,
+  useLazyGetCategotiesQuery,
+  useLazyGetUserQuery,
+  userApi,
+} from '../../../redux';
 
 import { authenticationSchema } from '../../../helpers/validation';
 import { FormEnter } from '../form-enter';
@@ -36,24 +43,44 @@ export const LoginPage = () => {
   };
   const [authenticationUser, { isLoading }] = useAuthenticationUserMutation();
   const [triggerUser] = useLazyGetUserQuery();
+  const [triggerBooks] = useLazyGetBooksQuery();
+  const [triggerCategories] = useLazyGetCategotiesQuery();
 
   const {
     register,
-    formState: { errors },
+    formState: { errors, isValid },
     handleSubmit,
     clearErrors,
     watch,
+    trigger,
   } = useForm({
     mode: 'all',
     criteriaMode: 'all',
     resolver: yupResolver(authenticationSchema),
   });
 
+  const user = useSelector((state) => state.user.user);
+
+  let token = user?.jwt;
+
+  if (!Object.keys(user).length) {
+    token = localStorage.getItem('token');
+  }
+
+  useEffect(() => {
+    if (token) {
+      navigation('books/all');
+    }
+  }, [navigation, token]);
+
   const goToPage = () => {
     const token = localStorage.getItem('token');
     if (token === null) {
       goToPage();
     } else {
+      triggerBooks();
+      triggerCategories();
+      triggerUser();
       navigation('/books/all');
     }
   };
@@ -66,7 +93,7 @@ export const LoginPage = () => {
       setInitialUserError400(false);
     } else {
       setInitialUserError(false);
-      triggerUser();
+      // triggerUser();
       goToPage();
     }
   };
@@ -99,6 +126,8 @@ export const LoginPage = () => {
             errors={errors}
             watchInputOne={watch('identifier')}
             watchInputTwo={watch('password')}
+            isValid={isValid}
+            trigger={trigger}
           />
         </form>
       )}

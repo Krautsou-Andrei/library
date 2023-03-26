@@ -41,14 +41,16 @@ export const ForgotPage = () => {
 
   const {
     register,
-    formState: { errors },
+    formState: { errors, isValid },
     handleSubmit,
     watch,
     clearErrors,
+    trigger,
   } = useForm({
-    mode: 'onBlur',
-    reValidateMode: 'onBlur',
-    shouldFocusError: false,
+    mode: 'all',
+
+    criteriaMode: 'all',
+    shouldFocusError: 'true',
     resolver: yupResolver(code && !isError && !isSuccessRecovery ? recovetyPasswordSchema : forgotPasswordSchema),
   });
 
@@ -86,6 +88,8 @@ export const ForgotPage = () => {
             clearErrors={clearErrors}
             watchInputTwo={watch('email')}
             error={error}
+            trigger={trigger}
+            isValid={isValid}
           />
         </form>
       )}
@@ -97,6 +101,8 @@ export const ForgotPage = () => {
           errors={errors}
           watch={watch}
           clearErrors={clearErrors}
+          trigger={trigger}
+          isValid={isValid}
         />
       )}
       {isSuccessForgot && <ModalWindow typeModal={modalSuccessForgot} />}

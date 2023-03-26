@@ -45,11 +45,16 @@ export const RegisterPage = () => {
 
     watch,
     clearErrors,
-    formState: { errors },
+    trigger,
+    formState: { errors, isValid },
   } = useForm({
-    mode: 'onBlur',
-    reValidateMode: 'onBlur',
-    shouldFocusError: false,
+    mode: 'all',
+
+    criteriaMode: 'all',
+    shouldFocusError: 'true',
+    // mode: 'onBlur',
+    // reValidateMode: 'onBlur',
+    // shouldFocusError: false,
     resolver: yupResolver(selectSchema(step)),
   });
 
@@ -117,10 +122,20 @@ export const RegisterPage = () => {
               errorsInputOne={errorsUsername}
               errorsInputTwo={errorsPassword}
               watch={watch}
+              trigger={trigger}
+              isValid={isValid}
             />
           )}
           {step === 2 && (
-            <RegisterStepTwo step={step} register={register} clearErrors={clearErrors} errors={errors} watch={watch} />
+            <RegisterStepTwo
+              step={step}
+              register={register}
+              trigger={trigger}
+              clearErrors={clearErrors}
+              errors={errors}
+              watch={watch}
+              isValid={isValid}
+            />
           )}
           {step === 3 && (
             <RegisterStepThree
@@ -129,6 +144,8 @@ export const RegisterPage = () => {
               clearErrors={clearErrors}
               errors={errors}
               watch={watch}
+              trigger={trigger}
+              isValid={isValid}
             />
           )}
         </form>

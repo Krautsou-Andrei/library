@@ -12,7 +12,7 @@ import { Error } from '../error';
 import { Navigation } from '../navigation';
 import { Empty } from '../empty';
 
-import { setCurrentCategotyPath, setCurrentCategotyTitle, booksApi } from '../../../redux';
+import { setCurrentCategotyPath, setCurrentCategotyTitle, booksApi, useLazyGetUserQuery } from '../../../redux';
 
 import { typeMessage } from '../error/type-message';
 
@@ -24,6 +24,7 @@ export const Contented = () => {
     triggerCategoties,
     { isLoading: isloadingCategories, isError: iserrorCategories, isSuccess: successCategories },
   ] = booksApi.useLazyGetCategotiesQuery();
+  const [triggerUser] = useLazyGetUserQuery();
 
   const token = localStorage.getItem('token');
 
@@ -31,8 +32,10 @@ export const Contented = () => {
     if (token) {
       triggerBook();
       triggerCategoties();
+      triggerUser();
+      console.log('yes');
     }
-  }, [token, triggerBook, triggerCategoties]);
+  }, [token, triggerBook, triggerCategoties, triggerUser]);
 
   const [isOpenError, setOpenError] = useState(false);
   const [isToggleButtonView, setToggleButtonView] = useState(true);

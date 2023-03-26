@@ -1,9 +1,10 @@
 import { useSelector } from 'react-redux';
 
 export const useBookingBook = (booking) => {
-  const user = useSelector((state) => state.user.user);
+  // const user = useSelector((state) => state.user.user);
+  const user = useSelector((state) => state.authenticationUser.user);
 
-  if (booking && booking?.customerId === user?.user?.id) {
+  if (booking && booking?.customerId === user?.id) {
     return 'current';
   }
 

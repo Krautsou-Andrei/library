@@ -23,31 +23,53 @@ const value = {
   ),
 };
 
-export const authenticationSchema = object({
+export const authenticationSchema = object().shape({
   identifier: value.stringEmpty,
   password: value.stringEmpty,
 });
 
-export const registerStepOneSchema = object({
+export const registerStepOneSchema = object().shape({
   username: value.username,
   password: value.password,
 });
 
-export const registerStepTwoSchema = object({
+export const registerStepTwoSchema = object().shape({
   lastName: value.stringEmpty,
   firstName: value.stringEmpty,
 });
 
-export const registerStepThreeSchema = object({
+export const registerStepThreeSchema = object().shape({
   phone: value.phone,
   email: value.email,
 });
 
-export const forgotPasswordSchema = object({
+export const forgotPasswordSchema = object().shape({
   email: value.email,
 });
 
-export const recovetyPasswordSchema = object({
+export const recovetyPasswordSchema = object().shape({
   password: value.password,
   passwordConfirmation: value.passwordConfirmation,
+});
+
+export const editUserShema = object().shape({
+  login: value.username,
+  password: value.password,
+  lastName: value.stringEmpty,
+  firstName: value.stringEmpty,
+  phone: string().matches(RegExp.phoneNumber, 'В формате +375 (xx) xxx-xx-xx'),
+  email: value.email,
+});
+
+export const usernameShema = object().shape({
+  username: value.username,
+});
+
+export const passwordShema = object().shape({
+  password: value.password,
+});
+
+export const userSchema = object().shape({
+  login: value.username,
+  password: value.password,
 });
