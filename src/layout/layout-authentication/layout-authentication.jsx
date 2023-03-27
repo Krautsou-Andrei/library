@@ -17,7 +17,7 @@ export const LayoutAuthentication = () => {
 
   useEffect(() => {
     if (token) {
-      navigation(routs.booksAll);
+      navigation(`${routs.booksAll}`);
     }
   }, [navigation, token]);
 

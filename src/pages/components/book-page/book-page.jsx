@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { useCurrentCategory } from '../../../hooks/current-category';
 
@@ -9,7 +9,10 @@ import {
   setCurrentCategotyTitle,
   useGetBookIdQuery,
   booksApi,
+  useSendCommentsMutation,
   useLazyGetUserQuery,
+  userSlice,
+  setComments,
   useLazyGetCategotiesQuery,
 } from '../../../redux';
 import { Breadcrumbs } from '../breadcrumbs/breadcrumbs';
@@ -17,18 +20,21 @@ import { Breadcrumbs } from '../breadcrumbs/breadcrumbs';
 import { BookInfo } from './book-info';
 import { Loading } from '../loading';
 import { Error } from '../error';
-
+import { ModalBooking } from '../modals-windows/modal-calendar';
+import { modalComments } from '../modals-windows/type-modal';
 import { typeMessage } from '../error/type-message';
 import { useGetBook } from '../../../hooks/use-get-book';
 
 export const BookPage = () => {
   const [isOpenError, setOpenError] = useState(false);
+  const [isOpenSuccess, setOpenSuccess] = useState(false);
 
   const [errorTriggerBookId, setErrorTriggerBookId] = useState(false);
   const [errorBookId, setErrorBookId] = useState(false);
   const [errorUser, setErrorUser] = useState(false);
   const [errorCategories, setErrorCategories] = useState(false);
 
+  const isComments = useSelector((state) => state.booking.isComments);
   const { category, bookId } = useParams();
   const dispatch = useDispatch();
 
@@ -99,7 +105,7 @@ export const BookPage = () => {
         categoryTitle={currentCategotyTitle}
         label={dataBookId?.title ? dataBookId?.title : book?.title}
       />
-      {dataBookId && <BookInfo book={dataBookId ? dataBookId : book} />}
+      {dataBookId && <BookInfo book={dataBookId?.title ? dataBookId : book} />}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import classNames from 'classnames';
 
@@ -11,8 +11,10 @@ import { setBooking, setBookingCurrentUser, setComments, setSelectBookid } from 
 import { useBookingBook } from '../../../../utils/booking-book';
 import { dateTranslatorShort } from '../../../../utils/date-translator';
 import { isCommentsCurrentUser, sortComments } from '../../../../utils/comments';
+import { useUserComments } from '../../../../hooks/use-user-comments';
 
 export const BookInfo = ({ book }) => {
+  const userAuth = useSelector((state) => state.authenticationUser.user);
   const dispatch = useDispatch();
   const [isReviewCollapsible, setReviewCollapsible] = useState(true);
   const toggleReview = () => {

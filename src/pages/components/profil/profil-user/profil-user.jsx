@@ -86,7 +86,7 @@ export const ProfilUser = () => {
 
   useEffect(() => {
     if (!token) {
-      navigation(routs.auth);
+      navigation(`${routs.auth}`);
     }
   }, [navigation, token]);
 

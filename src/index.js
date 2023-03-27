@@ -26,20 +26,20 @@ root.render(
       <Provider store={store}>
         <Routes>
           <Route path='/' element={<Layout />}>
-            <Route path={routs.profile} element={<ProfilUser />} />
+            <Route path={`${routs.profile}`} element={<ProfilUser />} />
             <Route element={<MainPage />}>
-              <Route path='/' element={<Navigate to={routs.booksAllRedirect} />} />
-              <Route path={routs.booksCategory} element={<Contented />} />
-              <Route path={routs.regulations} element={<Offer title='Правила пользования' />} />
-              <Route path={routs.offer} element={<Offer title='Договор оферты' />} />
+              <Route path='/' element={<Navigate to={`${routs.booksAllRedirect}`} />} />
+              <Route path={`${routs.booksCategory}`} element={<Contented />} />
+              <Route path={`${routs.regulations}`} element={<Offer title='Правила пользования' />} />
+              <Route path={`${routs.offer}`} element={<Offer title='Договор оферты' />} />
             </Route>
-            <Route path={routs.booksCategoryId} element={<BookPage />} />
+            <Route path={`${routs.booksCategoryId}`} element={<BookPage />} />
           </Route>
           <Route element={<LayoutAuthentication />}>
             <Route path='/' element={<Navigate to={routs.auth} />} />
-            <Route path={routs.auth} element={<LoginPage />} />
-            <Route path={routs.registrations} element={<RegisterPage />} />
-            <Route path={routs.forgotPass} element={<ForgotPage />} />
+            <Route path={`${routs.auth}`} element={<LoginPage />} />
+            <Route path={`${routs.registrations}`} element={<RegisterPage />} />
+            <Route path={`${routs.forgotPass}`} element={<ForgotPage />} />
           </Route>
         </Routes>
       </Provider>

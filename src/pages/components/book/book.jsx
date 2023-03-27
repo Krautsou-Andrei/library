@@ -26,7 +26,6 @@ import { useBookingBook } from '../../../utils/booking-book';
 import { dateTranslatorShort } from '../../../utils/date-translator';
 import { profileLocation } from '../../../utils/profile-location';
 import { useUserComments } from '../../../hooks/use-user-comments';
-import { routs } from '../../../data/routs';
 
 export const Book = ({ product, type, profilDelivery, buttonCancelBooking, bookingDelivety }) => {
   const { id, image, title, rating, authors, issueYear, booking, delivery } = product;
@@ -121,7 +120,7 @@ export const Book = ({ product, type, profilDelivery, buttonCancelBooking, booki
   return (
     <Link
       id={`${id}`}
-      to={`${prefixLink ? `${routs.booksAllPath}${id}` : id}`}
+      to={`${prefixLink ? `/books/all/${id}` : id}`}
       className='book'
       onClick={handlerClick}
       data-test-id='card'
@@ -163,7 +162,20 @@ export const Book = ({ product, type, profilDelivery, buttonCancelBooking, booki
               title={`${isCurrentBookComment ? 'Изменить оценку' : 'Оставить отзыв'}`}
               data-test-id='history-review-button'
             />
-          ) : buttonCancelBooking ? (
+          ) : bookingDelivety ? (
+            <div
+              className={classNames(
+                'button',
+                'button--book',
+                {
+                  'button-booking-current-user': currentBookingBook === 'current',
+                },
+                { 'button-delivery': profilDelivery && type === 'profil' }
+              )}
+            >
+              {getTitleButton()}
+            </div>
+          ) : (
             <Button
               className={classNames(
                 'button',
@@ -179,21 +191,6 @@ export const Book = ({ product, type, profilDelivery, buttonCancelBooking, booki
               disabled={disabledButtonBooking()}
               data-test-id={`${buttonCancelBooking ? 'cancel-booking-button' : 'booking-button'}`}
             />
-          ) : (
-            bookingDelivety && (
-              <div
-                className={classNames(
-                  'button',
-                  'button--book',
-                  {
-                    'button-booking-current-user': currentBookingBook === 'current',
-                  },
-                  { 'button-delivery': profilDelivery && type === 'profil' }
-                )}
-              >
-                {getTitleButton()}
-              </div>
-            )
           )}
         </div>
       </div>

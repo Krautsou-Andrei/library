@@ -26,7 +26,7 @@ export const LinkMenu = ({
     });
 
     await promise;
-    navigation(routs.auth);
+    navigation(`${routs.auth}`);
   };
 
   const onClickLink = () => {

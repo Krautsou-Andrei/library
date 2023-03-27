@@ -76,7 +76,7 @@ export const Menu = ({
                 <LinkMenu
                   title='Все книги'
                   className={activeClassMenu}
-                  link={routs.booksAllRedirect}
+                  link={`${routs.booksAllRedirect}`}
                   onClick={onClick}
                   dataTestLink={dataTestLink}
                   dataTest='true'

@@ -81,7 +81,7 @@ export const FormEnter = ({
     <>
       {!inputOneType && (
         <div className={style['return-auth-page']}>
-          <NavLink to={routs.auth}>Вход в личный кабинет</NavLink>
+          <NavLink to={`${routs.auth}`}>Вход в личный кабинет</NavLink>
         </div>
       )}
 
@@ -330,7 +330,7 @@ export const FormEnter = ({
                 <span>Неверный логин или пароль!</span>
               </span>
             )}
-            <NavLink className={style['forget-password']} to={routs.forgotPass}>
+            <NavLink className={style['forget-password']} to={`${routs.forgotPass}`}>
               {isError400 ? (
                 <span className={style['forget-password__error']}>Востановить?</span>
               ) : (

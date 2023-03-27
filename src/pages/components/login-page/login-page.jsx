@@ -70,7 +70,7 @@ export const LoginPage = () => {
 
   useEffect(() => {
     if (token) {
-      navigation(routs.booksAllRedirect);
+      navigation(`${routs.booksAllRedirect}`);
     }
   }, [navigation, token]);
 
@@ -82,7 +82,7 @@ export const LoginPage = () => {
       triggerBooks();
       triggerCategories();
       triggerUser();
-      navigation(routs.booksAllRedirect);
+      navigation(`${routs.booksAllRedirect}`);
     }
   };
 
