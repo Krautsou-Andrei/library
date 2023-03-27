@@ -16,10 +16,8 @@ import style from './header.module.scss';
 export const Header = () => {
   let userAuth = useSelector((state) => state.authenticationUser.user);
   if (userAuth === null || (userAuth !== null && userAuth !== undefined && !Object.keys(userAuth).length)) {
-      userAuth = JSON.parse(localStorage.getItem('userAuth'));
+    userAuth = JSON.parse(localStorage.getItem('userAuth'));
   }
-
-  console.log('authenticationUser', userAuth);
 
   const [isButtonProfil, setButtonProfil] = useState(false);
   const links = DataBurgerLink();
@@ -33,10 +31,6 @@ export const Header = () => {
   const toggleMenuBurger = () => dispatch(actionMenuBurger());
   const toogleProfil = () => {
     setButtonProfil(!isButtonProfil);
-  };
-
-  const handleChange = (event) => {
-    // console.log('file upload', event.target.files);
   };
 
   return (
@@ -91,15 +85,8 @@ export const Header = () => {
                     height='58'
                     className={classNames(style.image, style.image__account)}
                   />
-                  {/* <img
-                    className={classNames(style.image, style.image__account)}
-                    src={userAuth.avatar}
-                    alt=''
-                    width='58'
-                    height='58'
-                  /> */}
                 </div>
-                {/* <input type='file' onChange={handleChange} /> */}
+
                 {isButtonProfil && <Profil className={style.profil} links={links} />}
               </button>
             </div>

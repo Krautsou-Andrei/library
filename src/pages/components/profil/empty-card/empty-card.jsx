@@ -1,8 +1,9 @@
-export const EmptyCard = ({ title, style }) => (
+export const EmptyCard = ({ stringOne, stringTwo, style }) => (
   <div className={style['info-booking__description']} data-test-id='empty-blue-card'>
     <span className={style['description-label']}>
-      {title}
-      {/* Забронируйте книгу <br />и она отобразится */}
+      {stringOne}
+      <br />
+      {stringTwo}
     </span>
   </div>
 );

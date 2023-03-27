@@ -1,9 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { dataDefaultValueForm } from '../data/data-default-value-form';
 
 export const useEditUserData = () => {
-  // const [userData, setUserData] = useState(data);
-
   const editUser = {};
 
   let userAuth = useSelector((state) => state.authenticationUser.user);
@@ -29,10 +27,10 @@ export const useEditUserData = () => {
       editUser.email = userData?.email;
     }
 
-    editUser.password = userData?.password;
+    if (userData?.password !== dataDefaultValueForm.password) {
+      editUser.password = userData?.password;
+    }
   };
-
-  // console.log('editUser', editUser);
 
   return { editUser, editUserData };
 };

@@ -1,16 +1,6 @@
 import classNames from 'classnames';
 
-// import style from '../pages/components/form-enter/form-enter.module.scss';
-
-export const ErrorHelperForInput = ({
-  errors,
-  inputName,
-  errorsInput,
-  errorValid,
-  inputDisabled,
-  watchInputTwo,
-  style,
-}) => (
+export const ErrorHelperForInput = ({ errors, inputName, errorsInput, errorValid, inputDisabled, style }) => (
   <span
     className={classNames({
       [style['error-input-empty']]: errors?.[inputName]?.type === 'matches' && errorValid,

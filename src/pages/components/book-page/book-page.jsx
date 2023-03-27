@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { useCurrentCategory } from '../../../hooks/current-category';
 
@@ -9,10 +9,7 @@ import {
   setCurrentCategotyTitle,
   useGetBookIdQuery,
   booksApi,
-  useSendCommentsMutation,
   useLazyGetUserQuery,
-  userSlice,
-  setComments,
   useLazyGetCategotiesQuery,
 } from '../../../redux';
 import { Breadcrumbs } from '../breadcrumbs/breadcrumbs';
@@ -20,21 +17,18 @@ import { Breadcrumbs } from '../breadcrumbs/breadcrumbs';
 import { BookInfo } from './book-info';
 import { Loading } from '../loading';
 import { Error } from '../error';
-import { ModalBooking } from '../modals-windows/modal-calendar';
-import { modalComments } from '../modals-windows/type-modal';
+
 import { typeMessage } from '../error/type-message';
 import { useGetBook } from '../../../hooks/use-get-book';
 
 export const BookPage = () => {
   const [isOpenError, setOpenError] = useState(false);
-  const [isOpenSuccess, setOpenSuccess] = useState(false);
 
   const [errorTriggerBookId, setErrorTriggerBookId] = useState(false);
   const [errorBookId, setErrorBookId] = useState(false);
   const [errorUser, setErrorUser] = useState(false);
   const [errorCategories, setErrorCategories] = useState(false);
 
-  const isComments = useSelector((state) => state.booking.isComments);
   const { category, bookId } = useParams();
   const dispatch = useDispatch();
 
@@ -71,10 +65,6 @@ export const BookPage = () => {
     if (errorBookId || errorCategories || errorUser || errorTriggerBookId) {
       setOpenError(true);
       setTimeout(() => closeError(), 4000);
-      // dispatch(setComments(false));
-      // triggerBookId(bookId);
-      // triggerUser();
-      // triggerCategories();
     } else {
       setOpenError(false);
     }
@@ -91,34 +81,15 @@ export const BookPage = () => {
     closeError,
   ]);
 
-  // console.log('book', book);
-  // console.log('isArray', Array.isArray(dataBookId));
   useMemo(() => setErrorBookId(isErrorBookId), [isErrorBookId]);
   useMemo(() => setErrorCategories(isErrorCategories), [isErrorCategories]);
   useMemo(() => setErrorUser(isErrorUser), [isErrorUser]);
   useMemo(() => setErrorTriggerBookId(isErrorTriggerBookId), [isErrorTriggerBookId]);
-  // useEffect(() => {
-  //   if (isSuccessComments) {
-  //     setOpenSuccess(true);
-  //     setTimeout(() => setOpenSuccess(false), 4000);
-  //     dispatch(setComments(false));
-  //     triggerBookId(bookId);
-  //     triggerUser();
-  //   } else {
-  //     setOpenSuccess(false);
-  //   }
-  // }, [isSuccessComments, triggerBookId, triggerUser, bookId, dispatch]);
 
   return (
     <div>
       {isLoadingBookId && <Loading />}
-      {/* {isOpenSuccess && !isLoadingComments && (
-        <Error
-          closeMessage={() => setOpenSuccess(false)}
-          message={typeMessage.successLoadingComments}
-          isSuccess={true}
-        />
-      )} */}
+
       {isOpenError && !isLoadingBookId && (
         <Error closeMessage={() => setOpenError(false)} message={isErrorBookId && typeMessage.errorLoadingBook} />
       )}
@@ -128,10 +99,7 @@ export const BookPage = () => {
         categoryTitle={currentCategotyTitle}
         label={dataBookId?.title ? dataBookId?.title : book?.title}
       />
-      {dataBookId && <BookInfo book={dataBookId?.title ? dataBookId : book} />}
-      {/* {isComments && (
-        <ModalBooking typeModal={modalComments} sendComments={sendComments} clickButtonComments={isComments} />
-      )} */}
+      {dataBookId && <BookInfo book={dataBookId ? dataBookId : book} />}
     </div>
   );
 };

@@ -33,7 +33,6 @@ export const Contented = () => {
       triggerBook();
       triggerCategoties();
       triggerUser();
-      console.log('yes');
     }
   }, [token, triggerBook, triggerCategoties, triggerUser]);
 

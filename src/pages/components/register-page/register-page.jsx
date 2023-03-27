@@ -52,9 +52,7 @@ export const RegisterPage = () => {
 
     criteriaMode: 'all',
     shouldFocusError: 'true',
-    // mode: 'onBlur',
-    // reValidateMode: 'onBlur',
-    // shouldFocusError: false,
+
     resolver: yupResolver(selectSchema(step)),
   });
 

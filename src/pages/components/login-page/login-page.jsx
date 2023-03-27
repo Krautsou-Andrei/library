@@ -20,6 +20,7 @@ import { ModalWindow } from '../modals-windows';
 import { modalErrorAuthentication } from '../modals-windows/type-modal';
 
 import style from '../form-enter/form-enter.module.scss';
+import { routs } from '../../../data/routs';
 
 export const LoginPage = () => {
   const [initialUserError400, setInitialUserError400] = useState(false);
@@ -69,7 +70,7 @@ export const LoginPage = () => {
 
   useEffect(() => {
     if (token) {
-      navigation('books/all');
+      navigation(routs.booksAllRedirect);
     }
   }, [navigation, token]);
 
@@ -81,7 +82,7 @@ export const LoginPage = () => {
       triggerBooks();
       triggerCategories();
       triggerUser();
-      navigation('/books/all');
+      navigation(routs.booksAllRedirect);
     }
   };
 
@@ -93,7 +94,7 @@ export const LoginPage = () => {
       setInitialUserError400(false);
     } else {
       setInitialUserError(false);
-      // triggerUser();
+
       goToPage();
     }
   };

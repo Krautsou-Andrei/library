@@ -14,7 +14,6 @@ import {
   setSuccessDeleteBooking,
   useDeleteBookingMutation,
   useLazyGetBookIdQuery,
-  useUpdateBookingMutation,
 } from '../../../redux';
 import { setSearchQuery } from '../../../redux/slice/search-slice';
 
@@ -27,8 +26,9 @@ import { useBookingBook } from '../../../utils/booking-book';
 import { dateTranslatorShort } from '../../../utils/date-translator';
 import { profileLocation } from '../../../utils/profile-location';
 import { useUserComments } from '../../../hooks/use-user-comments';
+import { routs } from '../../../data/routs';
 
-export const Book = ({ product, type, profilDelivery, buttonCancelBooking }) => {
+export const Book = ({ product, type, profilDelivery, buttonCancelBooking, bookingDelivety }) => {
   const { id, image, title, rating, authors, issueYear, booking, delivery } = product;
 
   const dispatch = useDispatch();
@@ -42,8 +42,6 @@ export const Book = ({ product, type, profilDelivery, buttonCancelBooking }) => 
   if (!Object.keys(userAuth).length || userAuth === null) {
     userAuth = JSON.parse(localStorage.getItem('userAuth'));
   }
-
-  // console.log('booking', booking, profilBooking);
 
   const location = useLocation();
 
@@ -84,9 +82,7 @@ export const Book = ({ product, type, profilDelivery, buttonCancelBooking }) => 
 
   const getTitleButton = () => {
     if (type === 'profil' && !buttonCancelBooking) {
-      return currentBookingBook
-        ? 'отменить бронь'
-        : profilDelivery
+      return currentBookingBook && profilDelivery
         ? `возврат ${dateTranslatorShort(profilDelivery.dateHandedTo)}`
         : 'отменить бронь';
     }
@@ -125,7 +121,7 @@ export const Book = ({ product, type, profilDelivery, buttonCancelBooking }) => 
   return (
     <Link
       id={`${id}`}
-      to={`${prefixLink ? `/books/all/${id}` : id}`}
+      to={`${prefixLink ? `${routs.booksAllPath}${id}` : id}`}
       className='book'
       onClick={handlerClick}
       data-test-id='card'
@@ -165,10 +161,9 @@ export const Book = ({ product, type, profilDelivery, buttonCancelBooking }) => 
               onClick={onClickComments}
               name={id}
               title={`${isCurrentBookComment ? 'Изменить оценку' : 'Оставить отзыв'}`}
-              // disabled={disabledButtonBooking()}
               data-test-id='history-review-button'
             />
-          ) : (
+          ) : buttonCancelBooking ? (
             <Button
               className={classNames(
                 'button',
@@ -184,6 +179,21 @@ export const Book = ({ product, type, profilDelivery, buttonCancelBooking }) => 
               disabled={disabledButtonBooking()}
               data-test-id={`${buttonCancelBooking ? 'cancel-booking-button' : 'booking-button'}`}
             />
+          ) : (
+            bookingDelivety && (
+              <div
+                className={classNames(
+                  'button',
+                  'button--book',
+                  {
+                    'button-booking-current-user': currentBookingBook === 'current',
+                  },
+                  { 'button-delivery': profilDelivery && type === 'profil' }
+                )}
+              >
+                {getTitleButton()}
+              </div>
+            )
           )}
         </div>
       </div>

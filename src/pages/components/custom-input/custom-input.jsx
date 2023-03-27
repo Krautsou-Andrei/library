@@ -5,8 +5,6 @@ import InputMask from 'react-input-mask';
 import { ButtonSubmit } from '../buttons/button-submit/button-submit';
 import { ErrorHelperForInput } from '../../../helpers/error-helper-for-input';
 
-// import style from '../form-enter/form-enter.module.scss';
-
 export const CustomInput = ({
   type,
   register,
@@ -39,7 +37,6 @@ export const CustomInput = ({
 
   const watchInputOne = watch(`${inputOneName}`);
   const watchInputTwo = watch(`${inputTwoName}`);
-  const watchInputPhone = watch('phone');
 
   const changeViewPassword = () => {
     setViewPassword(!isViewPassword);
@@ -74,10 +71,6 @@ export const CustomInput = ({
       trigger();
     }
   };
-
-  // const onChangeMask = () => {
-  //   setViewMask(true);
-  // };
 
   return (
     <div className={style['field-wrapper']}>
@@ -124,13 +117,8 @@ export const CustomInput = ({
                   onFocus={clearErrorFocus}
                   onBlur={viewErrorOnBlure}
                   mask='+375 (99) 999-99-99'
-                  // onChange={onChangeMask}
                   maskChar='x'
-                  alwaysShowMask={
-                    viewMask
-                    // !errors?.message &&
-                    // !!watchInputOne && inputOneName !== 'phone'
-                  }
+                  alwaysShowMask={viewMask}
                   disabled={inputDisabled}
                 />
               )
@@ -156,10 +144,6 @@ export const CustomInput = ({
           <div className={style['input-login-error']}>
             {errors?.[inputOneName] &&
               (errors?.[inputOneName]?.type === 'required' || errors?.[inputOneName]?.type === 'optionality') &&
-              // ||
-              // (errors?.[inputTwoName] &&
-              //   (errors?.[inputTwoName]?.type === 'required' || errors?.[inputTwoName]?.type === 'optionality'))
-
               !watchInputOne && (
                 <div className={style['error-input-empty']} data-test-id='hint'>
                   <div>Поле не может быть пустым</div>
@@ -239,20 +223,22 @@ export const CustomInput = ({
                   onBlur={viewErrorOnBlure}
                   disabled={inputDisabled}
                 />
-                {(inputTwoType === 'password' || inputTwoType === 'passwordConfirmation') && !!watchInputTwo && (
-                  <div className={style['view-password-wrapper']}>
-                    {(title === 'Регистрация' || step === '1') && errorsInputTwo?.length <= 1 && (
-                      <span className={style['check-password']} data-test-id='checkmark' />
-                    )}
+                {(inputTwoType === 'password' || inputTwoType === 'passwordConfirmation') &&
+                  !!watchInputTwo &&
+                  !inputDisabled && (
+                    <div className={style['view-password-wrapper']}>
+                      {(title === 'Регистрация' || step === '1') && errorsInputTwo?.length <= 1 && (
+                        <span className={style['check-password']} data-test-id='checkmark' />
+                      )}
 
-                    <input
-                      className={`${style['view-password']} ${isViewPassword && style['view-active']}`}
-                      type='button'
-                      onClick={changeViewPassword}
-                      data-test-id={isViewPassword ? 'eye-opened' : 'eye-closed'}
-                    />
-                  </div>
-                )}
+                      <input
+                        className={`${style['view-password']} ${isViewPassword && style['view-active']}`}
+                        type='button'
+                        onClick={changeViewPassword}
+                        data-test-id={isViewPassword ? 'eye-opened' : 'eye-closed'}
+                      />
+                    </div>
+                  )}
               </div>
             ) : (
               <input
@@ -274,18 +260,13 @@ export const CustomInput = ({
           <div className={style['input-border']} />
 
           <div className={style['input-login-error']}>
-            {
-              // (errors?.[inputOneName] &&
-              // (errors?.[inputOneName]?.type === 'required' || errors?.[inputOneName]?.type === 'optionality')) ||
-
-              errors?.[inputTwoName] &&
-                (errors?.[inputTwoName]?.type === 'required' || errors?.[inputTwoName]?.type === 'optionality') &&
-                !watchInputTwo && (
-                  <div className={style['error-input-empty']} data-test-id='hint'>
-                    <div>Поле не может быть пустым</div>
-                  </div>
-                )
-            }
+            {errors?.[inputTwoName] &&
+              (errors?.[inputTwoName]?.type === 'required' || errors?.[inputTwoName]?.type === 'optionality') &&
+              !watchInputTwo && (
+                <div className={style['error-input-empty']} data-test-id='hint'>
+                  <div>Поле не может быть пустым</div>
+                </div>
+              )}
 
             {error && (
               <p className={style['error-input-empty']} data-test-id='hint'>

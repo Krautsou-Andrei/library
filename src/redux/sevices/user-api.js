@@ -14,7 +14,6 @@ export const userApi = api.injectEndpoints({
           const user = result.data;
           dispatch(setAuthenticationUser({ user }));
           localStorage.setItem('userAuth', JSON.stringify(user));
-          console.log('result user', result);
         } catch (error) {
           console.error('error getUser', error);
         }
@@ -33,7 +32,6 @@ export const userApi = api.injectEndpoints({
           const user = result.data;
           dispatch(setAuthenticationUser({ user }));
           localStorage.setItem('userAuth', JSON.stringify(user));
-          console.log('editDataUserr', result.data);
         } catch (error) {
           console.error('error editDataUser', error);
         }

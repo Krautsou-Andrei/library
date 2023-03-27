@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { routs } from '../../data/routs';
 import { Error } from '../../pages/components/error';
 import { typeMessage } from '../../pages/components/error/type-message';
 import { Loading } from '../../pages/components/loading';
@@ -24,7 +25,6 @@ import {
   useBookingMutation,
   useDeleteBookingMutation,
   useEditCommentsMutation,
-  useLazyGetUserQuery,
   useSendCommentsMutation,
   useUpdateBookingMutation,
 } from '../../redux';
@@ -81,7 +81,7 @@ export const LayoutMainPage = () => {
 
   useEffect(() => {
     if (!token) {
-      navigation('/auth');
+      navigation(routs.auth);
     }
   }, [navigation, token]);
 

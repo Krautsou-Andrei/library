@@ -26,7 +26,6 @@ export const commentsApi = api.injectEndpoints({
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           const result = await queryFulfilled;
-          console.log('editComments', result);
         } catch (error) {
           console.error('error editComments', error);
         }

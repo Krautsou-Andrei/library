@@ -1,4 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom';
+import { routs } from '../../../data/routs';
 
 export const LinkMenu = ({
   link,
@@ -25,7 +26,7 @@ export const LinkMenu = ({
     });
 
     await promise;
-    navigation('/auth');
+    navigation(routs.auth);
   };
 
   const onClickLink = () => {

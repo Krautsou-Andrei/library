@@ -1,12 +1,11 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+
 import {
   setErrorDeleteBooking,
   setBooking,
   setComments,
   setSuccessDeleteBooking,
-  useGetBookIdQuery,
   useLazyGetUserQuery,
   setErrorComments,
   setSuccessComments,
@@ -25,7 +24,7 @@ import { useGetBook } from '../../../../hooks/use-get-book';
 
 import style from './modal-booking.module.scss';
 import { useUserComments } from '../../../../hooks/use-user-comments';
-import { isCommentsCurrentUser } from '../../../../utils/comments';
+
 import { Button } from '../../buttons/button';
 
 export const ModalBooking = ({
@@ -48,7 +47,7 @@ export const ModalBooking = ({
   const [dataRating, setDataRating] = useState();
   const [isBookingDisabled, setBookingDisabled] = useState(true);
   const [date, setSelectedDay] = useState(currentDateBooking ? new Date(currentDateBooking) : new Date());
-  // const { category, bookId } = useParams();
+
   const currentBook = useSelector((state) => state.book.bookId);
   const bookId = useSelector((state) => state.selectBook.selectBookid);
 
@@ -72,16 +71,12 @@ export const ModalBooking = ({
     user = JSON.parse(localStorage.getItem('user'));
   }
 
-  // const { data: getBook } = useGetBookIdQuery(bookId);
-
-  // const isCurrentBookComment = isCommentsCurrentUser(getBook?.Comments);
   const comment = useUserComments(bookId);
   const isCurrentBookComment = !!comment;
   const commentRating = comment?.rating;
 
   useMemo(() => setDataRating(commentRating), [commentRating]);
 
-  console.log('isCurrentBookComment', comment);
   const {
     isCalendar,
     isComments,
@@ -143,8 +138,6 @@ export const ModalBooking = ({
     }
   };
 
-  console.log('day', date);
-
   const modalBooking = useRef(null);
 
   const onSubmit = (event) => {
@@ -160,13 +153,6 @@ export const ModalBooking = ({
       book: bookId,
       customer: user.id.toString(),
     };
-
-    // if (isCalendar && clickButtonDelete) {
-    //   setClickButtonDelete(false);
-    //   const dataId = userAuth.booking.id;
-
-    //   deleteBooking({ dataId }).then((result) => hundlerDeleteBooking(result));
-    // }
 
     if (isCalendar && isCurrentDateBooking && !clickButtonDelete) {
       const dataId = book.booking.id;
@@ -238,8 +224,6 @@ export const ModalBooking = ({
       document.removeEventListener('click', handleClick);
     };
   }, [modalBooking, isBooking, clickButtonComments, outClick]);
-
-  // console.log('bookId', bookId, comment);
 
   return (
     <div className={style['modal-calendar__wrapper']} data-test-id='modal-outer'>

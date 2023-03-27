@@ -2,21 +2,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 
 import { useErrorVaidate } from '../../../hooks/error-validate';
-import { forgotPasswordSchema, recovetyPasswordSchema } from '../../../helpers/validation';
+import { recovetyPasswordSchema } from '../../../helpers/validation';
 import { FormEnter } from '../form-enter';
 
 import style from '../form-enter/form-enter.module.scss';
 
-export const RecoveryPasswordPage = ({
-  onSubmit,
-  // handleSubmit,
-  // register,
-  // clearErrors,
-  // errors,
-  // watch,
-  // trigger,
-  // isValid,
-}) => {
+export const RecoveryPasswordPage = ({ onSubmit }) => {
   const typeRecoveryPage = {
     title: 'Восстановление пароля',
     inputOneName: 'password',

@@ -223,12 +223,20 @@
 .form__buttons {
   display: flex;
   column-gap: 30px;
+  @include mixin.media-tablet {
+    flex-wrap: wrap;
+    row-gap: 16px;
+    column-gap: 0;
+  }
 }
 
 .form__button-edit,
 .form__button-save {
   width: 15.9375rem;
   height: 3.25rem;
+  @include mixin.media-mobile {
+    width: 100%;
+  }
 }
 
 .section-title {
@@ -284,6 +292,8 @@
 .description-label {
   position: absolute;
   padding: 16px;
+
+  // max-width: 25rem;
 
   color: constants.$color-profil-user-description-text;
   @include mixin.font($size: 2rem, $height: 125%, $weight: 700, $letter: 0.1px);

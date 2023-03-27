@@ -13,10 +13,8 @@ export const avatarApi = api.injectEndpoints({
         try {
           const result = await queryFulfilled;
           const avatar = result.data[0];
-          // dispatch(setAuthenticationUser({ user }));
-          // localStorage.setItem('userAuth', JSON.stringify(user));
+
           localStorage.setItem('avatar', JSON.stringify(avatar));
-          console.log('result avatar', avatar);
         } catch (error) {
           console.error('error setAvatar', error);
         }
@@ -31,12 +29,9 @@ export const avatarApi = api.injectEndpoints({
       async onQueryStarted(arg, { dispatch, queryFulfilled }) {
         try {
           const result = await queryFulfilled;
-          // const avatar = result.data;
-
-          // localStorage.setItem('avatar', JSON.stringify(avatar));
 
           const user = result.data;
-          console.log('result get avatar', user);
+
           dispatch(setAuthenticationUser({ user }));
           localStorage.setItem('userAuth', JSON.stringify(user));
         } catch (error) {

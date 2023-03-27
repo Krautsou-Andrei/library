@@ -30,77 +30,10 @@ import style from './profil-user.module.scss';
 import { bookingError } from '../../../../utils/booking-error';
 import { EmptyCard } from '../empty-card/empty-card';
 import { ExpiredCard } from '../expired-card';
+import { dataDefaultValueForm } from '../../../../data/data-default-value-form';
+import { routs } from '../../../../data/routs';
 
 export const ProfilUser = () => {
-  const dataBook = {
-    id: 2,
-    title: 'Программирование на JAVA',
-    rating: 2,
-    issueYear: null,
-    authors: ['Патрик Нимейер', 'Дэниэл Леук'],
-    image: null,
-  };
-
-  const dataDelivery = {
-    id: 1,
-    handed: true,
-    dateHandedFrom: '2022-11-04T21:00:00.000Z',
-    dateHandedTo: '2022-10-31T21:00:00.000Z',
-  };
-
-  const history = {
-    id: 3,
-    books: [
-      {
-        id: 76,
-        title: 'Как создать сайт. Комикс-путеводитель по HTML, CSS и WordPress',
-        rating: 5,
-        issueYear: null,
-        authors: ['Джи Ким', 'Нейт Купер'],
-        image: null,
-      },
-      {
-        id: 67,
-        title: 'Как создать сайт. Комикс-путеводитель по HTML, CSS и WordPress',
-        rating: 5,
-        issueYear: null,
-        authors: ['Джи Ким', 'Нейт Купер'],
-        image: null,
-      },
-      {
-        id: 76,
-        title: 'Как создать сайт. Комикс-путеводитель по HTML, CSS и WordPress',
-        rating: 5,
-        issueYear: null,
-        authors: ['Джи Ким', 'Нейт Купер'],
-        image: null,
-      },
-      {
-        id: 76,
-        title: 'Как создать сайт. Комикс-путеводитель по HTML, CSS и WordPress',
-        rating: 5,
-        issueYear: null,
-        authors: ['Джи Ким', 'Нейт Купер'],
-        image: null,
-      },
-      {
-        id: 76,
-        title: 'Как создать сайт. Комикс-путеводитель по HTML, CSS и WordPress',
-        rating: 5,
-        issueYear: null,
-        authors: ['Джи Ким', 'Нейт Купер'],
-        image: null,
-      },
-      {
-        id: 76,
-        title: 'Как создать сайт. Комикс-путеводитель по HTML, CSS и WordPress',
-        rating: 5,
-        issueYear: null,
-        authors: ['Джи Ким', 'Нейт Купер'],
-        image: null,
-      },
-    ],
-  };
   const [inputDisabled, setInputDisabled] = useState(true);
   const [successGetAvatar, setSuccessGetAvatar] = useState(false);
   const [errorSetAvatar, setErrorSetAvatar] = useState(false);
@@ -143,6 +76,7 @@ export const ProfilUser = () => {
     defaultValues: {
       login: `${userAuth?.username}`,
       firstName: `${userAuth?.firstName}`,
+      password: `${dataDefaultValueForm.password}`,
       lastName: `${userAuth?.lastName}`,
       phone: `${userAuth?.phone}`,
       email: `${userAuth?.email}`,
@@ -150,11 +84,9 @@ export const ProfilUser = () => {
     resolver: yupResolver(editUserShema),
   });
 
-  // console.log(`${userAuth.firstName}`, userAuth);
-
   useEffect(() => {
     if (!token) {
-      navigation('/auth');
+      navigation(routs.auth);
     }
   }, [navigation, token]);
 
@@ -182,7 +114,6 @@ export const ProfilUser = () => {
   };
 
   const bindAvatar = (data) => {
-    // console.log('data', data);
     const avatarId = data && data[0].id;
     const avatar = {
       id: userAuth?.id,
@@ -229,7 +160,6 @@ export const ProfilUser = () => {
       setOpenSuccess(true);
       setInputDisabled(true);
       setTimeout(() => closeSuccess(), 4000);
-      // triggerUser();
     }
   }, [
     errorEditUser,
@@ -315,7 +245,6 @@ export const ProfilUser = () => {
           </div>
         </div>
         <div className={style.user__form}>
-          {/* <div className={style.form}> */}
           <form className={style.form} action='' onSubmit={handleSubmit(onSubmit)} data-test-id='profile-form'>
             <fieldset className={`${style.form__fieldset} ${editUserError400 && style.error}`}>
               <legend className={style.form__legend}>
@@ -329,7 +258,6 @@ export const ProfilUser = () => {
                 watch={watch}
                 style={style}
                 trigger={trigger}
-                // resetField={resetField}
                 control={control}
                 inputDisabled={inputDisabled}
                 setInputDisabled={setInputDisabled}
@@ -344,7 +272,6 @@ export const ProfilUser = () => {
                 <Button
                   className={`${style['button-edit']} ${style.button}`}
                   title='Редактировать'
-                  // {buttonTextEdit}
                   disabled={false}
                   onClick={editButton}
                   data-test-id='edit-button'
@@ -354,7 +281,6 @@ export const ProfilUser = () => {
                 <ButtonSubmit
                   className={`${style['button-save']} ${style.button}`}
                   title='Сохранить изменения'
-                  // {buttonTextSave}
                   isDisabled={inputDisabled}
                   data-test-id='save-button'
                   onClick={onClickSave}
@@ -362,7 +288,6 @@ export const ProfilUser = () => {
               </div>
             </div>
           </form>
-          {/* </div> */}
         </div>
         <div className={style['user__info-booking']}>
           <div className={style['info-booking']}>
@@ -379,11 +304,12 @@ export const ProfilUser = () => {
                   </div>
                 </div>
               ) : (
-                <EmptyCard title='Забронируйте книгу и она отобразится' style={style} />
+                <EmptyCard stringOne='Забронируйте книгу ' stringTwo='и она отобразится' style={style} />
               )}
               {userAuth?.booking?.dateOrder && bookingError(userAuth?.booking?.dateOrder) && (
                 <ExpiredCard
-                  title='Дата бронирования книги истекла'
+                  stringOne='Дата бронирования '
+                  stringTwo='книги истекла'
                   subTitle='Через 24 часа книга будет доступна всем'
                   style={style}
                 />
@@ -391,7 +317,7 @@ export const ProfilUser = () => {
             </div>
           </div>
         </div>
-        <div className={style['user__info-booking']}>
+        <div className={`${style['user__info-booking']} ${style.handed} `}>
           <div className={style['info-booking']}>
             <h3 className={style['section-title']}>Книга которую взяли</h3>
             <div className={style['title-info']}>
@@ -401,15 +327,24 @@ export const ProfilUser = () => {
               {userAuth?.delivery?.book ? (
                 <div className={style['book-list']}>
                   <div className='book-list'>
-                    {/* userAuth?.delivery?.book     userAuth?.delivery */}
-                    <Book product={userAuth?.delivery?.book} type='profil' profilDelivery={userAuth?.delivery} />
+                    <Book
+                      product={userAuth?.delivery?.book}
+                      type='profil'
+                      profilDelivery={userAuth?.delivery}
+                      bookingDelivety={true}
+                    />
                   </div>
                 </div>
               ) : (
-                <EmptyCard title='Прочитав книгу, она отобразится в истории' style={style} />
+                <EmptyCard stringOne='Прочитав книгу, ' stringTwo='она отобразится в истории' style={style} />
               )}
               {userAuth?.delivery?.dateHandedTo && bookingError(userAuth?.delivery?.dateHandedTo) && (
-                <ExpiredCard title='Вышел срок пользования книги' subTitle='Верните книгу, пожалуйста' style={style} />
+                <ExpiredCard
+                  stringOne='Вышел срок '
+                  stringTwo='пользования книги'
+                  subTitle='Верните книгу, пожалуйста'
+                  style={style}
+                />
               )}
             </div>
           </div>
@@ -420,13 +355,9 @@ export const ProfilUser = () => {
             <div className={style['title-info']}>Список прочитанных книг</div>
             <div className={style['info-booking-description-wrapper']}>
               {userAuth?.history?.books ? (
-                // true
-                <>
-                  {/* userAuth?.history?.books      */}
-                  <ProfilSlider books={userAuth?.history?.books} style={style} />
-                </>
+                <ProfilSlider books={userAuth?.history?.books} style={style} />
               ) : (
-                <EmptyCard title='Вы не читали книг из нашей библиотеки' style={style} />
+                <EmptyCard stringOne='Вы не читали книг ' stringTwo='из нашей библиотеки' style={style} />
               )}
             </div>
           </div>
