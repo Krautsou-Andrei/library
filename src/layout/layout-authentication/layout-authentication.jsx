@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router-dom';
+import { routs } from '../../data/routs';
 
 import style from './layout-authentication.module.scss';
 
@@ -16,7 +17,7 @@ export const LayoutAuthentication = () => {
 
   useEffect(() => {
     if (token) {
-      navigation('books/all');
+      navigation(`${routs.booksAll}`);
     }
   }, [navigation, token]);
 

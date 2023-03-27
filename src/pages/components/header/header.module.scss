@@ -146,6 +146,7 @@
   width: 58px;
   height: 58px;
   border-radius: 150px;
+  @extend %box-shadow-avatar;
 }
 
 .button-burger {

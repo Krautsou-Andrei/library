@@ -1,6 +1,6 @@
 import { IconStar } from '../pages/components/image/icon/icon-star';
 
-export const RatingComments = ({ style, onClickRating, dataRating, dataTestStar, dataTestStarActive }) => {
+export const RatingComments = ({ style, onClickRating, dataRating = 5, dataTestStar, dataTestStarActive }) => {
   const arrayStars = [];
 
   for (let index = 0; index < 5; index++) {

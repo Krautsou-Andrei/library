@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import classNames from 'classnames';
 
@@ -7,12 +7,14 @@ import { Slider } from '../../slider';
 import { Button } from '../../buttons/button';
 import { BookReview } from '../book-review';
 import { Rating } from '../../rating';
-import { setBooking, setBookingCurrentUser, setSelectBookid } from '../../../../redux';
+import { setBooking, setBookingCurrentUser, setComments, setSelectBookid } from '../../../../redux';
 import { useBookingBook } from '../../../../utils/booking-book';
 import { dateTranslatorShort } from '../../../../utils/date-translator';
 import { isCommentsCurrentUser, sortComments } from '../../../../utils/comments';
+import { useUserComments } from '../../../../hooks/use-user-comments';
 
-export const BookInfo = ({ book, onClickComments }) => {
+export const BookInfo = ({ book }) => {
+  const userAuth = useSelector((state) => state.authenticationUser.user);
   const dispatch = useDispatch();
   const [isReviewCollapsible, setReviewCollapsible] = useState(true);
   const toggleReview = () => {
@@ -45,13 +47,19 @@ export const BookInfo = ({ book, onClickComments }) => {
     dispatch(setBooking(true));
     dispatch(setSelectBookid(event.target.name));
   };
+
+  const onClickComments = (event) => {
+    dispatch(setComments(true));
+    dispatch(setSelectBookid(event.target.name));
+  };
   const { category, bookId } = useParams();
+
   return (
     <div className='book-page-wrapper wrapper'>
       <section className='book-page'>
         <div className='book-page-wrapper-content'>
           <div className='book-page-image-wrapper'>
-            <Slider images={images} />
+            {images && images?.length > 0 ? <Slider images={images} /> : <img src='' alt='' />}
           </div>
           <div className='book-page__content'>
             <h2 className='book-page__title title--xxl' data-test-id='book-title'>
@@ -151,10 +159,12 @@ export const BookInfo = ({ book, onClickComments }) => {
             </div>
             <div className='review__button'>
               <Button
-                className='button button--book-page'
-                title='Оценить книгу'
+                className={classNames('button button--book-page', {
+                  'button-current-user': isCommentsCurrentUser(comments),
+                })}
+                title={`${isCommentsCurrentUser(comments) ? 'Изменить оценку' : 'Оценить книгу'}`}
+                name={bookId}
                 onClick={onClickComments}
-                disabled={comments && isCommentsCurrentUser(comments)}
                 data-test-id='button-rate-book'
               />
             </div>

@@ -1,6 +1,6 @@
 import { FormEnter } from '../../form-enter';
 
-export const RegisterStepThree = ({ step, register, clearErrors, errors, watch }) => {
+export const RegisterStepThree = ({ step, register, clearErrors, errors, watch, trigger, isValid }) => {
   const typeRegistrationStepOne = {
     step: `${step}`,
     title: 'Регистрация',
@@ -24,6 +24,8 @@ export const RegisterStepThree = ({ step, register, clearErrors, errors, watch }
       errors={errors}
       watchInputOne={watch('phone')}
       watchInputTwo={watch('email')}
+      isValid={isValid}
+      trigger={trigger}
     />
   );
 };

@@ -98,3 +98,52 @@
   color: constants.$color-button-text-disabled;
   background: constants.$color-button-disabled;
 }
+
+.button-save:disabled {
+  border-color: constants.$color-button-border-disabled;
+  color: constants.$color-button-book-text;
+  background: constants.$color-button-disabled-save;
+}
+
+.button-current-user {
+  border-color: constants.$color-button-border-booking-current;
+  background: constants.$color-button-book-background;
+  color: constants.$color-button-text-booking-current !important;
+}
+
+.button-edit {
+  border-radius: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-transform: uppercase;
+
+  border: 1px solid constants.$color-button-border-booking-current;
+  background: rgba(0, 0, 0, 0);
+  color: constants.$color-button-text-booking-current !important;
+
+  @include mixin.font($size: 1rem, $height: 150%, $weight: 600, $letter: 0.2px);
+  @include mixin.media-mobile {
+    font-size: 0.75rem;
+  }
+}
+
+.button-save {
+  border-radius: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-transform: uppercase;
+  color: constants.$color-button-book-text;
+
+  @extend %linear-gradient-button-background;
+
+  @include mixin.font($size: 1rem, $height: 150%, $weight: 600, $letter: 0.2px);
+  @include mixin.media-mobile {
+    font-size: 0.75rem;
+  }
+}

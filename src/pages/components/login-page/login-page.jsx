@@ -1,9 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useSelector } from 'react-redux';
 
-import { useAuthenticationUserMutation } from '../../../redux';
+import {
+  useAuthenticationUserMutation,
+  useLazyGetBooksQuery,
+  useLazyGetCategotiesQuery,
+  useLazyGetUserQuery,
+  userApi,
+} from '../../../redux';
 
 import { authenticationSchema } from '../../../helpers/validation';
 import { FormEnter } from '../form-enter';
@@ -13,6 +20,7 @@ import { ModalWindow } from '../modals-windows';
 import { modalErrorAuthentication } from '../modals-windows/type-modal';
 
 import style from '../form-enter/form-enter.module.scss';
+import { routs } from '../../../data/routs';
 
 export const LoginPage = () => {
   const [initialUserError400, setInitialUserError400] = useState(false);
@@ -35,25 +43,46 @@ export const LoginPage = () => {
     linkPath: '/registration',
   };
   const [authenticationUser, { isLoading }] = useAuthenticationUserMutation();
+  const [triggerUser] = useLazyGetUserQuery();
+  const [triggerBooks] = useLazyGetBooksQuery();
+  const [triggerCategories] = useLazyGetCategotiesQuery();
 
   const {
     register,
-    formState: { errors },
+    formState: { errors, isValid },
     handleSubmit,
     clearErrors,
     watch,
+    trigger,
   } = useForm({
     mode: 'all',
     criteriaMode: 'all',
     resolver: yupResolver(authenticationSchema),
   });
 
+  const user = useSelector((state) => state.user.user);
+
+  let token = user?.jwt;
+
+  if (!Object.keys(user).length) {
+    token = localStorage.getItem('token');
+  }
+
+  useEffect(() => {
+    if (token) {
+      navigation(`${routs.booksAllRedirect}`);
+    }
+  }, [navigation, token]);
+
   const goToPage = () => {
     const token = localStorage.getItem('token');
     if (token === null) {
       goToPage();
     } else {
-      navigation('/books/all');
+      triggerBooks();
+      triggerCategories();
+      triggerUser();
+      navigation(`${routs.booksAllRedirect}`);
     }
   };
 
@@ -65,6 +94,7 @@ export const LoginPage = () => {
       setInitialUserError400(false);
     } else {
       setInitialUserError(false);
+
       goToPage();
     }
   };
@@ -97,6 +127,8 @@ export const LoginPage = () => {
             errors={errors}
             watchInputOne={watch('identifier')}
             watchInputTwo={watch('password')}
+            isValid={isValid}
+            trigger={trigger}
           />
         </form>
       )}

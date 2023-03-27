@@ -2,9 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   isBooking: false,
-  refButtonBook: '',
-  refButtonBookPage: '',
-  refButtonComments: '',
+  isComments: false,
 };
 
 export const modalSlice = createSlice({
@@ -15,19 +13,12 @@ export const modalSlice = createSlice({
       const stateBooking = state;
       stateBooking.isBooking = action.payload;
     },
-    setButtonBook(state, action) {
+    setComments(state, action) {
       const stateBooking = state;
-      stateBooking.refButtonBook = action.payload;
-    },
-    setButtonBookPage(state, action) {
-      const stateBooking = state;
-      stateBooking.refButtonBookPage = action.payload;
-    },
-    setButtonComments(state, action) {
-      const stateBooking = state;
-      stateBooking.refButtonComments = action.payload;
+
+      stateBooking.isComments = action.payload;
     },
   },
 });
 
-export const { setBooking, setButtonBook, setButtonBookPage, setButtonComments } = modalSlice.actions;
+export const { setBooking, setComments } = modalSlice.actions;

@@ -7,6 +7,7 @@ $color-body-background: #ffffff;
 
 $color-text-primary: #363636;
 $color-text-secondary: #727272;
+$color-text-description: #a7a7a7;
 $color-text-heighlight: #ff5253;
 $color-button-primary: rgb(248, 54, 0);
 $color-button-secondary: rgb(249, 212, 35);
@@ -28,12 +29,13 @@ $color-input-search-focus-border: #ff5253;
 $color-svg-active: white;
 $color-star-background: #ffbc1f;
 
-$color-button-book-background: white;
+$color-button-book-background: rgba(0, 0, 0, 0);
 $color-button-book-border: #bfc4c9;
 $color-button-book-borger-hover: #a7a7a7;
 $color-button-book-text-active: white;
 $color-button-book-text: white;
 $color-button-disabled: #f9f9fa;
+$color-button-disabled-save: rgb(235, 235, 235);
 $color-button-text-disabled: #a7a7a7;
 $color-button-border-disabled: #bfc4c9;
 $color-button-border-booking-current: #bfc4c9;
@@ -81,7 +83,7 @@ $color-form-error: rgb(244, 44, 79);
 $color-modal-calendar-background: #ffffff;
 $color-modal-calendar-button-close-background: #f9f9fa;
 $color-modal-calendar-button-close-text: rgb(248, 54, 0);
-$color-modal-calendar-button-disabled-background: #ebebeb;
+$color-modal-calendar-button-disabled-background: rgb(235, 235, 235);
 $color-modal-calendar-button-text-disabled: #ffffff;
 $color-modal-calendar-title: #363636;
 $color-modal-calendar-text-month: #a7a7a7;
@@ -95,6 +97,14 @@ $color-modal-comments-textarea-backgrond: #f9f9fa;
 $color-modal-calendar-text-today: rgb(248, 54, 0);
 $color-modal-calendar-background-select-day: rgb(248, 54, 0);
 $color-modal-calendar-text-placeholder: #a7a7a7;
+
+$color-profil-user-description-background: #6e76f1;
+$color-profil-user-description-background-error: rgba(255, 82, 83, 0.7);
+$color-profil-user-description-text: #ffffff;
+$color-profil-user-image-background: #363636;
+$color-profil-user-button-border-delivery: #ffffff;
+$color-profil-user-button-background-delivery: #ffffff;
+$color-profil-user-button-text-delivery: rgb(255, 82, 83);
 
 $color-button-filter: drop-shadow(0px 2px 4px rgba(191, 196, 201, 0.2))
   drop-shadow(0px 3px 4px rgba(191, 196, 201, 0.18)) drop-shadow(0px 1px 5px rgba(191, 196, 201, 0.24));

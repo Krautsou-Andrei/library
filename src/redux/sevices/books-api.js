@@ -52,4 +52,11 @@ export const booksApi = api.injectEndpoints({
   }),
 });
 
-export const { useGetBooksQuery, useGetCategotiesQuery, useGetBookIdQuery } = booksApi;
+export const {
+  useGetBooksQuery,
+  useGetCategotiesQuery,
+  useGetBookIdQuery,
+  useLazyGetCategotiesQuery,
+  useLazyGetBooksQuery,
+  useLazyGetBookIdQuery,
+} = booksApi;

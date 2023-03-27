@@ -6,6 +6,7 @@ import { ButtonSubmit } from '../buttons/button-submit/button-submit';
 import { ErrorHelperForInput } from '../../../helpers/error-helper-for-input';
 
 import style from './form-enter.module.scss';
+import { routs } from '../../../data/routs';
 
 export const FormEnter = ({
   type,
@@ -18,10 +19,13 @@ export const FormEnter = ({
   error,
   watchInputOne,
   watchInputTwo,
+  trigger,
+  isValid,
 }) => {
   const [isViewPassword, setViewPassword] = useState(false);
   const [isViewPasswordOne, setViewPasswordOne] = useState(false);
   const [isError400, setError400] = useState(false);
+  const [errorValid, setErrorValid] = useState(false);
 
   const {
     step,
@@ -52,18 +56,32 @@ export const FormEnter = ({
     }
   }, [initialUserError400, errors, inputOneName, inputTwoName]);
 
-  const clearErrorFocus = () => {
+  const clearErrorFocus = (event) => {
+    setErrorValid(false);
+
+    const trueWatchInputOne = !watchInputOne;
+    const trueWatchInputTwo = !watchInputTwo;
     if (clearErrors && inputOneName !== 'identifier') {
       clearErrors();
     }
+
     setError400(false);
+  };
+
+  const viewErrorOnBlure = () => {
+    if (!isValid) {
+      setErrorValid(true);
+    }
+    if (trigger) {
+      trigger();
+    }
   };
 
   return (
     <>
       {!inputOneType && (
         <div className={style['return-auth-page']}>
-          <NavLink to='/auth'>Вход в личный кабинет</NavLink>
+          <NavLink to={`${routs.auth}`}>Вход в личный кабинет</NavLink>
         </div>
       )}
 
@@ -81,12 +99,13 @@ export const FormEnter = ({
                   <div className={style['password-wrapper']}>
                     <input
                       className={style['form-input']}
-                      id='input-login'
+                      id={`${inputOneName}`}
                       type={`${!isViewPasswordOne ? inputOneType : 'text'}`}
                       name={`${inputOneName}`}
                       placeholder=' '
                       {...register(`${inputOneName}`)}
                       onFocus={clearErrorFocus}
+                      onBlur={viewErrorOnBlure}
                     />
                     {inputOneType === 'password' && !!watchInputOne && (
                       <div className={style['view-password-wrapper']}>
@@ -106,12 +125,13 @@ export const FormEnter = ({
                 ) : (
                   <InputMask
                     className={style['form-input']}
-                    id='input-login'
+                    autoComplete='off'
                     type={`${inputOneType}`}
                     name={`${inputOneName}`}
                     placeholder=' '
                     {...register(`${inputOneName}`)}
                     onFocus={clearErrorFocus}
+                    onBlur={viewErrorOnBlure}
                     mask='+375 (99) 999-99-99'
                     maskChar='x'
                     alwaysShowMask={!errors?.message && inputOneName !== 'phone'}
@@ -120,12 +140,13 @@ export const FormEnter = ({
               ) : (
                 <input
                   className={`${style['form__input-login']} ${style['form-input']}`}
-                  id='input-login'
+                  id={`${inputOneName}`}
                   type={`${inputOneType}`}
                   name={`${inputOneName}`}
                   placeholder=' '
                   {...register(`${inputOneName}`)}
                   onFocus={clearErrorFocus}
+                  onBlur={viewErrorOnBlure}
                 />
               )}
               <label className={style['form-label']} htmlFor='input-login'>
@@ -135,49 +156,63 @@ export const FormEnter = ({
             <div className={style['input-border']} />
 
             <div className={style['input-login-error']}>
-              {((errors?.[inputOneName] && errors[inputOneName]?.type === 'required') ||
-                (errors?.[inputTwoName] && errors[inputTwoName]?.type === 'required')) &&
+              {errors?.[inputOneName] &&
+                (errors?.[inputOneName]?.type === 'required' || errors?.[inputOneName]?.type === 'optionality') &&
+                (inputOneName !== 'username' || errorValid) &&
+                (inputOneName !== 'password' || errorValid) &&
                 !watchInputOne && (
-                  <p className={style['error-input-empty']} data-test-id='hint'>
-                    <span>Поле не может быть пустым</span>
-                  </p>
+                  <div className={style['error-input-empty']} data-test-id='hint'>
+                    <div>Поле не может быть пустым</div>
+                  </div>
                 )}
 
-              {inputOneName === 'username' && errors && errors[inputOneName]?.type !== 'required' && (
-                <span
-                  className={classNames({
-                    [style['error-input-empty']]: errors[inputOneName]?.type === 'matches',
-                  })}
-                  data-test-id='hint'
-                >
-                  Используйте для логина{' '}
+              {inputOneName === 'username' &&
+                errors &&
+                ((errors?.[inputOneName]?.type !== 'required' && errors?.[inputOneName]?.type !== 'optionality') ||
+                  (errors?.[inputOneName]?.type === 'required' && !errorValid)) && (
                   <span
                     className={classNames({
-                      [style['error-input']]: errorsInputOne.includes('латинский алфавит'),
+                      [style['error-input-empty']]: errors?.[inputOneName]?.type === 'matches' && errorValid,
                     })}
+                    data-test-id='hint'
                   >
-                    латинский алфавит{' '}
+                    Используйте для логина{' '}
+                    <span
+                      className={classNames({
+                        [style['error-input']]: errorsInputOne?.includes('латинский алфавит'),
+                      })}
+                    >
+                      латинский алфавит{' '}
+                    </span>
+                    и{' '}
+                    <span
+                      className={classNames({
+                        [style['error-input']]: errorsInputOne?.includes('цифры'),
+                      })}
+                    >
+                      цифры
+                    </span>
                   </span>
-                  и{' '}
-                  <span
-                    className={classNames({
-                      [style['error-input']]: errorsInputOne.includes('цифры'),
-                    })}
-                  >
-                    цифры
-                  </span>
-                </span>
-              )}
+                )}
               {inputTwoName === 'passwordConfirmation' &&
                 inputOneName === 'password' &&
-                errors &&
-                errors[inputOneName]?.type !== 'required' && (
-                  <ErrorHelperForInput errors={errors} inputName={inputOneName} errorsInput={errorsInputOne} />
+                ((errors &&
+                  errors?.[inputOneName]?.type !== 'required' &&
+                  errors?.[inputOneName]?.type !== 'optionality') ||
+                  (errors?.[inputOneName]?.type === 'required' && !errorValid)) && (
+                  <ErrorHelperForInput
+                    errors={errors}
+                    inputName={inputOneName}
+                    errorsInput={errorsInputOne}
+                    watchInputTwo={watchInputTwo}
+                    style={style}
+                    errorValid={errorValid}
+                  />
                 )}
-              {inputOneName === 'phone' && errors && errors[inputOneName]?.type !== 'required' && (
+              {inputOneName === 'phone' && errors && errors?.[inputOneName]?.type !== 'required' && (
                 <span
                   className={classNames({
-                    [style['error-input-empty']]: errors[inputOneName]?.type === 'matches',
+                    [style['error-input-empty']]: errors?.[inputOneName]?.type === 'matches',
                   })}
                   data-test-id='hint'
                 >
@@ -194,16 +229,17 @@ export const FormEnter = ({
                 <div className={style['password-wrapper']}>
                   <input
                     className={style['form-input']}
-                    id='input-password'
+                    id={`${inputTwoName}`}
                     type={`${!isViewPassword ? inputTwoType : 'text'}`}
                     name={`${inputTwoName}`}
                     placeholder=' '
                     {...register(`${inputTwoName}`)}
                     onFocus={clearErrorFocus}
+                    onBlur={viewErrorOnBlure}
                   />
                   {(inputTwoType === 'password' || inputTwoType === 'passwordConfirmation') && !!watchInputTwo && (
                     <div className={style['view-password-wrapper']}>
-                      {title === 'Регистрация' && errorsInputTwo?.length <= 1 && (
+                      {(title === 'Регистрация' || step === '1') && errorsInputTwo?.length <= 1 && (
                         <span className={style['check-password']} data-test-id='checkmark' />
                       )}
 
@@ -219,12 +255,13 @@ export const FormEnter = ({
               ) : (
                 <input
                   className={style['form-input']}
-                  id='input-password'
+                  id={`${inputTwoName}`}
                   type={`${inputTwoType}`}
                   name={`${inputTwoName}`}
                   placeholder=' '
                   {...register(`${inputTwoName}`)}
                   onFocus={clearErrorFocus}
+                  onBlur={viewErrorOnBlure}
                 />
               )}
               <label className={style['form-label']} htmlFor='input-password'>
@@ -234,12 +271,12 @@ export const FormEnter = ({
             <div className={style['input-border']} />
 
             <div className={style['input-login-error']}>
-              {((errors?.[inputOneName] && errors[inputOneName]?.type === 'required') ||
-                (errors?.[inputTwoName] && errors[inputTwoName]?.type === 'required')) &&
+              {errors?.[inputTwoName] &&
+                (errors?.[inputTwoName]?.type === 'required' || errors?.[inputTwoName]?.type === 'optionality') &&
                 !watchInputTwo && (
-                  <p className={style['error-input-empty']} data-test-id='hint'>
-                    <span>Поле не может быть пустым</span>
-                  </p>
+                  <div className={style['error-input-empty']} data-test-id='hint'>
+                    <div>Поле не может быть пустым</div>
+                  </div>
                 )}
 
               {error && (
@@ -248,21 +285,33 @@ export const FormEnter = ({
                 </p>
               )}
 
-              {errors?.[inputTwoName] && errors[inputTwoName]?.type === 'oneOf' && (
+              {errors?.[inputTwoName] && errors?.[inputTwoName]?.type === 'oneOf' && errorValid && (
                 <span className={style['error-input-empty']} data-test-id='hint'>
                   {errors?.[inputTwoName]?.message}
                 </span>
               )}
 
-              {step && inputTwoName === 'password' && errors && errors.password?.type !== 'required' && (
-                <ErrorHelperForInput errors={errors} inputName={inputTwoName} errorsInput={errorsInputTwo} />
-              )}
-              {errors?.[inputTwoName] === 'email' && errors[inputTwoName]?.type === 'required' && (
-                <p className={style['error-input-empty']} data-test-id='hint'>
-                  <span>Поле не может быть пустым</span>
-                </p>
-              )}
-              {inputTwoName === 'email' && errors[inputTwoName]?.type === 'matches' && (
+              {step &&
+                inputTwoName === 'password' &&
+                errors &&
+                errors?.[inputTwoName]?.type !== 'required' &&
+                errors?.[inputTwoName]?.type !== 'optionality' && (
+                  <ErrorHelperForInput
+                    errors={errors}
+                    inputName={inputTwoName}
+                    errorsInput={errorsInputTwo}
+                    watchInputTwo={watchInputTwo}
+                    style={style}
+                    errorValid={errorValid}
+                  />
+                )}
+              {errors?.[inputTwoName] === 'email' &&
+                (errors?.[inputTwoName]?.type === 'required' || errors?.[inputTwoName]?.type === 'optionality') && (
+                  <div className={style['error-input-empty']} data-test-id='hint'>
+                    <div>Поле не может быть пустым</div>
+                  </div>
+                )}
+              {inputTwoName === 'email' && errors?.[inputTwoName]?.type === 'matches' && (
                 <p className={style['error-input-empty']} data-test-id='hint'>
                   {errors?.[inputTwoName]?.message}
                 </p>
@@ -273,6 +322,7 @@ export const FormEnter = ({
             </div>
           </div>
         )}
+
         {inputOneType && inputOneType !== 'password' && (
           <>
             {isError400 && (
@@ -280,7 +330,7 @@ export const FormEnter = ({
                 <span>Неверный логин или пароль!</span>
               </span>
             )}
-            <NavLink className={style['forget-password']} to='/forgot-pass'>
+            <NavLink className={style['forget-password']} to={`${routs.forgotPass}`}>
               {isError400 ? (
                 <span className={style['forget-password__error']}>Востановить?</span>
               ) : (
@@ -294,7 +344,9 @@ export const FormEnter = ({
         <ButtonSubmit
           className={`${style['button-form']} ${style.button}`}
           title={buttonText}
-          isDisabled={!!errors[inputOneName] || !!errors[inputTwoName]}
+          isDisabled={
+            inputTwoName === 'passwordConfirmation' ? errorValid : !!errors[inputOneName] || !!errors[inputTwoName]
+          }
         />
       </div>
       <div className={style['link-wrapper']}>

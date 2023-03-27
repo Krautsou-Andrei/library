@@ -8,8 +8,11 @@ export const sortComments = (comments) => {
 
 export const isCommentsCurrentUser = (comments) => {
   let isCurrentUser = false;
-  comments.forEach((element) => {
-    if (element?.user?.commentUserId === user?.id) isCurrentUser = true;
-  });
+
+  if (comments && comments.length > 0) {
+    comments.forEach((element) => {
+      if (element?.user?.commentUserId === user?.id) isCurrentUser = true;
+    });
+  }
   return isCurrentUser;
 };

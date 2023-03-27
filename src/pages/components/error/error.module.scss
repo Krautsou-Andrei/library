@@ -1,13 +1,18 @@
 @use '../../../style/abstract/constants' as constants;
 @use '../../../style/abstract/mixin' as mixin;
 
-.error {
+.error-wrapper {
   position: absolute;
+  padding: 1rem;
   top: 64px;
   left: 50%;
   transform: translateX(-50%);
-
   z-index: 100;
+
+  max-width: 71.375rem;
+  width: 100%;
+}
+.error {
   padding: 28px 37px 28px 37px;
   max-width: 69.375rem;
   width: 100%;
@@ -44,6 +49,7 @@
   width: 32px;
   height: 32px;
   background-size: 32px;
+
   background: url('../../image/ico/warning_circle.svg');
 
   @include mixin.media-tablet {
@@ -60,7 +66,22 @@
 }
 
 .success-icon {
+  width: 32px;
+  height: 32px;
+  background-size: 32px;
   background: url('../../image/ico/icon-check-success.svg');
+
+  @include mixin.media-tablet {
+    width: 24px;
+    height: 24px;
+    background-size: 24px;
+  }
+
+  @include mixin.media-mobile {
+    width: 18px;
+    height: 18px;
+    background-size: 18px;
+  }
 }
 
 .error-message {

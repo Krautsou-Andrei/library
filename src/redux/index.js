@@ -17,3 +17,4 @@ export * from './sevices/forgot-api';
 export * from './sevices/reset-api';
 export * from './sevices/booking-api';
 export * from './sevices/comments-api';
+export * from './sevices/user-api';

@@ -22,6 +22,7 @@ export const authApi = api.injectEndpoints({
           localStorage.setItem('token', jwt);
           dispatch(setUser({ user }));
           localStorage.setItem('user', JSON.stringify(result.data.user));
+          sessionStorage.setItem('user', JSON.stringify(result.data.user));
         } catch (error) {
           console.error('erro authentication', error);
         }

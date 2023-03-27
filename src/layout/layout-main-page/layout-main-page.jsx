@@ -1,35 +1,55 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { routs } from '../../data/routs';
 import { Error } from '../../pages/components/error';
 import { typeMessage } from '../../pages/components/error/type-message';
 import { Loading } from '../../pages/components/loading';
 
 import { ModalBooking } from '../../pages/components/modals-windows/modal-calendar';
-import { modalBooking } from '../../pages/components/modals-windows/type-modal';
+import { modalBooking, modalComments } from '../../pages/components/modals-windows/type-modal';
 import {
   booksApi,
   setBooking,
+  setComments,
+  setErrorBooking,
+  setErrorComments,
+  setErrorDeleteBooking,
+  setErrorEditComments,
+  setErrorUpdateBooking,
+  setSuccessBooking,
+  setSuccessComments,
+  setSuccessDeleteBooking,
+  setSuccessEditComments,
+  setSuccessUpdateBooking,
   useBookingMutation,
   useDeleteBookingMutation,
+  useEditCommentsMutation,
+  useSendCommentsMutation,
   useUpdateBookingMutation,
 } from '../../redux';
 import { bookingIsPage } from '../../utils/booking-book';
 
 export const LayoutMainPage = () => {
-  const [successBooking, setSuccessBooking] = useState(false);
-  const [successUpdateBooking, setSuccessUpdateBooking] = useState(false);
-  const [successDeleteBooking, setSuccessDeleteBooking] = useState(false);
-  const [errorBooking, setErrorBooking] = useState(false);
-  const [errorUpdateBooking, setErrorUpdateBooking] = useState(false);
-  const [errorDeleteBooking, setErrorDeleteBooking] = useState(false);
+  const successBooking = useSelector((state) => state.errorMain.successBooking);
+  const successEditComments = useSelector((state) => state.errorMain.successEditComments);
+  const successComments = useSelector((state) => state.errorMain.successComments);
+  const successDeleteBooking = useSelector((state) => state.errorMain.successDeleteBooking);
+  const successUpdateBooking = useSelector((state) => state.errorMain.successUpdateBooking);
+  const errorBooking = useSelector((state) => state.errorMain.errorBooking);
+  const errorUpdateBooking = useSelector((state) => state.errorMain.errorUpdateBooking);
+  const errorComments = useSelector((state) => state.errorMain.errorComments);
+  const errorDeleteBooking = useSelector((state) => state.errorMain.errorDeleteBooking);
+  const errorEditComments = useSelector((state) => state.errorMain.errorEditComments);
+
   const [isOpenError, setOpenError] = useState(false);
   const [isOpenSuccess, setOpenSuccess] = useState(false);
   const dispatch = useDispatch();
   const navigation = useNavigate();
   const bookId = useSelector((state) => state.selectBook.selectBookid);
   const isBooking = useSelector((state) => state.booking.isBooking);
-  const [booking, { isLoading: isLoadingBooking, isSuccess: isSuccessBooking, isError: isErrorBooking, success }] =
+  const isComments = useSelector((state) => state.booking.isComments);
+  const [booking, { isLoading: isLoadingBooking, isSuccess: isSuccessBooking, isError: isErrorBooking }] =
     useBookingMutation();
   const [
     updateBooking,
@@ -37,14 +57,21 @@ export const LayoutMainPage = () => {
   ] = useUpdateBookingMutation();
   const [
     deleteBooking,
-    { isLoading: isLoadingDeleteBooking, isSuccess: isSuccessDeleteBooking, isError: isErrorDeleteBooking },
+    { isLoading: isLoadingDeleteBooking, isSuccess: isSuccessDeleteBooking, isError: isErrorDeleteBooking, error },
   ] = useDeleteBookingMutation();
+  const [sendComments, { isLoading: isLoadingComments, isSuccess: isSuccessComments, isError: isErrorComments }] =
+    useSendCommentsMutation();
+  const [
+    editComments,
+    { isLoading: isLoadingEditComments, isSuccess: isSuccessEditComments, isError: isErrorEditComments },
+  ] = useEditCommentsMutation();
   const [triggerBooks, { isLoading: isLoadingUpdateBooks }] = booksApi.useLazyGetBooksQuery();
   const [triggerBookId, { isLoading: isLoadingUpdateBookId }] = booksApi.useLazyGetBookIdQuery();
+
   const location = useLocation();
   const user = useSelector((state) => state.user.user);
 
-  let token = user.jwt;
+  let token = user?.jwt;
 
   if (!Object.keys(user).length) {
     token = localStorage.getItem('token');
@@ -54,36 +81,43 @@ export const LayoutMainPage = () => {
 
   useEffect(() => {
     if (!token) {
-      navigation('/auth');
+      navigation(`${routs.auth}`);
     }
   }, [navigation, token]);
 
   const closeErrorMessage = () => {
     setOpenError(false);
-    setErrorBooking(false);
-    setErrorUpdateBooking(false);
-    setErrorDeleteBooking(false);
+
+    dispatch(setErrorBooking(false));
+    dispatch(setErrorUpdateBooking(false));
+    dispatch(setErrorDeleteBooking(false));
+    dispatch(setErrorComments(false));
+    dispatch(setErrorEditComments(false));
   };
 
   const closeSuccessMessage = () => {
     setOpenSuccess(false);
-    setSuccessBooking(false);
-    setSuccessUpdateBooking(false);
-    setSuccessDeleteBooking(false);
+
+    dispatch(setSuccessBooking(false));
+    dispatch(setSuccessUpdateBooking(false));
+    dispatch(setSuccessDeleteBooking(false));
+    dispatch(setSuccessComments(false));
+    dispatch(setSuccessEditComments(false));
   };
 
   const closeSuccess = closeSuccessMessage;
   const closeError = closeErrorMessage;
 
   useEffect(() => {
-    if (errorBooking || errorUpdateBooking || errorDeleteBooking) {
+    if (errorBooking || errorEditComments || errorUpdateBooking || errorDeleteBooking || errorComments) {
       setOpenError(true);
       setTimeout(() => closeError(), 4000);
 
       dispatch(setBooking(false));
+      dispatch(setComments(false));
     }
 
-    if (successBooking || successUpdateBooking || successDeleteBooking) {
+    if (successBooking || successEditComments || successUpdateBooking || successDeleteBooking || successComments) {
       setOpenSuccess(true);
 
       setTimeout(() => closeSuccess(), 4000);
@@ -93,6 +127,7 @@ export const LayoutMainPage = () => {
         triggerBooks();
       }
       dispatch(setBooking(false));
+      dispatch(setComments(false));
     }
   }, [
     triggerBooks,
@@ -105,22 +140,14 @@ export const LayoutMainPage = () => {
     successBooking,
     successUpdateBooking,
     successDeleteBooking,
+    successComments,
+    successEditComments,
+    errorEditComments,
+    errorComments,
     errorBooking,
     errorUpdateBooking,
     errorDeleteBooking,
   ]);
-
-  useMemo(() => setSuccessBooking(isSuccessBooking), [isSuccessBooking]);
-
-  useMemo(() => setSuccessUpdateBooking(isSuccessUpdateBooking), [isSuccessUpdateBooking]);
-
-  useMemo(() => setSuccessDeleteBooking(isSuccessDeleteBooking), [isSuccessDeleteBooking]);
-
-  useMemo(() => setErrorBooking(isErrorBooking), [isErrorBooking]);
-
-  useMemo(() => setErrorUpdateBooking(isErrorUpdateBooking), [isErrorUpdateBooking]);
-
-  useMemo(() => setErrorDeleteBooking(isErrorDeleteBooking), [isErrorDeleteBooking]);
 
   return (
     <>
@@ -128,16 +155,24 @@ export const LayoutMainPage = () => {
         isLoadingUpdateBooks ||
         isLoadingUpdateBookId ||
         isLoadingUpdateBooking ||
-        isLoadingDeleteBooking) && <Loading />}
+        isLoadingDeleteBooking ||
+        isLoadingComments ||
+        isLoadingEditComments) && <Loading />}
       {isOpenError && !isLoadingBooking && (
         <Error
           closeMessage={closeErrorMessage}
           message={
             errorBooking
               ? typeMessage.errorLoadingBooking
+              : errorDeleteBooking
+              ? typeMessage.errorLoadingDeleteBooking
+              : errorComments
+              ? typeMessage.errorLoadingComments
+              : errorEditComments
+              ? typeMessage.errorLoadingEditComments
               : errorUpdateBooking
               ? typeMessage.errorLoadingUpdateBooking
-              : typeMessage.errorLoadingDeleteBooking
+              : ''
           }
         />
       )}
@@ -147,14 +182,20 @@ export const LayoutMainPage = () => {
           message={
             successBooking
               ? typeMessage.successLoadingBooking
+              : successDeleteBooking
+              ? typeMessage.successLoadingDeleteBooking
+              : successComments
+              ? typeMessage.successLoadingComments
+              : successEditComments
+              ? typeMessage.successLoadingEditComments
               : successUpdateBooking
               ? typeMessage.successLoadingUpdateBooking
-              : typeMessage.successLoadingDeleteBooking
+              : ''
           }
           isSuccess={true}
         />
       )}
-      <main className='main'>
+      <main className='main' data-test-id='main-page'>
         <Outlet />
       </main>
       {isBooking ? (
@@ -165,6 +206,14 @@ export const LayoutMainPage = () => {
           deleteBooking={deleteBooking}
           triggerBooks={triggerBooks}
           triggerBookId={triggerBookId}
+        />
+      ) : null}
+      {isComments ? (
+        <ModalBooking
+          typeModal={modalComments}
+          sendComments={sendComments}
+          editComments={editComments}
+          clickButtonComments={isComments}
         />
       ) : null}
     </>

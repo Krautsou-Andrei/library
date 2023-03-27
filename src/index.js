@@ -13,8 +13,10 @@ import { Offer } from './pages/components/offer';
 import { LoginPage } from './pages/components/login-page';
 import { RegisterPage } from './pages/components/register-page';
 import { ForgotPage } from './pages/components/forgot-page';
+import { ProfilUser } from './pages/components/profil/profil-user';
 
 import './style/style.scss';
+import { routs } from './data/routs';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -24,19 +26,20 @@ root.render(
       <Provider store={store}>
         <Routes>
           <Route path='/' element={<Layout />}>
+            <Route path={`${routs.profile}`} element={<ProfilUser />} />
             <Route element={<MainPage />}>
-              <Route path='/' element={<Navigate to='/books/all' />} />
-              <Route path='books/:category' element={<Contented />} />
-              <Route path='regulations' element={<Offer title='Правила пользования' />} />
-              <Route path='offer' element={<Offer title='Договор оферты' />} />
+              <Route path='/' element={<Navigate to={`${routs.booksAllRedirect}`} />} />
+              <Route path={`${routs.booksCategory}`} element={<Contented />} />
+              <Route path={`${routs.regulations}`} element={<Offer title='Правила пользования' />} />
+              <Route path={`${routs.offer}`} element={<Offer title='Договор оферты' />} />
             </Route>
-            <Route path='books/:category/:bookId' element={<BookPage />} />
+            <Route path={`${routs.booksCategoryId}`} element={<BookPage />} />
           </Route>
           <Route element={<LayoutAuthentication />}>
-            <Route path='/' element={<Navigate to='/auth' />} />
-            <Route path='/auth' element={<LoginPage />} />
-            <Route path='/registration' element={<RegisterPage />} />
-            <Route path='/forgot-pass' element={<ForgotPage />} />
+            <Route path='/' element={<Navigate to={routs.auth} />} />
+            <Route path={`${routs.auth}`} element={<LoginPage />} />
+            <Route path={`${routs.registrations}`} element={<RegisterPage />} />
+            <Route path={`${routs.forgotPass}`} element={<ForgotPage />} />
           </Route>
         </Routes>
       </Provider>

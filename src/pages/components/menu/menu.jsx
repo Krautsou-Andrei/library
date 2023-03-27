@@ -7,6 +7,7 @@ import { LinkMenu } from '../link-menu';
 import { IconArrowMenuBurger } from '../image/icon/icon-arrow-menu-butger/icon-arrow-menu-burger';
 
 import style from './menu.module.scss';
+import { routs } from '../../../data/routs';
 
 export const Menu = ({
   onClick,
@@ -75,7 +76,7 @@ export const Menu = ({
                 <LinkMenu
                   title='Все книги'
                   className={activeClassMenu}
-                  link='/books/all'
+                  link={`${routs.booksAllRedirect}`}
                   onClick={onClick}
                   dataTestLink={dataTestLink}
                   dataTest='true'

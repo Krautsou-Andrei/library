@@ -39,7 +39,7 @@ export const Slider = ({ images }) => {
           data-test-id='slide-big'
         >
           {images ? (
-            images.map((element, index) => (
+            images?.map((element, index) => (
               <SwiperSlide key={`slide${index + 1}`}>
                 <ImageBook
                   src={element.url ? `${BASE_URL}${element.url}` : ''}
@@ -54,7 +54,7 @@ export const Slider = ({ images }) => {
           )}
         </Swiper>
       </div>
-      {images && images.length > 1 ? (
+      {images && images?.length > 1 ? (
         <div className='image__pagination'>
           <Swiper
             id='image-pagination'
@@ -83,7 +83,7 @@ export const Slider = ({ images }) => {
             className='mySwiperPagination'
           >
             {images &&
-              images.map((element, index) => (
+              images?.map((element, index) => (
                 <SwiperSlide key={`slide${index + 1}`} data-test-id='slide-mini'>
                   <ImageBook
                     src={element.url ? `${BASE_URL}${element.url}` : ''}
