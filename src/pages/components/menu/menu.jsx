@@ -1,13 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import { routs } from '../../../data/routs';
 import { booksApi } from '../../../redux';
-
-import { LinkMenu } from '../link-menu';
 import { IconArrowMenuBurger } from '../image/icon/icon-arrow-menu-butger/icon-arrow-menu-burger';
+import { LinkMenu } from '../link-menu';
 
 import style from './menu.module.scss';
-import { routs } from '../../../data/routs';
 
 export const Menu = ({
   onClick,
@@ -55,7 +54,7 @@ export const Menu = ({
           >
             <LinkMenu
               title='Витрина книг'
-              link={`books/${currentCategoryPath}`}
+              path={`books/${currentCategoryPath}`}
               className={activeClass}
               onClick={() => false}
             />
@@ -76,7 +75,7 @@ export const Menu = ({
                 <LinkMenu
                   title='Все книги'
                   className={activeClassMenu}
-                  link={`${routs.booksAllRedirect}`}
+                  path={`${routs.booksAllRedirect}`}
                   onClick={onClick}
                   dataTestLink={dataTestLink}
                   dataTest='true'
@@ -91,9 +90,9 @@ export const Menu = ({
                 <li className={style['tab-menu__item']} key={link.id}>
                   <LinkMenu
                     title={link.name}
+                    path={`/books/${link.path}`}
                     className={activeClassMenu}
                     classNameQuantity={style['tab-item-quantity']}
-                    link={`/books/${link.path}`}
                     quantity={`${books.filter((book) => book.categories.includes(link.name)).length}`}
                     onClick={onClick}
                     dataTestLink={dataTestLink}
@@ -109,7 +108,7 @@ export const Menu = ({
           <div className={`${style['tab-menu__title']} ${style['title--xl']}`}>
             <LinkMenu
               title='Правила пользования'
-              link='regulations'
+              path='regulations'
               className={activeClass}
               onClick={() => setCollapsibleMenu(true)}
               state={{ from: 'Правила пользования' }}
@@ -123,7 +122,7 @@ export const Menu = ({
           <div className={`${style['tab-menu__title']} ${style['title--xl']}`}>
             <LinkMenu
               title='Договор оферты'
-              link='offer'
+              path='offer'
               className={activeClass}
               onClick={() => setCollapsibleMenu(true)}
               dataTestLink={dataTestContract}

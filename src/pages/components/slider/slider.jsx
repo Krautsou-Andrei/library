@@ -3,7 +3,6 @@ import { Navigation, FreeMode, Thumbs, Scrollbar, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { ImageBook } from '../image/image-book';
-import { BASE_URL } from '../../../redux';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -42,7 +41,7 @@ export const Slider = ({ images }) => {
             images?.map((element, index) => (
               <SwiperSlide key={`slide${index + 1}`}>
                 <ImageBook
-                  src={element.url ? `${BASE_URL}${element.url}` : ''}
+                  src={element.url ? `${element.url}` : ''}
                   width='445'
                   height='593'
                   className='image__book-page'
@@ -86,7 +85,7 @@ export const Slider = ({ images }) => {
               images?.map((element, index) => (
                 <SwiperSlide key={`slide${index + 1}`} data-test-id='slide-mini'>
                   <ImageBook
-                    src={element.url ? `${BASE_URL}${element.url}` : ''}
+                    src={element.url ? `${element.url}` : ''}
                     width='65'
                     height='84'
                     className='pagination-image'

@@ -1,10 +1,11 @@
-import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { Heighlight } from '../../../helpers/heigh-light';
+import { useUserComments } from '../../../hooks/use-user-comments';
 import {
-  BASE_URL,
   setBooking,
   setBookingCurrentUser,
   setBookingDate,
@@ -16,16 +17,12 @@ import {
   useLazyGetBookIdQuery,
 } from '../../../redux';
 import { setSearchQuery } from '../../../redux/slice/search-slice';
-
-import { Heighlight } from '../../../helpers/heigh-light';
-
-import { ImageBook } from '../image/image-book';
-import { Rating } from '../rating';
-import { Button } from '../buttons/button';
 import { useBookingBook } from '../../../utils/booking-book';
 import { dateTranslatorShort } from '../../../utils/date-translator';
 import { profileLocation } from '../../../utils/profile-location';
-import { useUserComments } from '../../../hooks/use-user-comments';
+import { Button } from '../buttons/button';
+import { ImageBook } from '../image/image-book';
+import { Rating } from '../rating';
 
 export const Book = ({ product, type, profilDelivery, buttonCancelBooking, bookingDelivety }) => {
   const { id, image, title, rating, authors, issueYear, booking, delivery } = product;
@@ -38,6 +35,7 @@ export const Book = ({ product, type, profilDelivery, buttonCancelBooking, booki
   const [deleteBooking] = useDeleteBookingMutation();
 
   let userAuth = useSelector((state) => state.authenticationUser.user);
+
   if (!Object.keys(userAuth).length || userAuth === null) {
     userAuth = JSON.parse(localStorage.getItem('userAuth'));
   }
@@ -50,6 +48,7 @@ export const Book = ({ product, type, profilDelivery, buttonCancelBooking, booki
   const isCurrentBookComment = !!comment;
 
   const [currentTitle, setCurrentTittle] = useState();
+
   useEffect(() => {
     setCurrentTittle(Heighlight(searchParams, title));
   }, [title, searchParams]);
@@ -70,6 +69,7 @@ export const Book = ({ product, type, profilDelivery, buttonCancelBooking, booki
     event.preventDefault();
     if (buttonCancelBooking) {
       const dataId = userAuth.booking.id;
+
       deleteBooking({ dataId }).then((result) => hundlerDeleteBooking(result));
     } else {
       dispatch(setBookingCurrentUser(!!currentBookingBook));
@@ -102,6 +102,7 @@ export const Book = ({ product, type, profilDelivery, buttonCancelBooking, booki
       if (profilDelivery?.handed) {
         return true;
       }
+
       return false;
     }
 
@@ -128,7 +129,7 @@ export const Book = ({ product, type, profilDelivery, buttonCancelBooking, booki
       <div className='book__container'>
         <div className={classNames('book__image', { 'image-history': type === 'history' })}>
           <ImageBook
-            src={image ? `${BASE_URL}${image.url ? image.url : image}` : ''}
+            src={image ? `${image.url ? image.url : image}` : ''}
             alt={title}
             width='174'
             height='242'

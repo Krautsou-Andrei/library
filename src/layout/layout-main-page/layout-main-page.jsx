@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, React } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+
 import { routs } from '../../data/routs';
 import { Error } from '../../pages/components/error';
 import { typeMessage } from '../../pages/components/error/type-message';
 import { Loading } from '../../pages/components/loading';
-
 import { ModalBooking } from '../../pages/components/modals-windows/modal-calendar';
 import { modalBooking, modalComments } from '../../pages/components/modals-windows/type-modal';
 import {

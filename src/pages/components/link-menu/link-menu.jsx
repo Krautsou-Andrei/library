@@ -1,8 +1,9 @@
 import { NavLink, useNavigate } from 'react-router-dom';
+
 import { routs } from '../../../data/routs';
 
 export const LinkMenu = ({
-  link,
+  path,
   className,
   onClick,
   dataTest,
@@ -39,9 +40,10 @@ export const LinkMenu = ({
   };
 
   return (
+    // eslint-disable-next-line react/jsx-fragments
     <>
       <NavLink
-        to={link}
+        to={path}
         className={className}
         onClick={onClickLink}
         data-test-id={dataTest === 'true' ? dataTestLink : dataTestCategoty}

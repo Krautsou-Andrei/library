@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-export const BASE_URL = 'https://strapi.cleverland.by';
+export const BASE_URL = 'https://library-cleverland-2jfze.ondigitalocean.app/';
 
 export const api = createApi({
   reducerPath: 'api',

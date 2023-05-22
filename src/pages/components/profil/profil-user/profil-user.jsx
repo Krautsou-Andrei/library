@@ -1,37 +1,36 @@
-import classNames from 'classnames';
 import { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
+import classNames from 'classnames';
 
+import { dataDefaultValueForm } from '../../../../data/data-default-value-form';
+import { routs } from '../../../../data/routs';
+import { editUserShema } from '../../../../helpers/validation';
+import { useEditUserData } from '../../../../hooks/use-edit-user-data';
 import {
-  BASE_URL,
   useEditDataUserMutation,
   useLazyGetBooksQuery,
   useLazyGetCategotiesQuery,
   useLazyGetUserQuery,
 } from '../../../../redux';
 import { useGetAvatarMutation, useSetAvatarMutation } from '../../../../redux/sevices/avatar-api';
+import { bookingError } from '../../../../utils/booking-error';
 import { Book } from '../../book';
-import { ButtonSubmit } from '../../buttons/button-submit';
 import { Button } from '../../buttons/button';
+import { ButtonSubmit } from '../../buttons/button-submit';
 import { Error } from '../../error';
 import { typeMessage } from '../../error/type-message';
 import { ImageUser } from '../../image/image-user/image-user';
 import { Loading } from '../../loading';
-
-import { ProfilSlider } from '../profil-slider.js';
-import { ChangeInfoUser } from './change-info-user';
-import { editUserShema } from '../../../../helpers/validation';
-import { useEditUserData } from '../../../../hooks/use-edit-user-data';
-
-import style from './profil-user.module.scss';
-import { bookingError } from '../../../../utils/booking-error';
 import { EmptyCard } from '../empty-card/empty-card';
 import { ExpiredCard } from '../expired-card';
-import { dataDefaultValueForm } from '../../../../data/data-default-value-form';
-import { routs } from '../../../../data/routs';
+import { ProfilSlider } from '../profil-slider.js';
+
+import { ChangeInfoUser } from './change-info-user';
+
+import style from './profil-user.module.scss';
 
 export const ProfilUser = () => {
   const [inputDisabled, setInputDisabled] = useState(true);
@@ -125,6 +124,7 @@ export const ProfilUser = () => {
 
   const onChange = (event) => {
     const files = new FormData();
+
     files.append('files', event.target.files[0]);
     setAvatar(files).then((result) => bindAvatar(result.data));
   };
@@ -224,7 +224,7 @@ export const ProfilUser = () => {
           <label className={style.user__image} htmlFor='input-image' aria-label='change-image'>
             <ImageUser
               className={style['image-source']}
-              src={userAuth?.avatar ? `${BASE_URL}${userAuth?.avatar}` : ''}
+              src={userAuth?.avatar ? `${userAuth?.avatar}` : ''}
               alt='user'
               width='160'
               height='160'

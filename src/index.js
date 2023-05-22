@@ -1,26 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { HashRouter, Route, Routes, Navigate, useLocation } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { store } from './redux';
+import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 
+import { routs } from './data/routs';
 import { Layout } from './layout/layout';
 import { LayoutAuthentication } from './layout/layout-authentication';
-import { MainPage } from './pages/main';
 import { BookPage } from './pages/components/book-page';
 import { Contented } from './pages/components/contented';
-import { Offer } from './pages/components/offer';
-import { LoginPage } from './pages/components/login-page';
-import { RegisterPage } from './pages/components/register-page';
 import { ForgotPage } from './pages/components/forgot-page';
+import { LoginPage } from './pages/components/login-page';
+import { Offer } from './pages/components/offer';
 import { ProfilUser } from './pages/components/profil/profil-user';
+import { RegisterPage } from './pages/components/register-page';
+import { MainPage } from './pages/main';
+import { store } from './redux';
 
 import './style/style.scss';
-import { routs } from './data/routs';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
+  // eslint-disable-next-line react/jsx-filename-extension
   <React.StrictMode>
     <HashRouter>
       <Provider store={store}>

@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
+import { DataBurgerLink } from '../../../data/data-burger-link';
 import { Menu } from '../menu';
 import { Profil } from '../profil';
-import { DataBurgerLink } from '../../../data/data-burger-link';
 
 import style from './burger-menu.module.scss';
 

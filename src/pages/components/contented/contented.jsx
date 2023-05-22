@@ -1,20 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useSearchParams } from 'react-router-dom';
 import classNames from 'classnames';
 
-import { useFilterBooks } from '../../../hooks/filter-books';
 import { useCurrentCategory } from '../../../hooks/current-category';
-
+import { useFilterBooks } from '../../../hooks/filter-books';
+import { booksApi, setCurrentCategotyPath, setCurrentCategotyTitle, useLazyGetUserQuery } from '../../../redux';
 import { Book } from '../book';
-import { Loading } from '../loading';
-import { Error } from '../error';
-import { Navigation } from '../navigation';
 import { Empty } from '../empty';
-
-import { setCurrentCategotyPath, setCurrentCategotyTitle, booksApi, useLazyGetUserQuery } from '../../../redux';
-
+import { Error } from '../error';
 import { typeMessage } from '../error/type-message';
+import { Loading } from '../loading';
+import { Navigation } from '../navigation';
 
 export const Contented = () => {
   const dispatch = useDispatch();
@@ -87,6 +84,7 @@ export const Contented = () => {
   const books = myFilterBooks.filter((product) => product.title?.toLowerCase().includes(searchQuery?.toLowerCase()));
 
   return (
+    // eslint-disable-next-line react/jsx-fragments
     <>
       {successCategories && successBooks && (
         <Navigation isToggleButtonView={isToggleButtonView} toggleButtonView={toggleButtonView} />
