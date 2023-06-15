@@ -1,1 +1,0 @@
-export { Profil } from './profil';
